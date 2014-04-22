@@ -8,8 +8,8 @@ private:
     fpKey _key;
     fpCallbackInterface<void, void>* _callback;
 public:
-    fpKeyBind(fpKey key, fpCallbackInterface<void, void> callback);
-    void ReBind(fpCallbackInterface<void, void>* callback);
+    fpKeyBind(fpKey key, fpCallbackInterface<void, void>* callback);
+    void ReBind(fpKey key,fpCallbackInterface<void, void>* callback);
     fpKey getKey();
     fpCallbackInterface<void, void>* getCallback();
 };
