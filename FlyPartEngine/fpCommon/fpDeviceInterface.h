@@ -1,0 +1,4 @@
+#ifndef _FP_DEVICE_INTERFACE_
+#define _FP_DEVICE_INTERFACE_
+
+#endif

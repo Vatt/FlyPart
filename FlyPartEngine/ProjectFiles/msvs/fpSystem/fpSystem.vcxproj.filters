@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="..\..\..\fpSystem\fpSystemInterface.h" />
+    <ClInclude Include="..\..\..\fpSystem\wndSys\fpWindowSystem.h">
+      <Filter>wndSys</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\fpSystem\wndSys\fpWindow.h">
+      <Filter>wndSys</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\fpSystem\wndSys\impl\SDL2\fpWindowSDL_GL.h">
+      <Filter>wndSys\impl\SDL2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\fpSystem\input\fpInputSystem.h">
+      <Filter>input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\fpSystem\input\fpKey.h">
+      <Filter>input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\fpSystem\input\fpKeyBind.h">
+      <Filter>input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\fpSystem\input\fpKeyboard.h">
+      <Filter>input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\fpSystem\input\impl\SDL2\fpKeyboardSDL.h">
+      <Filter>input\impl\SDL2</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\fpSystem\wndSys\fpWindowSystem.cpp">
+      <Filter>wndSys</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\fpSystem\wndSys\fpWindow.cpp">
+      <Filter>wndSys</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\fpSystem\wndSys\impl\SDL2\fpWindowSDL_GL.cpp">
+      <Filter>wndSys\impl\SDL2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\fpSystem\input\fpInputSystem.cpp">
+      <Filter>input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\fpSystem\input\fpKeyBind.cpp">
+      <Filter>input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\fpSystem\input\impl\SDL2\fpKeyboardSDL.cpp">
+      <Filter>input\impl\SDL2</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="wndSys">
+      <UniqueIdentifier>{243dfc16-6304-4156-96e3-fe1e031f2f30}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="wndSys\impl">
+      <UniqueIdentifier>{8851d7ac-b9bf-4dbd-b193-0c8c8794938a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="wndSys\impl\SDL2">
+      <UniqueIdentifier>{8311b997-aeac-41ca-9344-e956cbe87f38}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="input">
+      <UniqueIdentifier>{305b38f8-43bd-4394-be10-69d47f5d03ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="input\impl">
+      <UniqueIdentifier>{b7bb7d9b-963d-45c7-ae52-cd101e52d256}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="input\impl\SDL2">
+      <UniqueIdentifier>{f28c533f-1704-496c-8c0b-996b4c567a30}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
