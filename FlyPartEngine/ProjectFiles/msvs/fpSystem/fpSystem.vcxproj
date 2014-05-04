@@ -117,6 +117,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\fpCommon\fpCallback.h" />
+    <ClInclude Include="..\..\..\fpCommon\fpCrc32Helper.h" />
+    <ClInclude Include="..\..\..\fpCommon\fpModuleInterface.h" />
+    <ClInclude Include="..\..\..\fpCommon\fpFunction.h" />
+    <ClInclude Include="..\..\..\fpCommon\fpModuleManager.h" />
+    <ClInclude Include="..\..\..\fpCommon\memory\fpBaseAllocator.h" />
     <ClInclude Include="..\..\..\fpSystem\fpSystemInterface.h" />
     <ClInclude Include="..\..\..\fpSystem\input\fpInputSystem.h" />
     <ClInclude Include="..\..\..\fpSystem\input\fpKey.h" />
@@ -128,6 +134,7 @@
     <ClInclude Include="..\..\..\fpSystem\wndSys\impl\SDL2\fpWindowSDL_GL.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\fpCommon\memory\fpBaseAllocator.cpp" />
     <ClCompile Include="..\..\..\fpSystem\input\fpInputSystem.cpp" />
     <ClCompile Include="..\..\..\fpSystem\input\fpKeyBind.cpp" />
     <ClCompile Include="..\..\..\fpSystem\input\impl\SDL2\fpKeyboardSDL.cpp" />

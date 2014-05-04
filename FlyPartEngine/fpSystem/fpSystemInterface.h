@@ -3,27 +3,13 @@
 #include "wndSys/fpWindowSystem.h"
 #include "input/fpInputSystem.h"
 #include "../fpCommon/fpFunction.h"
-class fpSystemInterface
+struct fpSystemInterface
 {
 public:
-	enum  state { RUNNING = 1, PAUSE = 0, START = -1 };
-private:
-	state _sysState;
 	fpWindowSystem* _wndSys;
 	fpInputSystem*  _inputSys;
-    fpFunction<void(void)> extensionInitFn;
-public:
-
-	fpSystemInterface();
-	virtual ~fpSystemInterface();
-
-    void setExtensionInitFn(const fpFunction<void ()> &value);
 };
 #endif
 
 
 
-void fpSystemInterface::setExtensionInitFn(const fpFunction<void ()> &value)
-{
-    extensionInitFn = value;
-}

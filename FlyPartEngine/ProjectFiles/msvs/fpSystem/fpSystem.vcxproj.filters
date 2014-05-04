@@ -26,6 +26,24 @@
     <ClInclude Include="..\..\..\fpSystem\input\impl\SDL2\fpKeyboardSDL.h">
       <Filter>input\impl\SDL2</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\fpCommon\fpCallback.h">
+      <Filter>fpCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\fpCommon\fpFunction.h">
+      <Filter>fpCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\fpCommon\fpCrc32Helper.h">
+      <Filter>fpCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\fpCommon\fpModuleInterface.h">
+      <Filter>fpCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\fpCommon\fpModuleManager.h">
+      <Filter>fpCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\fpCommon\memory\fpBaseAllocator.h">
+      <Filter>fpCommon\memory</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\fpSystem\wndSys\fpWindowSystem.cpp">
@@ -46,6 +64,9 @@
     <ClCompile Include="..\..\..\fpSystem\input\impl\SDL2\fpKeyboardSDL.cpp">
       <Filter>input\impl\SDL2</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\fpCommon\memory\fpBaseAllocator.cpp">
+      <Filter>fpCommon\memory</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="wndSys">
@@ -65,6 +86,12 @@
     </Filter>
     <Filter Include="input\impl\SDL2">
       <UniqueIdentifier>{f28c533f-1704-496c-8c0b-996b4c567a30}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="fpCommon">
+      <UniqueIdentifier>{16a37730-f4e0-4562-9954-42bf0b971ce0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="fpCommon\memory">
+      <UniqueIdentifier>{3afd41c6-45f1-4858-b58c-c0e571a5e9d2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -1,9 +1,4 @@
-/*
- * fpController.h
- *
- *  Created on: 22 февр. 2014 г.
- *      Author: gamover
- */
+
 
 #ifndef FPKEYBOARD_H_
 #define FPKEYBOARD_H_
