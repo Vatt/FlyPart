@@ -134,7 +134,6 @@
     <ClInclude Include="..\..\..\fpSystem\wndSys\impl\SDL2\fpWindowSDL_GL.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\fpCommon\memory\fpBaseAllocator.cpp" />
     <ClCompile Include="..\..\..\fpSystem\input\fpInputSystem.cpp" />
     <ClCompile Include="..\..\..\fpSystem\input\fpKeyBind.cpp" />
     <ClCompile Include="..\..\..\fpSystem\input\impl\SDL2\fpKeyboardSDL.cpp" />

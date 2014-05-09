@@ -3,34 +3,43 @@
 #include<memory>
 /*
 * not pool allocator
+* fixed size
 */
-
+template<typename T>
 class fpBaseMemoryAllocator
 {
 private:
-	class MemBlock
+	struct MemBlock
 	{
-	private:
-		void* _mem;
+		void* _memory;
 		size_t _size;
-		ptrdiff_t& _firstPtr;
-		ptrdiff_t& _lastPtr;
-	public:
-		MemBlock(size_t size)
+		size_t _cellSize;
+		ptrdiff_t*   _firstPtr;
+		ptrdiff_t*   _lastPtr;
+		ptrdiff_t*  _currentPtr;
+		bool isEnable;
+		MemBlock* next;
+		MemBlock(){};
+		MemBlock( size_t size)
 		{
-			_mem =   malloc(size);
-			_firstPtr = &_mem;
-			_lastPtr = &_mem + size;
+			
+			_memory =  malloc(size);
+			_cellSize = sizeof(T);
+			_firstPtr = (ptrdiff_t*)&_memory;
+			_lastPtr = (ptrdiff_t*)(&_memory + size);
 			_size = size;
+			_currentPtr = _firstPtr;
 		}
-		void* getMemoryCell(unsigned int index)
+		ptrdiff_t* getMemoryCellPtr(ptrdiff_t*  offset)
 		{
-			return  (&_mem+(index*_size));
+			return  (& _memory + ( offset *_cellSize));
 		}
-
+ 
 	};
 	 MemBlock* lastUsedBlock;
-	 MemBlock* root;
+	 MemBlock* firstEnabledBlock;
+	// MemBlock* lastBlock;
+	 MemBlock root;
 private:
 	fpBaseMemoryAllocator();
 	fpBaseMemoryAllocator(fpBaseMemoryAllocator&);
@@ -38,9 +47,33 @@ private:
 public:
 	void AgregateBlocks();
 public:
-	fpBaseMemoryAllocator(size_t blockSize);
-	void* Allocate(size_t size);
+ 
+	fpBaseMemoryAllocator(size_t blockSize, bool UseReserve = false)
+	{
+		_cellMemSize = sizeof(T);
+		root = fpBaseMemoryAllocator::MemBlock(blockSize);
+		_blockSize = blockSize;
+		firstEnabledBlock = &root;
+		lastUsedBlock = &root;
+		useReserve = UseReserve;
+		if (useReserve)
+		{
+			root.next = new fpBaseMemoryAllocator::MemBlock( _blockSize);
+		}
+	}
+
+	void* Allocate()
+	{
+		void* retPtr = firstEnabledBlock->getMemoryCellPtr(firstEnabledBlock->_currentPtr + _cellMemSize);
+		firstEnabledBlock->_currentPtr += _cellMemSize;
+		return  retPtr;
+	}
 	void Free(void* ptr);
+private:
+	size_t _cellMemSize;
+	size_t _blockSize;
+	bool useReserve;
+	const int BlocksCountToAgregation = 6;
 };
 
 #endif

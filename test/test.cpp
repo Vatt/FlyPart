@@ -2,42 +2,24 @@
 //
 
 #include "stdafx.h"
-#include <iostream>
-template<typename T>
-class test
-{};
+#include "../FlyPartEngine/fpCommon/memory/fpBaseAllocator.h"
+ 
 
-#define get_genearated_ClassType(name) \
-	generated_##name
-
-#define declare_class_degin(name)\
-	class  generated_##name{\
-	public: generated_##name(){};
-
-#define declare_class_end() };
-
-#define declare_class_field(fType,fName)\
-	fType fName
-
-#define declare_class_function(clName,fnName,body)\
-	int get_genearated_ClassType(clName)::fnName(){\
-	return body; \
-	}
-
-
-declare_class_degin(genTest);
-	declare_class_field(int, field1);
-	declare_class_field(float, field2);
-	declare_class_function(genTest, Function1, 3 * 4;);
-declare_class_end();
-
-
-
+#pragma comment(lib,"fpSystem.lib")
+struct test
+{
+	int x, y, z;
+};
 int _tmain(int argc, _TCHAR* argv[])
 {
-	get_genearated_ClassType(genTest) LOOOOL = get_genearated_ClassType(genTest)();
-	test<get_genearated_ClassType(genTest)> o_O;
-	std::cout << LOOOOL.Function1() << std::endl;
+	fpBaseMemoryAllocator<int>* allocator = new  fpBaseMemoryAllocator<int>(  sizeof(int)* 10);
+	/*test* st = (test*)allocator->Allocate();
+	
+	st->x = 10;
+	st->y = 20;
+	st->z = 100;*/
+	int* arr = (int*)allocator->Allocate();
+	*arr = 1;
 	system("PAUSE");
 	return 0;
 }

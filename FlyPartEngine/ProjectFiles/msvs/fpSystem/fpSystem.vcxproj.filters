@@ -64,9 +64,6 @@
     <ClCompile Include="..\..\..\fpSystem\input\impl\SDL2\fpKeyboardSDL.cpp">
       <Filter>input\impl\SDL2</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\fpCommon\memory\fpBaseAllocator.cpp">
-      <Filter>fpCommon\memory</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="wndSys">
