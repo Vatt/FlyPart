@@ -2,13 +2,11 @@
 #include "fpWindowSDL_GL.h"
 
 fpWindowSDL_GL::fpWindowSDL_GL(void) { }
-fpWindowSDL_GL::fpWindowSDL_GL( const char* name, unsigned int x, unsigned int y,
-																unsigned int width, unsigned int height, bool fullscreen)
+fpWindowSDL_GL::fpWindowSDL_GL( const char* name, unsigned int x, unsigned int y,unsigned int width, unsigned int height, bool fullscreen)
 {
 	createWindow(name, x, y, width, height, fullscreen);
 }
-void fpWindowSDL_GL::createWindow( const char* name, unsigned int x, unsigned int y,
-																	unsigned int width, unsigned int height, bool fullscreen)
+void fpWindowSDL_GL::createWindow( const char* name, unsigned int x, unsigned int y, int width, unsigned int height, bool fullscreen)
 {
 	SDL_Init(SDL_INIT_VIDEO);//TODO: вынести на уровень выше
 	
