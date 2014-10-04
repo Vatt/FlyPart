@@ -9,7 +9,7 @@ class fpWindowSDL_GL : public  fpWindow
 {
 private:
 	SDL_Window* wnd = nullptr;
-	SDL_GLContext* context = nullptr;
+	SDL_GLContext context = nullptr;
 
 
 public:

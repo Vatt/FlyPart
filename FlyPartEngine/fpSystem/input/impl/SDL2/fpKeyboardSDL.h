@@ -3,7 +3,7 @@
 #ifndef FPKEYBOARDSDL_H_
 #define FPKEYBOARDSDL_H_
 #include "../../../../include/SDL2/SDL.h"
-#include "../../fpKeyboard.h"
+#include "../../fpKeyboard.hpp"
 #include "../../../wndSys/fpWindow.h"
 
 
@@ -19,7 +19,7 @@ public:
 
     fpKeyboardSDL(fpWindow* attachedWnd);
 	~fpKeyboardSDL();
-
+const char* getTextStream();
 
 private:
 

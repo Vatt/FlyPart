@@ -34,7 +34,8 @@ private:
 		virtual ~holderFnImpl(){}
 		virtual std::auto_ptr<holder> clone()
 		{
-			return  invoker_t(new holderFnImpl(_fn));
+
+            return  invoker_t(new holderFnImpl(_fn));
 		}
 		virtual _retType invoke(_args ... args)
 		{
@@ -54,7 +55,7 @@ public:
 	fpFunction(_fnSignature fn):_invoker(new holderFnImpl<_fnSignature>(fn)){}
 	_retType operator ()(_args ... args)
 	{
-	      return _invoker->invoke(args...);
+	  return _invoker->invoke(args...);
 	}
 
 	void operator = (const fpFunction& other)

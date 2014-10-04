@@ -7,7 +7,7 @@
 
 #ifndef FPINPUTSYSTEM_H_
 #define FPINPUTSYSTEM_H_
-#include "fpKeyboard.h"
+#include "fpKeyboard.hpp"
 #include "../../fpCommon/fpFunction.h"
 typedef enum InputType
 {

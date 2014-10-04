@@ -1,6 +1,7 @@
 #ifndef _FP_BASE_ALLOCATOR_
 #define _FP_BASE_ALLOCATOR_
 #include<memory>
+#include<stddef.h>
 /*
 * not pool allocator
 * fixed size

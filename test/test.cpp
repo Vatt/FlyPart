@@ -1,26 +1,20 @@
 // test.cpp : Defines the entry point for the console application.
 //
 
-#include "stdafx.h"
-#include "../FlyPartEngine/fpCommon/memory/fpBaseAllocator.h"
- 
 
-#pragma comment(lib,"fpSystem.lib")
+#include "../FlyPartEngine/fpSystem/wndSys/fpWindowSystem.h"
+#include "../FlyPartEngine/fpSystem/wndSys/impl/SDL2/fpWindowSDL_GL.h"
+#include "../FlyPartEngine/fpSystem/input/impl/SDL2/fpKeyboardSDL.h"
+#include <iostream>
+using namespace std;
 struct test
 {
-	int x, y, z;
+        int x, y, z;
+        test():x(1),y(2),z(3){}
 };
-int _tmain(int argc, _TCHAR* argv[])
+int main()
 {
-	fpBaseMemoryAllocator<int>* allocator = new  fpBaseMemoryAllocator<int>(  sizeof(int)* 10);
-	/*test* st = (test*)allocator->Allocate();
-	
-	st->x = 10;
-	st->y = 20;
-	st->z = 100;*/
-	int* arr = (int*)allocator->Allocate();
-	*arr = 1;
-	system("PAUSE");
-	return 0;
+
+   return 0;
 }
 

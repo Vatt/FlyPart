@@ -19,7 +19,7 @@ fpKeyboardSDL::fpKeyboardSDL(fpWindow* attachedWnd):fpKeyboard(attachedWnd)
 fpKeyboardSDL::~fpKeyboardSDL() {
 	// TODO Auto-generated destructor stub
 }
-/*const char* fpKeyboardSDL::getTextStream()
+const char* fpKeyboardSDL::getTextStream()
 {
     SDL_Event* events=new SDL_Event[100];
     int countEvents=0;
@@ -35,11 +35,11 @@ fpKeyboardSDL::~fpKeyboardSDL() {
             index++;
             switch (events->key.keysym.scancode)
             {
-
+              default:std::cout<<events->key.keysym.sym<<std::endl;
             }
         }
     }
     delete[] events;
-}*/
+}
 
 
