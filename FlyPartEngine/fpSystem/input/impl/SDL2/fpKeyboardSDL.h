@@ -3,10 +3,9 @@
 #ifndef FPKEYBOARDSDL_H_
 #define FPKEYBOARDSDL_H_
 #include "../../../../include/SDL2/SDL.h"
-#include "../../fpKeyboard.hpp"
 #include "../../../wndSys/fpWindow.h"
 
-
+/*
 
 class fpKeyboardSDL: public fpKeyboard
 {
@@ -24,6 +23,6 @@ const char* getTextStream();
 private:
 
 
-};
+};*/
 
 #endif /* FPKEYBOARDSDL_H_ */

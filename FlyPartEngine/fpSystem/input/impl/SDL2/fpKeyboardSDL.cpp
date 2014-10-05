@@ -8,7 +8,7 @@
 #include "fpKeyboardSDL.h"
 #include <iostream>
 
-
+/*
 fpKeyboardSDL::fpKeyboardSDL(fpWindow* attachedWnd):fpKeyboard(attachedWnd)
 {
 
@@ -40,6 +40,6 @@ const char* fpKeyboardSDL::getTextStream()
         }
     }
     delete[] events;
-}
+}*/
 
 

@@ -7,8 +7,9 @@
 
 #ifndef FPINPUTSYSTEM_H_
 #define FPINPUTSYSTEM_H_
-#include "fpKeyboard.hpp"
+
 #include "../../fpCommon/fpFunction.h"
+#include "../../fpCommon/fpCallback.h"
 typedef enum InputType
 {
     KeyboardAndMouse,
@@ -23,7 +24,7 @@ typedef enum InputType
 class fpInputSystem
 {
 private:
-    fpKeyboard* _keyboard;
+    //fpKeyboard* _keyboard;
     InputType _inputType;
     void WaitInputFromController();
 
