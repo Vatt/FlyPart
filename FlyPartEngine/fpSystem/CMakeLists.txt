@@ -1,16 +1,18 @@
 project(fpSystem)
 cmake_minimum_required(VERSION 3.0)
 
-include_directories(../fpCommon)
+
 
 INCLUDE(FindPkgConfig)
 PKG_SEARCH_MODULE(SDL2 REQUIRED sdl2)
 INCLUDE_DIRECTORIES(${SDL2_INCLUDE_DIRS})
 
+set(common_include "../fpCommon/")
+
 
 file(GLOB_RECURSE SOURCE_DIRS   "${CMAKE_CURRENT_SOURCE_DIR}/*")
-set(srcs)
-
+set(src)
+file(GLOB_RECURSE common "${common_include}/*")
 
 
 
@@ -26,7 +28,7 @@ if ( CMAKE_COMPILER_IS_GNUCXX )
 else ()
 
 endif ()
- #message (FATAL_ERROR ${SOURCE_DIRS})
-add_library(fpSystem STATIC ${SOURCE_DIRS})
+# message (FATAL_ERROR ${SOURCE_DIRS})
+add_library(fpSystem STATIC ${SOURCE_DIRS} ${common})
 SET_TARGET_PROPERTIES(fpSystem PROPERTIES LINKER_LANGUAGE CXX)
 SET_TARGET_PROPERTIES(fpSystem PROPERTIES OUTPUT_NAME fpSystem)

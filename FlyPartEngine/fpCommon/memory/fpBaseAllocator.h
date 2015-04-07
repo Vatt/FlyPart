@@ -5,6 +5,7 @@
 /*
 * not pool allocator
 * fixed size
+* linear allocator
 */
 template<typename T>
 class fpBaseMemoryAllocator
@@ -31,6 +32,7 @@ private:
 			_size = size;
 			_offset = 0;
 			_next = nullptr;
+                        isEnable = true;
 		}
 		unsigned char* getNextMemoryCellPtr()
 		{
@@ -92,11 +94,16 @@ public:
 	{
 
 	}
+    void getMem(unsigned int index)
+    {
+
+    }
+
 private:
 	size_t _cellMemSize;
 	size_t _blockSize;
 	bool useReserve;
-	const int BlocksCountToAgregation = 3;
+        const int BlocksCountToAgregation = 4;
 	const float reserveRatio = 1.5;
 };
 

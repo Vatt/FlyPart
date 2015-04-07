@@ -88,6 +88,11 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <OpenMPSupport>true</OpenMPSupport>
+      <CompileAsManaged>false</CompileAsManaged>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -127,24 +132,24 @@
     <ClInclude Include="..\..\..\fpCommon\fpModuleInterface.h" />
     <ClInclude Include="..\..\..\fpCommon\fpFunction.h" />
     <ClInclude Include="..\..\..\fpCommon\fpModuleManager.h" />
-    <ClInclude Include="..\..\..\fpCommon\memory\fpBaseAllocator.h" />
     <ClInclude Include="..\..\..\fpSystem\fpSystemInterface.h" />
-    <ClInclude Include="..\..\..\fpSystem\input\fpInputSystem.h" />
-    <ClInclude Include="..\..\..\fpSystem\input\fpKey.h" />
-    <ClInclude Include="..\..\..\fpSystem\input\fpKeyBind.h" />
-    <ClInclude Include="..\..\..\fpSystem\input\fpKeyboard.h" />
-    <ClInclude Include="..\..\..\fpSystem\input\impl\SDL2\fpKeyboardSDL.h" />
-    <ClInclude Include="..\..\..\fpSystem\wndSys\fpWindow.h" />
-    <ClInclude Include="..\..\..\fpSystem\wndSys\fpWindowSystem.h" />
-    <ClInclude Include="..\..\..\fpSystem\wndSys\impl\SDL2\fpWindowSDL_GL.h" />
+    <ClInclude Include="..\..\..\fpSystem\Input\fpInputSystem.h" />
+    <ClInclude Include="..\..\..\fpSystem\Input\fpKey.h" />
+    <ClInclude Include="..\..\..\fpSystem\Input\fpKeyBind.h" />
+    <ClInclude Include="..\..\..\fpSystem\Input\fpKeyboard.hpp" />
+    <ClInclude Include="..\..\..\fpSystem\Input\SDL2\fpKeyboardSDL.h" />
+    <ClInclude Include="..\..\..\fpSystem\WindowSystem\fpWindow.h" />
+    <ClInclude Include="..\..\..\fpSystem\WindowSystem\fpWindowSystem.h" />
+    <ClInclude Include="..\..\..\fpSystem\WindowSystem\SDL2\fpWindowSDL_GL.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\fpSystem\input\fpInputSystem.cpp" />
-    <ClCompile Include="..\..\..\fpSystem\input\fpKeyBind.cpp" />
-    <ClCompile Include="..\..\..\fpSystem\input\impl\SDL2\fpKeyboardSDL.cpp" />
-    <ClCompile Include="..\..\..\fpSystem\wndSys\fpWindow.cpp" />
-    <ClCompile Include="..\..\..\fpSystem\wndSys\fpWindowSystem.cpp" />
-    <ClCompile Include="..\..\..\fpSystem\wndSys\impl\SDL2\fpWindowSDL_GL.cpp" />
+    <ClCompile Include="..\..\..\fpSystem\Input\fpInputSystem.cpp" />
+    <ClCompile Include="..\..\..\fpSystem\Input\fpKeyBind.cpp" />
+    <ClCompile Include="..\..\..\fpSystem\Input\fpKeyBoard.cpp" />
+    <ClCompile Include="..\..\..\fpSystem\Input\SDL2\fpKeyboardSDL.cpp" />
+    <ClCompile Include="..\..\..\fpSystem\WindowSystem\fpWindow.cpp" />
+    <ClCompile Include="..\..\..\fpSystem\WindowSystem\fpWindowSystem.cpp" />
+    <ClCompile Include="..\..\..\fpSystem\WindowSystem\SDL2\fpWindowSDL_GL.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -6,7 +6,7 @@
 using namespace std;
 class fpWindowSystem
 {
-public:
+private:
 	map<int,fpWindow*> _wndList;	
 protected:
 public:
