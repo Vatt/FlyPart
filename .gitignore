@@ -154,3 +154,10 @@ $RECYCLE.BIN/
 
 # Mac desktop service store files
 .DS_Store
+
+
+FlyPartEngine/Build/*
+FlyPartEngine/Build/*
+FlyPartEngine/CMakeLists.txt.user.3.3-pre1
+*.directory
+FlyPartEngine/CMakeLists.txt.user.18

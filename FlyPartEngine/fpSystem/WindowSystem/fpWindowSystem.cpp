@@ -26,7 +26,6 @@ void fpWindowSystem::addWindow(fpWindow* wnd)
 void fpWindowSystem::triggerWndEvent()
 {
 
-	//for(auto pair:_wndList)
 	for (map<int, fpWindow*>::iterator i=_wndList.begin(); i != _wndList.end(); i++)
 	{
 		if (!i->second->isDeleted())

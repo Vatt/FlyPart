@@ -10,11 +10,11 @@ private:
 	map<int,fpWindow*> _wndList;	
 protected:
 public:
-					fpWindowSystem();
-					~fpWindowSystem();
-	void 			addWindow(fpWindow* wnd);
-	fpWindow* 		getWndById(unsigned int id);
-	void 			triggerWndEvent();
+	fpWindowSystem();
+	virtual ~fpWindowSystem();
+	virtual void 			addWindow(fpWindow* wnd);
+	virtual fpWindow* 		getWndById(unsigned int id);
+	virtual void 			triggerWndEvent();
 	
 };
 #endif	

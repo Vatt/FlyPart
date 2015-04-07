@@ -21,6 +21,7 @@
 
 		public:
 			fpWindow();
+			virtual ~fpWindow() = 0;
 			//fpWindow(const char* name, unsigned int x, unsigned int y, unsigned int width, unsigned int height, bool fullscreen);
 			virtual unsigned int getId() const { return _id; }
 			virtual ~fpWindow();
