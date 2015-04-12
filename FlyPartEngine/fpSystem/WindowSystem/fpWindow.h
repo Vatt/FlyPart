@@ -21,10 +21,9 @@
 
 		public:
 			fpWindow();
-			virtual ~fpWindow() = 0;
+			virtual ~fpWindow();
 			//fpWindow(const char* name, unsigned int x, unsigned int y, unsigned int width, unsigned int height, bool fullscreen);
 			virtual unsigned int getId() const { return _id; }
-			virtual ~fpWindow();
 			virtual void createWindow(const char* name, unsigned int x, unsigned int y, unsigned int width, unsigned int height, bool fullscreen) = 0;
 			virtual bool switchFullscreen(bool flag) = 0;
 			virtual void showWindow() = 0;

@@ -138,6 +138,9 @@
     <ClInclude Include="..\..\..\fpSystem\Input\fpKeyBind.h" />
     <ClInclude Include="..\..\..\fpSystem\Input\fpKeyboard.hpp" />
     <ClInclude Include="..\..\..\fpSystem\Input\SDL2\fpKeyboardSDL.h" />
+    <ClInclude Include="..\..\..\fpSystem\Memory\fpMemory.h" />
+    <ClInclude Include="..\..\..\fpSystem\Memory\fpMemorySystem.h" />
+    <ClInclude Include="..\..\..\fpSystem\Memory\Windows\fpWindowsMemory.h" />
     <ClInclude Include="..\..\..\fpSystem\WindowSystem\fpWindow.h" />
     <ClInclude Include="..\..\..\fpSystem\WindowSystem\fpWindowSystem.h" />
     <ClInclude Include="..\..\..\fpSystem\WindowSystem\SDL2\fpWindowSDL_GL.h" />

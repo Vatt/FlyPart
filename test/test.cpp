@@ -1,11 +1,6 @@
 // test.cpp : Defines the entry point for the console application.
 //
 
-
-#include "../FlyPartEngine/fpSystem/wndSys/fpWindowSystem.h"
-#include "../FlyPartEngine/fpSystem/wndSys/impl/SDL2/fpWindowSDL_GL.h"
-#include "../FlyPartEngine/fpSystem/input/impl/SDL2/fpKeyboardSDL.h"
-#include "../FlyPartEngine/fpCommon/memory/fpBaseAllocator.h"
 #include <iostream>
 #ifdef WIN32
 	#include <tchar.h>.
@@ -29,12 +24,7 @@ int main(int argc, char **argv)
 		wndSys->triggerWndEvent();
 	}
 	*/
-	fpBaseMemoryAllocator<test>* allocator = new fpBaseMemoryAllocator<test>(4,false);
-	test* v1 = (test*)allocator->Allocate(); v1->x = 1; v1->y = 2; v1->z = 3;
-	test* v2 = (test*)allocator->Allocate(); v2->x = 4; v2->y = 5; v2->z = 6;
-	test* v3 = (test*)allocator->Allocate(); v3->x = 7; v3->y = 8; v3->z = 9;
-	test* v4 = (test*)allocator->Allocate(); v4->x = 10;v4->y = 11; v4->z = 12;
-
+	
     return 0;
 }
 

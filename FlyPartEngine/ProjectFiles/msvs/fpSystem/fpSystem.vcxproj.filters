@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClInclude Include="..\..\..\fpSystem\fpSystemInterface.h" />
     <ClInclude Include="..\..\..\fpCommon\fpCallback.h">
       <Filter>fpCommon</Filter>
     </ClInclude>
@@ -41,6 +40,16 @@
     <ClInclude Include="..\..\..\fpSystem\Input\SDL2\fpKeyboardSDL.h">
       <Filter>Input\SDL2</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\fpSystem\fpSystemInterface.h" />
+    <ClInclude Include="..\..\..\fpSystem\Memory\fpMemorySystem.h">
+      <Filter>Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\fpSystem\Memory\fpMemory.h">
+      <Filter>Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\fpSystem\Memory\Windows\fpWindowsMemory.h">
+      <Filter>Memory\Windows</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="fpCommon">
@@ -57,6 +66,12 @@
     </Filter>
     <Filter Include="Input\SDL2">
       <UniqueIdentifier>{24fc5121-308f-4a13-a16d-baaf7166504d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Memory">
+      <UniqueIdentifier>{8fae763f-025a-4b6b-9417-c3791366fc9e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Memory\Windows">
+      <UniqueIdentifier>{ea1cd7e4-708a-4439-8e57-59e6054be718}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
