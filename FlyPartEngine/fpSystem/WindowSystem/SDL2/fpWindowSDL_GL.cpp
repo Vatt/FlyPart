@@ -144,6 +144,6 @@ void fpWindowSDL_GL::triggerEvent()
             }
             index++;
 		}
-	  delete events;
+	  delete [] events;
 }
 

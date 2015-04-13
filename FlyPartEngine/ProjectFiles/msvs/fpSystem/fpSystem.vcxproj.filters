@@ -50,6 +50,12 @@
     <ClInclude Include="..\..\..\fpSystem\Memory\Windows\fpWindowsMemory.h">
       <Filter>Memory\Windows</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\fpSystem\Memory\fpMemoryStats.h">
+      <Filter>Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\fpSystem\Memory\fpAllocator.h">
+      <Filter>Memory</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="fpCommon">
@@ -95,6 +101,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\fpSystem\Input\SDL2\fpKeyboardSDL.cpp">
       <Filter>Input\SDL2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\fpSystem\Memory\Windows\fpWindowsMemory.cpp">
+      <Filter>Memory\Windows</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

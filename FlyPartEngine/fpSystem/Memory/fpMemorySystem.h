@@ -11,12 +11,10 @@ struct MemoryConstants
 class fpMemorySystem
 {
 private:
-	static MemoryStats* _stats;
-	static fpMemory* _globalMem;
+	static fpPlatformMemory* _globalMem;
 public:
-	static void			Init(fpMemory* memory) { _globalMem = memory; }
-	static MemoryStats* MemoryStats()          { return _stats;    }
-	static fpMemory*    GlobalMemory()		   { return _globalMem; }
+	static void					Init(fpPlatformMemory* memory) { _globalMem = memory; }
+	static fpPlatformMemory*    GlobalMemory()				   { return _globalMem; }
 };
 
 

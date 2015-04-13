@@ -4,6 +4,8 @@
 #include <iostream>
 #ifdef WIN32
 	#include <tchar.h>.
+	#include <Windows.h>
+	#include <Psapi.h>
 	#define main _tmain
 #endif
 using namespace std;
@@ -24,7 +26,13 @@ int main(int argc, char **argv)
 		wndSys->triggerWndEvent();
 	}
 	*/
-	
+	MEMORYSTATUSEX info;
+	size_t memTotal;
+	PERFORMANCE_INFORMATION pInfo;
+	info.dwLength = sizeof(MEMORYSTATUSEX);
+	GetPhysicallyInstalledSystemMemory(&memTotal);
+	GlobalMemoryStatusEx(&info);
+	GetPerformanceInfo(&pInfo, sizeof(PERFORMANCE_INFORMATION));
     return 0;
 }
 
