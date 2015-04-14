@@ -14,10 +14,12 @@ fpWindowsMemory::fpWindowsMemory() :fpPlatformMemory(nullptr)
 }
 void* fpWindowsMemory::SystemAlloc(size_t size)
 {
+    fpMemoryStats::IncAllocCallCounter();
 	return VirtualAlloc(NULL, size, MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE);
 }
 void fpWindowsMemory::SystemFree(void* ptr)
 {
+    fpMemoryStats::IncFreeCallCounter();
 	VirtualFree(ptr,0, MEM_RELEASE );
 }
 void fpWindowsMemory::UpdateMemoryStats()

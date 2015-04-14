@@ -9,6 +9,7 @@ private:
 	static fpWindowSystem* _wndSys;
 	static fpInputSystem*  _inputSys;
 	static fpMemorySystem* _memorySys;
+    bool isInit;
 public:
 	static void Init() {}
 	static fpWindowSystem* WindowSystem() {

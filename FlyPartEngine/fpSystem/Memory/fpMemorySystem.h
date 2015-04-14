@@ -4,10 +4,6 @@
 #	define _FP_MEMORY_SYSTEM
 #include "fpMemory.h"
 
-struct MemoryConstants
-{
-
-};
 class fpMemorySystem
 {
 private:
