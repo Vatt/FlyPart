@@ -5,11 +5,11 @@
 class fpAllocator
 {
 public:
-    fpAllocator(fpPlatformMemory* platform):platform(platform){}
+	fpAllocator();
 	virtual ~fpAllocator();
 	virtual void* allocate(size_t size) = 0;
 	virtual void  free(void* ptr) = 0;
 public:
-    fpPlatformMemory* platform;
+	//fpPlatformMemory* platform;
 };
 #endif

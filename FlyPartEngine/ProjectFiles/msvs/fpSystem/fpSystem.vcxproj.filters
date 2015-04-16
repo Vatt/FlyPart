@@ -56,6 +56,9 @@
     <ClInclude Include="..\..\..\fpSystem\Memory\fpAllocator.h">
       <Filter>Memory</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\fpSystem\Memory\fpStoringAllocator.h">
+      <Filter>Memory</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="fpCommon">
