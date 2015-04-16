@@ -7,10 +7,13 @@
 class fpMemorySystem
 {
 private:
-	static fpPlatformMemory* _globalMem;
+	static fpPlatformMemory* globalMem;
+	static fpAllocator* globalAllocator;
+	static bool isInit;
 public:
-	static void					Init(fpPlatformMemory* memory) { _globalMem = memory; }
-	static fpPlatformMemory*    GlobalMemory()				   { return _globalMem; }
+	static void					Init(fpPlatformMemory* memory, fpAllocator* gAllocator);
+	static fpPlatformMemory*    PlatformMemory()			   { return globalMem; }
+	static fpAllocator*			GlobalAllocator()			   { return globalAllocator; }
 };
 
 

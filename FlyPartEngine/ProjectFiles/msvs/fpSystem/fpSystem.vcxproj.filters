@@ -59,6 +59,12 @@
     <ClInclude Include="..\..\..\fpSystem\Memory\fpStoringAllocator.h">
       <Filter>Memory</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\fpCommon\defines.h">
+      <Filter>fpCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\fpCommon\typedefs.h">
+      <Filter>fpCommon</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="fpCommon">
@@ -107,6 +113,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\fpSystem\Memory\Windows\fpWindowsMemory.cpp">
       <Filter>Memory\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\fpSystem\Memory\fpMemorySystem.cpp">
+      <Filter>Memory</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

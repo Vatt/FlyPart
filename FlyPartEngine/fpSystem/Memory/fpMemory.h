@@ -8,13 +8,11 @@
 
 class fpPlatformMemory
 {
-private:
-	fpAllocator* _allocator;
+
 public:
-    fpPlatformMemory(fpAllocator* defaultAllocator):_allocator(defaultAllocator){}
+	fpPlatformMemory();
 	virtual void* SystemAlloc(size_t size) = 0;
 	virtual void SystemFree(void* ptr) = 0;
-	virtual fpAllocator* DefaultAllocator(){ return _allocator; }
 	virtual void UpdateMemoryStats() = 0;
 
 };

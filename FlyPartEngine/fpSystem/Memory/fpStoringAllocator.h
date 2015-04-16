@@ -6,15 +6,16 @@
 class fpStoringAllocator: public fpAllocator
 {
     enum {PAGES_IN_POOL = 4};
-    struct MemPageInfo{
+	    struct MemPage{
+        uint32 size;
+        void* beginPtr;
+    };
+	struct MemPageInfo{
         uint32 used;
         uint32 avail;
         MemPage* ptr;
     };
-    struct MemPage{
-        uint32 size;
-        void* beginPtr;
-    };
+
     struct MemPool
     {
         uint32 total;
@@ -23,13 +24,14 @@ class fpStoringAllocator: public fpAllocator
         MemPageInfo** table;
         void AllocNewPage()
         {
-            MemPage* newPage = fpSystem::Memory()->GlobalMemory()->SystemAlloc(pageSize);
-            MemPageInfo* newPageInfo;
+            //MemPage* newPage = platform->
+            //MemPageInfo* newPageInfo;
         }
+		void link(MemPageInfo* after, MemPageInfo* target);
     };
 
 public:
-    fpStoringAllocator()
+	fpStoringAllocator(fpPlatformMemory* impl) :fpAllocator(impl)
     {
         pageSize = fpMemoryStats::PageSize();
         granularity = fpMemoryStats::Granularity();

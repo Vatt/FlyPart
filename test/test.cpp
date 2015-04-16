@@ -32,6 +32,7 @@ int main(int argc, char **argv)
     cout<<"long int: "<<sizeof(long int)<<endl;
     cout<<"short: "<<sizeof(short)<<endl;
     cout<<"unsigned short: "<<sizeof(unsigned short)<<endl;
+	cout << "int: " << sizeof(int) << endl;
     return 0;
 }
 

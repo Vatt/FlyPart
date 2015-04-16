@@ -6,9 +6,13 @@
 class fpAllocator
 {
 public:
-    fpAllocator();
+	fpAllocator(fpPlatformMemory* impl){
+		platform = impl;
+	};
 	virtual ~fpAllocator();
 	virtual void* allocate(size_t size) = 0;
 	virtual void  free(void* ptr) = 0;
+protected:
+	fpPlatformMemory* platform;
 };
 #endif
