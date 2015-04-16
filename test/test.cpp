@@ -2,7 +2,7 @@
 //
 
 #include <iostream>
-#ifdef WIN32
+#ifdef _WIN32
 	#include <tchar.h>.
 	#include <Windows.h>
 	#include <Psapi.h>
@@ -26,13 +26,12 @@ int main(int argc, char **argv)
 		wndSys->triggerWndEvent();
 	}
 	*/
-	MEMORYSTATUSEX info;
-	size_t memTotal;
-	PERFORMANCE_INFORMATION pInfo;
-	info.dwLength = sizeof(MEMORYSTATUSEX);
-	GetPhysicallyInstalledSystemMemory(&memTotal);
-	GlobalMemoryStatusEx(&info);
-	GetPerformanceInfo(&pInfo, sizeof(PERFORMANCE_INFORMATION));
+    cout<<"unsigned int: "<<sizeof(unsigned int)<<endl;
+    cout<<"unsigned long long int: "<<sizeof(unsigned long long int)<<endl;
+    cout<<"long long int: "<<sizeof(long long int)<<endl;
+    cout<<"long int: "<<sizeof(long int)<<endl;
+    cout<<"short: "<<sizeof(short)<<endl;
+    cout<<"unsigned short: "<<sizeof(unsigned short)<<endl;
     return 0;
 }
 

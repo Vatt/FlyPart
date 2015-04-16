@@ -17,12 +17,15 @@ else:unix: LIBS += -L$$PWD/../FlyPartEngine/Build/fpSystem/ -lfpSystem
 INCLUDEPATH += $$PWD/../FlyPartEngine/Build/fpSystem
 DEPENDPATH += $$PWD/../FlyPartEngine/Build/fpSystem
 
-win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../FlyPartEngine/Build/fpSystem/release/libfpSystem.a
-else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../FlyPartEngine/Build/fpSystem/debug/libfpSystem.a
-else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../FlyPartEngine/Build/fpSystem/release/fpSystem.lib
-else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../FlyPartEngine/Build/fpSystem/debug/fpSystem.lib
-else:unix: PRE_TARGETDEPS += $$PWD/../FlyPartEngine/Build/fpSystem/libfpSystem.a
 
 
 
-unix|win32: LIBS += -lSDL2
+
+#unix|win32: LIBS += -lSDL2
+
+unix:!macx|win32: LIBS += -L$$PWD/../Build/fpSystem/ -lfpSystem
+
+INCLUDEPATH += $$PWD/../Build/fpSystem
+DEPENDPATH += $$PWD/../Build/fpSystem
+
+
