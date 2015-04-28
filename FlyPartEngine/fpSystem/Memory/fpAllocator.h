@@ -5,6 +5,7 @@
 #include "../../fpCommon/typedefs.h"
 class fpAllocator
 {
+
 public:
 	fpAllocator(fpPlatformMemory* impl){
 		platform = impl;
@@ -12,7 +13,8 @@ public:
 	virtual ~fpAllocator();
 	virtual void* allocate(size_t size) = 0;
 	virtual void  free(void* ptr) = 0;
-protected:
 	fpPlatformMemory* platform;
+protected:
+//	 fpPlatformMemory* platform;
 };
 #endif

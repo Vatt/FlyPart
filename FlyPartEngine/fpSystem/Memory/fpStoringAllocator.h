@@ -5,46 +5,55 @@
 #include "../fpSystemInterface.h"
 class fpStoringAllocator: public fpAllocator
 {
-    enum {PAGES_IN_POOL = 4};
-	    struct MemPage{
-        uint32 size;
-        void* beginPtr;
-    };
-	struct MemPageInfo{
-        uint32 used;
-        uint32 avail;
-        MemPage* ptr;
+    enum {PAGES_IN_POOL = 8};
+	
+	struct MemPage{
+		void* firstFreePtr;
+        void* firstPtr;
+		uint32 used;
+		uint32 avail;
     };
 
     struct MemPool
     {
+		uint32 pageSize;
+		uint32 granularity;
         uint32 total;
         uint32 used;
         uint32 avail;
-        MemPageInfo** table;
+	
+		MemPool()
+		{
+			 pageSize = fpMemoryStats::PageSize();
+			 granularity = fpMemoryStats::Granularity();
+		}
         void AllocNewPage()
         {
-            //MemPage* newPage = platform->
-            //MemPageInfo* newPageInfo;
+
+			//MemPage* newPage = (MemPage*)fpMemorySystem::PlatformMemory()->SystemAlloc(pageSize);
         }
-		void link(MemPageInfo* after, MemPageInfo* target);
+		void link(MemPage* after, MemPage* target)
+		{
+		
+		}
+		void unlink(MemPage* target)
+		{
+
+		}
     };
 
 public:
 	fpStoringAllocator(fpPlatformMemory* impl) :fpAllocator(impl)
     {
-        pageSize = fpMemoryStats::PageSize();
-        granularity = fpMemoryStats::Granularity();
+
     }
 
     virtual void* allocate(size_t size);
     virtual void  free(void* ptr);
 private:
 
-
 private:
-    uint32 pageSize;
-    uint32 granularity;
+	
 
 };
 
