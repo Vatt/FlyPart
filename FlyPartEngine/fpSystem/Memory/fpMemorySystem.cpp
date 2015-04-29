@@ -2,7 +2,8 @@
 
 void fpMemorySystem::Init(fpPlatformMemory* memory, fpAllocator* gAllocator)
 {
-	globalMem = memory; 
+    platformMemory = memory;
 	isInit = true;
-	globalAllocator = gAllocator;
+    fpMemorySystem::gAllocator = gAllocator;
+    fpAllocator::platform = memory;
 }

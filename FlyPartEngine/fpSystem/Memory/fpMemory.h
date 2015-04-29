@@ -3,8 +3,6 @@
 #define	_FP_MEMORY_
 
 #include "fpMemoryStats.h"
-#include "fpAllocator.h"
-
 
 class fpPlatformMemory
 {

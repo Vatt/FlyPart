@@ -27,10 +27,14 @@ class fpStoringAllocator: public fpAllocator
 			 pageSize = fpMemoryStats::PageSize();
 			 granularity = fpMemoryStats::Granularity();
 		}
-        void AllocNewPage()
+        MemPage* AllocNewPage()
         {
-
-			//MemPage* newPage = (MemPage*)fpMemorySystem::PlatformMemory()->SystemAlloc(pageSize);
+            MemPage* newPage = (MemPage*)platform->SystemAlloc(sizeof(MemPage));
+            newPage->avail = pageSize;
+            newPage->firstPtr = platform->SystemAlloc(pageSize);
+            newPage->firstFreePtr = newPage->firstPtr;
+            newPage->used = 0;
+            return newPage;
         }
 		void link(MemPage* after, MemPage* target)
 		{
@@ -43,7 +47,7 @@ class fpStoringAllocator: public fpAllocator
     };
 
 public:
-	fpStoringAllocator(fpPlatformMemory* impl) :fpAllocator(impl)
+    fpStoringAllocator() :fpAllocator()
     {
 
     }
