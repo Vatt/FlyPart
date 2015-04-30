@@ -21,29 +21,22 @@ class fpStoringAllocator: public fpAllocator
         uint32 total;
         uint32 used;
         uint32 avail;
-	
+		MemPage* pages[];
 		MemPool()
 		{
 			 pageSize = fpMemoryStats::PageSize();
 			 granularity = fpMemoryStats::Granularity();
+			// pages[] = (MemPage*)platform->SystemAlloc(sizeof(MemPage)*PAGES_IN_POOL);
+			 for (int16 index = 0;index < PAGES_IN_POOL;index++)
+			 {
+				 pages[index] = (MemPage*)platform->SystemAlloc(sizeof(MemPage));
+				 pages[index]->avail = pageSize;
+				 pages[index]->firstPtr = platform->SystemAlloc(pageSize);
+				 pages[index]->firstFreePtr = pages[index]->firstPtr;
+				 pages[index]->used = 0;
+			 }
 		}
-        MemPage* AllocNewPage()
-        {
-            MemPage* newPage = (MemPage*)platform->SystemAlloc(sizeof(MemPage));
-            newPage->avail = pageSize;
-            newPage->firstPtr = platform->SystemAlloc(pageSize);
-            newPage->firstFreePtr = newPage->firstPtr;
-            newPage->used = 0;
-            return newPage;
-        }
-		void link(MemPage* after, MemPage* target)
-		{
-		
-		}
-		void unlink(MemPage* target)
-		{
 
-		}
     };
 
 public:
