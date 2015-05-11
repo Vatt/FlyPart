@@ -56,14 +56,14 @@
     <ClInclude Include="..\..\..\fpSystem\Memory\fpAllocator.h">
       <Filter>Memory</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\fpSystem\Memory\fpStoringAllocator.h">
-      <Filter>Memory</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\fpCommon\defines.h">
       <Filter>fpCommon</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\fpCommon\typedefs.h">
       <Filter>fpCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\fpSystem\Memory\fpPoolAllocator.h">
+      <Filter>Memory</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
