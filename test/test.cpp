@@ -21,7 +21,8 @@ int main(int argc, char **argv)
 {
 	fpWindowSystem* wndSys = fpSystem::_wndSys;
 	fpWindow* wnd = new fpWindowSDL_GL("test", 50, 60, 800, 600, false);
-	wndSys->addWindow(wnd);
+	fpWindow* wnd1 = new fpWindowSDL_GL("test", 50, 60, 800, 600, false);
+	wndSys->addWindow(wnd); wndSys->addWindow(wnd1);
 	while (wndSys->wndCount()  > 0)
 	{
 		wndSys->triggerWndEvent();
