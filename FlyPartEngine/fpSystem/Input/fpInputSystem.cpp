@@ -6,7 +6,7 @@
  */
 
 #include "fpInputSystem.h"
-
+/*
 fpInputSystem::fpInputSystem(InputType inT):_inputType(inT) {
 	// TODO Auto-generated constructor stub
 
@@ -18,5 +18,5 @@ fpInputSystem::~fpInputSystem() {
 void fpInputSystem::WaitInputFromController()
 {
 
-}
+}*/
 

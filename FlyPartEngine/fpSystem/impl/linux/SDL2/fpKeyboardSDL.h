@@ -2,8 +2,8 @@
 
 #ifndef FPKEYBOARDSDL_H_
 #define FPKEYBOARDSDL_H_
-#include "../../../../include/SDL2/SDL.h"
-#include "../../../wndSys/fpWindow.h"
+#include "../../../include/SDL2/SDL.h"
+#include "../../../WindowSystem/fpWindow.h"
 
 /*
 

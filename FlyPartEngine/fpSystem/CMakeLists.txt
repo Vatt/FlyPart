@@ -1,20 +1,27 @@
 project(fpSystem)
 cmake_minimum_required(VERSION 3.0)
 
-include_directories(../fpCommon)
+
 
 INCLUDE(FindPkgConfig)
 PKG_SEARCH_MODULE(SDL2 REQUIRED sdl2)
 INCLUDE_DIRECTORIES(${SDL2_INCLUDE_DIRS})
 
+set(common_include "../fpCommon/")
+set(platform_src)
 
-file(GLOB_RECURSE SOURCE_DIRS   "${CMAKE_CURRENT_SOURCE_DIR}/*")
-set(srcs)
+file(GLOB_RECURSE generic_memory "${CMAKE_CURRENT_SOURCE_DIR}/Memory/*")
+file(GLOB_RECURSE generic_wnd_sys "${CMAKE_CURRENT_SOURCE_DIR}/WindowSystem/*")
+file(GLOB_RECURSE generic_input "${CMAKE_CURRENT_SOURCE_DIR}/Input/*")
+file(GLOB_RECURSE common_src "${common_include}/*")
 
-
-
-
-
+if (WIN32)
+    file(GLOB_RECURSE platform_src "${CMAKE_CURRENT_SOURCE_DIR}/impl/windows/*")
+elseif(UNIX)
+    file(GLOB_RECURSE platform_src "${CMAKE_CURRENT_SOURCE_DIR}/impl/linux/*")
+else()
+    message(FATAL_ERROR "OS not detected")
+endif()
 set (CMAKE_BUILD_TYPE Debug)
 if ( CMAKE_COMPILER_IS_GNUCXX )
 
@@ -26,7 +33,8 @@ if ( CMAKE_COMPILER_IS_GNUCXX )
 else ()
 
 endif ()
- #message (FATAL_ERROR ${SOURCE_DIRS})
-add_library(fpSystem STATIC ${SOURCE_DIRS})
+
+add_library(fpSystem STATIC fpSystemInterface.h ${platform_src}
+            ${generic_memory} ${generic_wnd_sys} ${generic_input} ${common_src})
 SET_TARGET_PROPERTIES(fpSystem PROPERTIES LINKER_LANGUAGE CXX)
 SET_TARGET_PROPERTIES(fpSystem PROPERTIES OUTPUT_NAME fpSystem)

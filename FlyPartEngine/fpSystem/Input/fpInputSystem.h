@@ -7,7 +7,7 @@
 
 #ifndef FPINPUTSYSTEM_H_
 #define FPINPUTSYSTEM_H_
-
+/*
 #include "../../fpCommon/fpFunction.h"
 #include "../../fpCommon/fpCallback.h"
 typedef enum InputType
@@ -16,11 +16,9 @@ typedef enum InputType
     Gamepad,
     Joystick
 };
-/*впилить абстракт клас для девайсов инпута, поставим его в майн и будем ждать
- * ввода бог пойми откуда
- * да и вообще впилить интерфейсы устройств
- * и интерфейсы модулей движка
-*/
+//впилить абстракт клас для девайсов инпута, поставим его в майн и будем ждать
+//ввода бог пойми откуда
+
 class fpInputSystem
 {
 private:
@@ -34,5 +32,5 @@ public:
 	~fpInputSystem();
     void keyBind();
 };
-
+*/
 #endif /* FPINPUTSYSTEM_H_ */
