@@ -2,7 +2,9 @@
 #include "fpWindowSDL_GL.h"
 #include <iostream>
 using namespace std;
-fpWindowSDL_GL::fpWindowSDL_GL(void) { }
+fpWindowSDL_GL::fpWindowSDL_GL(void) { 
+	createWindow("FlyPartWindow", 10, 10, 800, 600, false);
+}
 fpWindowSDL_GL::fpWindowSDL_GL( const char* name, unsigned int x, unsigned int y,unsigned int width, unsigned int height, bool fullscreen)
 {
 	createWindow(name, x, y, width, height, fullscreen);

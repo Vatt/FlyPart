@@ -1,6 +1,6 @@
 #ifndef _DEFINES_H
 #define _DEFINES_H
-
+#pragma once
 #if defined(_WIN32) || defined(_WIN64)
 #define PLATFORM_WINDOWS
 #endif

@@ -1,12 +1,7 @@
-/*
- * fpFunction.h
- *
- *  Created on: 27 февр. 2014 г.
- *      Author: gamover
- */
 
 #ifndef FPFUNCTION_H_
 #define FPFUNCTION_H_
+#pragma once
 #include <memory>
 template<typename _none> class fpFunction;
 

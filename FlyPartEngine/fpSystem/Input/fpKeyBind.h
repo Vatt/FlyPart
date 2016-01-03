@@ -1,6 +1,6 @@
 #ifndef FPKEYBIND_H
 #define FPKEYBIND_H
-#include "fpKey.h"
+/*#include "fpKey.h"
 #include "../../fpCommon/fpCallback.h"
 class fpKeyBind
 {
@@ -13,5 +13,5 @@ public:
     fpKey getKey();
     fpCallbackInterface<void, void>* getCallback();
 };
-
+*/
 #endif // FPKEYBIND_H

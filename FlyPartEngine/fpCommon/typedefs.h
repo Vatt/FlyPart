@@ -1,5 +1,6 @@
 #ifndef _TYPE_DEFS_
 #define _TYPE_DEFS_
+#pragma once
 #include "defines.h"
 #if defined (PLATFORM_64) && defined(PLATFORM_WINDOWS)
 typedef unsigned int            uint32; //4

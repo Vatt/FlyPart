@@ -2,20 +2,18 @@
 #ifndef _FP_WINDOW_SDL_INCLUDE_
 #define _FP_WINDOW_SDL_INCLUDE_
 #include "../../../WindowSystem/fpWindow.h"
-#include "../../../../include/SDL2/SDL.h"
-#include <iostream>
 
-class fpWindowSDL_GL : public  fpWindow
+
+class fpD3D12Window : public  fpWindow
 {
 private:
-	SDL_Window* wnd = nullptr;
-	SDL_GLContext context = nullptr;
+
 
 
 public:
-	fpWindowSDL_GL( const char* name, unsigned int x, unsigned int y, unsigned int width, unsigned int height, bool fullscreen);
-	fpWindowSDL_GL(void);
-	~fpWindowSDL_GL();
+	fpD3D12Window( const char* name, unsigned int x, unsigned int y, unsigned int width, unsigned int height, bool fullscreen);
+	fpD3D12Window(void);
+	~fpD3D12Window();
 	void createWindow( const char* name, unsigned int x, unsigned int y, unsigned int width, unsigned int height, bool fullscreen) override;
 	bool switchFullscreen(bool flag) override;
 	void showWindow() override;
@@ -25,7 +23,7 @@ public:
 	void hideWindow() override;
 	void resize(unsigned int width, unsigned int height) override;
 	void triggerEvent() override;
-	std::string str;
+//	std::string str;
 };
 
 #endif

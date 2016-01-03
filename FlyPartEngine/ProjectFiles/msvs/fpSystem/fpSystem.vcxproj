@@ -21,6 +21,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{5AD79331-65CC-4CB3-8443-514501034F31}</ProjectGuid>
     <RootNamespace>fpSystem</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.10586.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -32,7 +33,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -122,29 +123,43 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\fpCommon\defines.h" />
+    <ClInclude Include="..\..\..\fpCommon\Reference.h" />
     <ClInclude Include="..\..\..\fpCommon\fpCallback.h" />
-    <ClInclude Include="..\..\..\fpCommon\fpCrc32Helper.h" />
-    <ClInclude Include="..\..\..\fpCommon\fpModuleInterface.h" />
+    <ClInclude Include="..\..\..\fpCommon\fpCommon.h" />
     <ClInclude Include="..\..\..\fpCommon\fpFunction.h" />
-    <ClInclude Include="..\..\..\fpCommon\fpModuleManager.h" />
-    <ClInclude Include="..\..\..\fpCommon\memory\fpBaseAllocator.h" />
+    <ClInclude Include="..\..\..\fpCommon\fpSharedPtr.h" />
+    <ClInclude Include="..\..\..\fpCommon\NotNull.h" />
+    <ClInclude Include="..\..\..\fpCommon\ReferenceCounter.h" />
+    <ClInclude Include="..\..\..\fpCommon\typedefs.h" />
     <ClInclude Include="..\..\..\fpSystem\fpSystemInterface.h" />
-    <ClInclude Include="..\..\..\fpSystem\input\fpInputSystem.h" />
-    <ClInclude Include="..\..\..\fpSystem\input\fpKey.h" />
-    <ClInclude Include="..\..\..\fpSystem\input\fpKeyBind.h" />
-    <ClInclude Include="..\..\..\fpSystem\input\fpKeyboard.h" />
-    <ClInclude Include="..\..\..\fpSystem\input\impl\SDL2\fpKeyboardSDL.h" />
-    <ClInclude Include="..\..\..\fpSystem\wndSys\fpWindow.h" />
-    <ClInclude Include="..\..\..\fpSystem\wndSys\fpWindowSystem.h" />
-    <ClInclude Include="..\..\..\fpSystem\wndSys\impl\SDL2\fpWindowSDL_GL.h" />
+    <ClInclude Include="..\..\..\fpSystem\impl\windows\D3D12\fpD3D12Window.h" />
+    <ClInclude Include="..\..\..\fpSystem\impl\windows\fpWindowsMemory.h" />
+    <ClInclude Include="..\..\..\fpSystem\impl\windows\SDL2\fpKeyboardSDL.h" />
+    <ClInclude Include="..\..\..\fpSystem\impl\windows\SDL2\fpWindowSDL_GL.h" />
+    <ClInclude Include="..\..\..\fpSystem\Input\fpInputSystem.h" />
+    <ClInclude Include="..\..\..\fpSystem\Input\fpKey.h" />
+    <ClInclude Include="..\..\..\fpSystem\Input\fpKeyBind.h" />
+    <ClInclude Include="..\..\..\fpSystem\Input\fpKeyboard.hpp" />
+    <ClInclude Include="..\..\..\fpSystem\Memory\fpAllocator.h" />
+    <ClInclude Include="..\..\..\fpSystem\Memory\fpMemory.h" />
+    <ClInclude Include="..\..\..\fpSystem\Memory\fpMemoryStats.h" />
+    <ClInclude Include="..\..\..\fpSystem\Memory\fpMemorySystem.h" />
+    <ClInclude Include="..\..\..\fpSystem\Memory\fpPoolAllocator.h" />
+    <ClInclude Include="..\..\..\fpSystem\WindowSystem\fpWindow.h" />
+    <ClInclude Include="..\..\..\fpSystem\WindowSystem\fpWindowSystem.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\fpSystem\input\fpInputSystem.cpp" />
-    <ClCompile Include="..\..\..\fpSystem\input\fpKeyBind.cpp" />
-    <ClCompile Include="..\..\..\fpSystem\input\impl\SDL2\fpKeyboardSDL.cpp" />
-    <ClCompile Include="..\..\..\fpSystem\wndSys\fpWindow.cpp" />
-    <ClCompile Include="..\..\..\fpSystem\wndSys\fpWindowSystem.cpp" />
-    <ClCompile Include="..\..\..\fpSystem\wndSys\impl\SDL2\fpWindowSDL_GL.cpp" />
+    <ClCompile Include="..\..\..\fpSystem\impl\windows\D3D12\fpD3D12Window.cpp" />
+    <ClCompile Include="..\..\..\fpSystem\impl\windows\fpWindowsMemory.cpp" />
+    <ClCompile Include="..\..\..\fpSystem\impl\windows\SDL2\fpKeyboardSDL.cpp" />
+    <ClCompile Include="..\..\..\fpSystem\impl\windows\SDL2\fpWindowSDL_GL.cpp" />
+    <ClCompile Include="..\..\..\fpSystem\Input\fpInputSystem.cpp" />
+    <ClCompile Include="..\..\..\fpSystem\Input\fpKeyBind.cpp" />
+    <ClCompile Include="..\..\..\fpSystem\Input\fpKeyBoard.cpp" />
+    <ClCompile Include="..\..\..\fpSystem\Memory\fpMemorySystem.cpp" />
+    <ClCompile Include="..\..\..\fpSystem\WindowSystem\fpWindow.cpp" />
+    <ClCompile Include="..\..\..\fpSystem\WindowSystem\fpWindowSystem.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

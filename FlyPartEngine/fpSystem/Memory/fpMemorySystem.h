@@ -4,8 +4,15 @@
 #	define _FP_MEMORY_SYSTEM
 #include "fpMemory.h"
 #include "fpAllocator.h"
+
 class fpMemorySystem
 {
+#if defined(PLATFORM_WINDOWS) 
+		friend class fpWindowsMemory; 
+#endif 
+#if defined(PLATFORM_LINUX) 
+		friend class fpLinuxMemory;
+#endif	
 private:
     static fpPlatformMemory* platformMemory;
     static fpAllocator* gAllocator;

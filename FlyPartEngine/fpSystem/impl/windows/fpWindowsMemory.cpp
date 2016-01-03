@@ -1,7 +1,7 @@
 #include "fpWindowsMemory.h"
+#include "../../Memory/fpMemorySystem.h"
 
-
-
+fpPlatformMemory* fpMemorySystem::platformMemory = new fpWindowsMemory();
 fpWindowsMemory::fpWindowsMemory() :fpPlatformMemory()
 {
 	SYSTEM_INFO sys_info;

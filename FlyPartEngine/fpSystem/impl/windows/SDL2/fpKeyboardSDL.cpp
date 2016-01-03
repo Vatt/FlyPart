@@ -1,9 +1,3 @@
-/*
- * fpKeyboardSDL.cpp
- *
- *  Created on: 26 февр. 2014 г.
- *      Author: gamover
- */
 
 #include "fpKeyboardSDL.h"
 #include <iostream>

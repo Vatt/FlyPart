@@ -1,7 +1,7 @@
 
 #ifndef _FP_CALLBACK_INCLUDE_
 #define _FP_CALLBACK_INCLUDE_
-
+#pragma once
 //TODO пильнуть пустой темплейт
 template<typename _retType, typename ... _args>
 class fpCallbackInterface
