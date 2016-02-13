@@ -24,10 +24,10 @@ struct fpMemoryStats{
 	freeCallCounter = 0;
 	isInit = true;
     }
-    static void IncAllocCallCounter(){
+    static void IncrementSystemAllocCallCounter(){
         allocCallCounter++;
     }
-    static void IncFreeCallCounter(){
+    static void IncrementSystemFreeCallCounter(){
         freeCallCounter++;
     }
     static void SetNewMemLimit(size_t newMemLimit)

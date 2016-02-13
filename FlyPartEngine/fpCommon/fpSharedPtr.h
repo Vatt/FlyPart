@@ -4,28 +4,32 @@
 #pragma once
 #include "Reference.h"
 #include "NotNull.h"
-template <class ObjType>
+#include "../Core/GenericPlatform/Memory/fpMemorySystem.h"
+enum ReferenceType {
+	CONST,
+	COMMON,
+};
+
+template <class ObjType,typename ReferenceType=COMMON>
 class fpSharedRef:public Reference<ObjType>{
 private:
 
 public:
-	fpSharedRef() {
-		ObjType* ptr = new ObjType();
-		_object = NotNullPtr<ObjType>(ptr);
-	}
-	explicit fpSharedRef(ObjType* ptr)
+	inline fpSharedRef(ObjType* ptr)
 	{
-		_object = NotNullPtr<ObjType>(ptr);
+		
 	}
-	fpSharedRef(fpSharedRef<ObjType>& const reference) {
-		_object = reference._object;
+	inline fpSharedRef(fpSharedRef<ObjType>& const reference):_object(reference._object)
+	{}
+	inline fpSharedRef(fpSharedRef<ObjType>&& const reference) : _object(reference._object)
+	{}
+	inline fpSharedRef& operator =(fpSharedRef<ObjType>&& reference)
+	{
+		fpMemorySystem::PlatformMemory()::MemSwap(this, &InSharedRef, sizeof(TSharedRef));
+		return *this;
 	}
-
 	void operator delete(){
 		DeleteRef();
 	}
-private:
-	NotNullPtr<ObjType> _object;
-
 };
 #endif

@@ -9,6 +9,7 @@ typedef unsigned long long int  uint64; //8
 typedef long long int           int64;  //8
 typedef unsigned short          uint16; //2
 typedef short                   int16;  //2
+typedef char					int8;   //1
 
 #endif
 #if defined (PLATFORM_64) && defined(PLATFORM_LINUX)
@@ -18,6 +19,7 @@ typedef unsigned long long int  uint64; //8
 typedef long long int           int64;  //8
 typedef unsigned short          uint16; //2
 typedef short                   int16;  //2
+typedef char					int8;   //1
 
 #endif
 #if defined(PLATFORM_32) || defined(GCC_COMPILER)
@@ -27,6 +29,7 @@ typedef unsigned long long int  uint64; //8
 typedef long long int           int64;  //8
 typedef unsigned short          uint16; //2
 typedef short                   int16;  //2
+typedef char					int8;   //1
 
 #endif
 

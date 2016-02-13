@@ -11,7 +11,6 @@ private:
 	struct FreeMem
 	{
 		FreeMem* next;
-		uint32 numFreeBlocks;
 	};
 
     struct MemPool

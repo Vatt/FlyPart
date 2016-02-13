@@ -9,9 +9,11 @@
 #endif
 #if defined(_GCC_) || defined(__MINGW32__)
 #define GCC_COMPILER
+#define FORCEINLINE inline
 #endif
 #if defined(_MSC_VER)
 #define MSVS_COMPILER
+#define FORCEINLINE __forceinline
 #endif
 #if defined(__LP64__) || defined(_M_IA64)
 #define PLATFORM_64
@@ -20,5 +22,4 @@
 #ifdef _M_AMD64
 #define PLATFORM_64
 #endif
-
 #endif

@@ -1,8 +1,8 @@
 
 #ifndef _FP_WINDOW_SDL_INCLUDE_
 #define _FP_WINDOW_SDL_INCLUDE_
-#include "../../../WindowSystem/fpWindow.h"
-#include "../../../../include/SDL2/SDL.h"
+#include "../../GenericPlatform/Window/fpWindow.h"
+#include <SDL2/SDL.h>
 #include <iostream>
 
 class fpWindowSDL_GL : public  fpWindow

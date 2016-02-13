@@ -25,11 +25,10 @@ struct test
 
 int main(int argc, char **argv)
 {
-	fpSharedRef<fpWindowSDL_GL> shared_wnd =  fpSharedRef<fpWindowSDL_GL>(new fpWindowSDL_GL("test", 50, 60, 800, 600, false));
-	fpSharedRef<fpWindowSDL_GL> shared_wnd2 = fpSharedRef<fpWindowSDL_GL>(new fpWindowSDL_GL("test1",851, 60, 800, 600, false));
+
 	fpWindowSystem* wndSys = fpSystem::_wndSys;
-	wndSys->addWindow(&shared_wnd.GetRef());
-	wndSys->addWindow(&shared_wnd2.GetRef());
+	wndSys->addWindow(new fpWindowSDL_GL("test", 50, 60, 800, 600, false));
+	wndSys->addWindow(new fpWindowSDL_GL("test1", 851, 60, 800, 600, false));
 	while (wndSys->wndCount()  > 0)
 	{
 		wndSys->triggerWndEvent();

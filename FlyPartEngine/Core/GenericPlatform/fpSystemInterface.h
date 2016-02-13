@@ -1,6 +1,6 @@
 #ifndef _FP_SYSTEM_INCLUDE_
 #define _FP_SYSTEM_INCLUDE_
-#include "WindowSystem/fpWindowSystem.h"
+#include "Window/fpWindowSystem.h"
 //#include "Input/fpInputSystem.h"
 struct fpSystem
 {

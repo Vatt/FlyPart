@@ -2,9 +2,7 @@
 #pragma once
 #ifndef _FP_MEMORY_SYSTEM
 #	define _FP_MEMORY_SYSTEM
-#include "fpMemory.h"
-#include "fpAllocator.h"
-
+#include "fpPlatformMemory.h"
 class fpMemorySystem
 {
 #if defined(PLATFORM_WINDOWS) 
@@ -15,12 +13,12 @@ class fpMemorySystem
 #endif	
 private:
     static fpPlatformMemory* platformMemory;
-    static fpAllocator* gAllocator;
+//    static fpAllocator* gAllocator;
 	static bool isInit;
 public:
-	static void					Init(fpPlatformMemory* memory, fpAllocator* gAllocator);
+	//static void					Init(fpPlatformMemory* memory, fpAllocator* gAllocator);
     static fpPlatformMemory*    PlatformMemory()			   { return platformMemory; }
-    static fpAllocator*			GlobalAllocator()			   { return gAllocator; }
+   // static fpAllocator*			GlobalAllocator()			   { return gAllocator; }
 };
 
 

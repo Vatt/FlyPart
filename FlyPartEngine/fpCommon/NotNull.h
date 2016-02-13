@@ -2,7 +2,7 @@
 #define _NOT_NULL_INCLUDE_
 #pragma once
 #include <assert.h>
-template <class ObjType>
+template<typename ObjType>
 class NotNullPtr {
 
 public:

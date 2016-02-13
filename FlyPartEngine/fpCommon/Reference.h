@@ -1,32 +1,46 @@
-#ifndef _DEREF_INLUDE_
-#define _DEREF_INCLUDE_
+#ifndef _REFERENCE_INCLUDE_
+#define _REFERENCE_INCLUDE_
 #pragma once
 #include "ReferenceCounter.h"
+
 template<class ObjType> 
 class Reference
 {
-
+	ObjType* _object;
 	fpSharedRefCounter _refCounter;	
 public:
-	Reference()
-	virtual ObjType& GetRef() {
+
+	FORCEINLINE ObjType& GetRef() {
 		_refCounter.IncrementCounter();
 	};
-	virtual void DeleteRef() {
+	FORCEINLINE void DeleteRef() {
 		if (_refCounter.DecrementCounter() == 0)
 		{
-
+			delete _object;
+			return; 
 		}
 		
 	}
+	FORCEINLINE int32 Count() {
+		return _refCounter.RefCount();
+	}
+protected:
+	/*
+	* for the heirs
+	*/
+	FORCEINLINE ObjType* GetObjectPointer() {
+		return _object;
+	}
+private:
+	Reference();
 };
-template<class ObjType>
+/*template<class ObjType>
 class ConstReference
 {
 private:
 
 public:
-	virtual const ObjType& ConstGetRef() const = 0 ;
-	virtual void DeleteRef() = 0;
-};
+	FORCEINLINE const ObjType& GetRef() const;
+	void DeleteRef();
+};*/
 #endif
