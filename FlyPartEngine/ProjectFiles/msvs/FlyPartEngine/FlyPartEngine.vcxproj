@@ -135,6 +135,7 @@
     <ClInclude Include="..\..\..\Core\CoreAbstractLayer\fpAllocator.h" />
     <ClInclude Include="..\..\..\Core\CoreAbstractLayer\fpMemoryStats.h" />
     <ClInclude Include="..\..\..\Core\CoreAbstractLayer\fpPoolAllocator.h" />
+    <ClInclude Include="..\..\..\Core\CoreCommonHeader.h" />
     <ClInclude Include="..\..\..\Core\GenericPlatform\fpAtomics.h" />
     <ClInclude Include="..\..\..\Core\GenericPlatform\fpSystemEventDispatcher.h" />
     <ClInclude Include="..\..\..\Core\GenericPlatform\fpSystemEventHandler.h" />
@@ -151,12 +152,14 @@
     <ClInclude Include="..\..\..\Core\Windows\fpWindowsMemory.h" />
     <ClInclude Include="..\..\..\Core\Windows\SDL2\fpWindowSDL_GL.h" />
     <ClInclude Include="..\..\..\FlyPart.h" />
+    <ClInclude Include="..\..\..\fpCommon\CommonHelperFunctions.h" />
     <ClInclude Include="..\..\..\fpCommon\defines.h" />
     <ClInclude Include="..\..\..\fpCommon\fpCallback.h" />
     <ClInclude Include="..\..\..\fpCommon\fpCommon.h" />
     <ClInclude Include="..\..\..\fpCommon\fpFunction.h" />
     <ClInclude Include="..\..\..\fpCommon\fpSharedPtr.h" />
     <ClInclude Include="..\..\..\fpCommon\NotNull.h" />
+    <ClInclude Include="..\..\..\fpCommon\ReferenceBase.h" />
     <ClInclude Include="..\..\..\fpCommon\ReferenceCounter.h" />
     <ClInclude Include="..\..\..\fpCommon\typedefs.h" />
   </ItemGroup>

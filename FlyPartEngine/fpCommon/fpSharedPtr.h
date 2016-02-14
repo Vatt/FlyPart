@@ -15,9 +15,9 @@ public:
 	{
 		
 	}
-	FORCEINLINE fpSharedRef(fpSharedRef<ObjType>& const reference):_object(reference._object)
+	FORCEINLINE fpSharedRef(fpSharedRef<ObjType>& const reference)
 	{}
-	FORCEINLINE fpSharedRef(fpSharedRef<ObjType>&& const reference) : _object(reference._object)
+	FORCEINLINE fpSharedRef(fpSharedRef<ObjType>&& const reference) 
 	{}
 
 	FORCEINLINE ObjType& operator*()const{
@@ -34,13 +34,12 @@ public:
 
 	FORCEINLINE const int32 GetRefCount() const
 	{
-		return _refCounter.RefCount();
+		return 0;
 	}
 	~fpSharedRef() {
-		_refCounter.DecrementCounter();
+		
 	}
 private:
 	ObjType* _object;
-	fpSharedRefCounter _refCounter;
 };
 #endif

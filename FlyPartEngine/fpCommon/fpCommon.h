@@ -8,5 +8,6 @@
 #include "NotNull.h"
 #include "typedefs.h"
 #include "ReferenceCounter.h"
+#include "CommonHelperFunctions.h"
 #endif // !_FP_COMMON_INCLUDE_
 

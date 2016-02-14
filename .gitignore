@@ -162,3 +162,4 @@ FlyPartEngine/Build/*
 FlyPartEngine/CMakeLists.txt.user.3.3-pre1
 *.directory
 FlyPartEngine/CMakeLists.txt.user.18
+test/test.pro.user.3.3-pre1
