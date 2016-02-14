@@ -9,9 +9,9 @@ private:
 public:
 	fpSharedRefCounter() :refCount(1) {}
 	fpSharedRefCounter(fpSharedRefCounter& const inRefCoounter) :refCount(inRefCoounter.refCount) {}
-	void IncrementCounter() { this->refCount++; }
-	int32 DecrementCounter() { this->refCount--; }
-	int32 RefCount() { return this->refCount; }
+	int32 IncrementCounter()  { return this->refCount++; }
+	int32 DecrementCounter() { return this->refCount--; }
+	const int32 RefCount()const { return this->refCount; }
 private:
 	int32 refCount;
 };

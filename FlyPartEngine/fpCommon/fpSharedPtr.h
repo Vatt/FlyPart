@@ -2,16 +2,12 @@
 #ifndef _FP_SHARED_PTR_
 #define _FP_SHARED_PTR_
 #pragma once
-#include "Reference.h"
+#include "ReferenceCounter.h"
 #include "NotNull.h"
 #include "../Core/GenericPlatform/Memory/fpMemorySystem.h"
-enum ReferenceType {
-	CONST,
-	COMMON,
-};
 
-template <class ObjType,typename ReferenceType=COMMON>
-class fpSharedRef:public Reference<ObjType>{
+template <class ObjType>
+class fpSharedRef{
 private:
 
 public:
@@ -19,17 +15,32 @@ public:
 	{
 		
 	}
-	inline fpSharedRef(fpSharedRef<ObjType>& const reference):_object(reference._object)
+	FORCEINLINE fpSharedRef(fpSharedRef<ObjType>& const reference):_object(reference._object)
 	{}
-	inline fpSharedRef(fpSharedRef<ObjType>&& const reference) : _object(reference._object)
+	FORCEINLINE fpSharedRef(fpSharedRef<ObjType>&& const reference) : _object(reference._object)
 	{}
-	inline fpSharedRef& operator =(fpSharedRef<ObjType>&& reference)
+
+	FORCEINLINE ObjType& operator*()const{
+		return *_object;
+	}
+	FORCEINLINE ObjType* operator->()const{
+		return _object;
+	}
+	FORCEINLINE fpSharedRef& operator=(fpSharedRef<ObjType>&& InReference)
 	{
-		fpMemorySystem::PlatformMemory()::MemSwap(this, &InSharedRef, sizeof(TSharedRef));
+		fpMemorySystem::PlatformMemory()::MemSwap(this, &InReference, sizeof(fpSharedRef));
 		return *this;
 	}
-	void operator delete(){
-		DeleteRef();
+
+	FORCEINLINE const int32 GetRefCount() const
+	{
+		return _refCounter.RefCount();
 	}
+	~fpSharedRef() {
+		_refCounter.DecrementCounter();
+	}
+private:
+	ObjType* _object;
+	fpSharedRefCounter _refCounter;
 };
 #endif

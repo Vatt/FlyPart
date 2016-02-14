@@ -2,7 +2,6 @@
 #define _FP_COMMON_INCLUDE_
 #pragma once
 #include "defines.h"
-#include "Reference.h"
 #include "fpCallback.h"
 #include "fpFunction.h"
 #include "fpSharedPtr.h"

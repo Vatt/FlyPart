@@ -3,7 +3,6 @@
 #define _FP_WINDOW_SDL_INCLUDE_
 #include "../../GenericPlatform/Window/fpWindow.h"
 #include <SDL2/SDL.h>
-#include <iostream>
 
 class fpWindowSDL_GL : public  fpWindow
 {
@@ -25,7 +24,6 @@ public:
 	void hideWindow() override;
 	void resize(unsigned int width, unsigned int height) override;
 	void triggerEvent() override;
-	std::string str;
 };
 
 #endif

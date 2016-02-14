@@ -135,6 +135,7 @@
     <ClInclude Include="..\..\..\Core\CoreAbstractLayer\fpAllocator.h" />
     <ClInclude Include="..\..\..\Core\CoreAbstractLayer\fpMemoryStats.h" />
     <ClInclude Include="..\..\..\Core\CoreAbstractLayer\fpPoolAllocator.h" />
+    <ClInclude Include="..\..\..\Core\GenericPlatform\fpAtomics.h" />
     <ClInclude Include="..\..\..\Core\GenericPlatform\fpSystemEventDispatcher.h" />
     <ClInclude Include="..\..\..\Core\GenericPlatform\fpSystemEventHandler.h" />
     <ClInclude Include="..\..\..\Core\GenericPlatform\fpSystemInterface.h" />
@@ -146,11 +147,11 @@
     <ClInclude Include="..\..\..\Core\GenericPlatform\Memory\fpPlatformMemory.h" />
     <ClInclude Include="..\..\..\Core\GenericPlatform\Window\fpWindow.h" />
     <ClInclude Include="..\..\..\Core\GenericPlatform\Window\fpWindowSystem.h" />
+    <ClInclude Include="..\..\..\Core\Windows\fpWindowsAtomics.h" />
     <ClInclude Include="..\..\..\Core\Windows\fpWindowsMemory.h" />
     <ClInclude Include="..\..\..\Core\Windows\SDL2\fpWindowSDL_GL.h" />
     <ClInclude Include="..\..\..\FlyPart.h" />
     <ClInclude Include="..\..\..\fpCommon\defines.h" />
-    <ClInclude Include="..\..\..\fpCommon\Reference.h" />
     <ClInclude Include="..\..\..\fpCommon\fpCallback.h" />
     <ClInclude Include="..\..\..\fpCommon\fpCommon.h" />
     <ClInclude Include="..\..\..\fpCommon\fpFunction.h" />
@@ -166,6 +167,7 @@
     <ClCompile Include="..\..\..\Core\GenericPlatform\Memory\fpMemorySystem.cpp" />
     <ClCompile Include="..\..\..\Core\GenericPlatform\Window\fpWindow.cpp" />
     <ClCompile Include="..\..\..\Core\GenericPlatform\Window\fpWindowSystem.cpp" />
+    <ClCompile Include="..\..\..\Core\Windows\fpWindowsAtomics.cpp" />
     <ClCompile Include="..\..\..\Core\Windows\fpWindowsMemory.cpp" />
     <ClCompile Include="..\..\..\Core\Windows\SDL2\fpWindowSDL_GL.cpp" />
   </ItemGroup>

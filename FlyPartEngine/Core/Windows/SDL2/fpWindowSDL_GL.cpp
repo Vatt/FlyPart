@@ -108,22 +108,18 @@ void fpWindowSDL_GL::triggerEvent()
         //while (SDL_PollEvent(&event))
           while(index<countEvents)
           {
-            cout<<"wndID: "<<events[index].window.windowID<<" count: "<<countEvents<<endl;
             if (events[index].window.windowID == _id)
             {
                 switch (events[index].window.event)
                 {
                     case  SDL_WINDOWEVENT_RESIZED:
                         resize(events[index].window.data1, events[index].window.data2);
-                        cout<<"SDL_WINDOWEVENT_RESIZED"<<endl;
                         break;
                     case SDL_WINDOWEVENT_HIDDEN:
                         hideWindow();
-                        cout<<"SDL_WINDOWEVENT_HIDDEN"<<endl;
                         break;
                     case SDL_WINDOWEVENT_CLOSE:
                         deleteWindow();
-                        cout<<"SDL_WINDOWEVENT_CLOSE"<<endl;
                         break;
                     case SDL_QUIT:
                         SDL_Quit();
@@ -132,10 +128,8 @@ void fpWindowSDL_GL::triggerEvent()
                         break;
                     case SDL_WINDOWEVENT_MAXIMIZED:
                         maximizeWindow();
-                        cout<<"SDL_WINDOWEVENT_MAXIMIZED"<<endl;
                         break;
                     case SDL_WINDOWEVENT_MOVED :
-                      cout<<"SDL_WINDOWEVENT_MOVED"<<endl;
                         _x = events[index].window.data1;
                         _y = events[index].window.data2;
                         break;
