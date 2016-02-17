@@ -16,7 +16,7 @@
 
 #include <iostream>
 #include <memory>
-
+#include <functional>
 using namespace std;
 
 struct test
@@ -30,9 +30,10 @@ void SharedRefTest(fpSharedRef<fpWindowSDL_GL> ref)
 	cout << "in function ref counter(other): " <<other.GetRefCount() << endl;
 	cout << "in function ref counter(ref): " << ref.GetRefCount() << endl;
 }
+
 int main(int argc, char **argv)
 {
-	std::shared_ptr<fpWindowSDL_GL> test = std::shared_ptr<fpWindowSDL_GL>(new fpWindowSDL_GL("test3", 50, 651, 800, 600, false));
+	/*std::shared_ptr<fpWindowSDL_GL> test = std::shared_ptr<fpWindowSDL_GL>(new fpWindowSDL_GL("test3", 50, 651, 800, 600, false));
 	fpSharedRef<fpWindowSDL_GL> SharedWindow = fpSharedRef<fpWindowSDL_GL>(new fpWindowSDL_GL("test3", 50, 651, 800, 600, false));
 	fpWindowSystem* wndSys = fpSystem::_wndSys;
 	
@@ -48,7 +49,9 @@ int main(int argc, char **argv)
 		wndSys->triggerWndEvent();
 	}
 	
-
+	*/
+	int&& a = 5;//*(new int(5));
+	fpWindowSDL_GL b = Forward<fpWindowSDL_GL>(fpWindowSDL_GL("test3", 50, 651, 800, 600, false));
     return 0;
 }
 
