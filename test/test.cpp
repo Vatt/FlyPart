@@ -33,8 +33,8 @@ void SharedRefTest(fpSharedRef<fpWindowSDL_GL> ref)
 
 int main(int argc, char **argv)
 {
-	/*std::shared_ptr<fpWindowSDL_GL> test = std::shared_ptr<fpWindowSDL_GL>(new fpWindowSDL_GL("test3", 50, 651, 800, 600, false));
-	fpSharedRef<fpWindowSDL_GL> SharedWindow = fpSharedRef<fpWindowSDL_GL>(new fpWindowSDL_GL("test3", 50, 651, 800, 600, false));
+	std::shared_ptr<fpWindowSDL_GL> test = std::shared_ptr<fpWindowSDL_GL>(new fpWindowSDL_GL("test3", 50, 651, 800, 600, false));
+	/*fpSharedRef<fpWindowSDL_GL> SharedWindow = fpSharedRef<fpWindowSDL_GL>(new fpWindowSDL_GL("test3", 50, 651, 800, 600, false));
 	fpWindowSystem* wndSys = fpSystem::_wndSys;
 	
 	cout << "before function call ref counter: " << SharedWindow.GetRefCount() << endl;
@@ -50,8 +50,8 @@ int main(int argc, char **argv)
 	}
 	
 	*/
-	int&& a = 5;//*(new int(5));
-	fpWindowSDL_GL b = Forward<fpWindowSDL_GL>(fpWindowSDL_GL("test3", 50, 651, 800, 600, false));
+
+	fpWindowSDL_GL b = fpTemplate::Forward<fpWindowSDL_GL>(fpWindowSDL_GL("test3", 50, 651, 800, 600, false));
     return 0;
 }
 

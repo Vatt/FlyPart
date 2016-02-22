@@ -162,6 +162,7 @@
     <ClInclude Include="..\..\..\fpCommon\ReferenceBase.h" />
     <ClInclude Include="..\..\..\fpCommon\ReferenceCounter.h" />
     <ClInclude Include="..\..\..\fpCommon\typedefs.h" />
+    <ClInclude Include="..\..\..\fpCommon\TypeTraits.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Core\GenericPlatform\Input\fpInputSystem.cpp" />

@@ -9,5 +9,6 @@
 #include "typedefs.h"
 #include "ReferenceCounter.h"
 #include "CommonHelperFunctions.h"
+#include "TypeTraits.h"
 #endif // !_FP_COMMON_INCLUDE_
 

@@ -9,11 +9,13 @@
 #endif
 #if defined(_GCC_) || defined(__MINGW32__)
 #define GCC_COMPILER
-#define FORCEINLINE inline
+#define FORCEINLINE __attribute__((always_inline))
+#define CONSTEXPR constexpr
 #endif
 #if defined(_MSC_VER)
 #define MSVS_COMPILER
 #define FORCEINLINE __forceinline
+#define CONSTEXPR constexpr
 #endif
 #if defined(__LP64__) || defined(_M_IA64)
 #define PLATFORM_64
