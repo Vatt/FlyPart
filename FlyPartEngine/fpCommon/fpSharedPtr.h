@@ -2,7 +2,7 @@
 #ifndef _FP_SHARED_PTR_
 #define _FP_SHARED_PTR_
 #pragma once
-#include "ReferenceCounter.h"
+#include "SmartPtrPrivate.h"
 #include "NotNull.h"
 #include "../Core/GenericPlatform/Memory/fpMemorySystem.h"
 

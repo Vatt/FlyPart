@@ -1,7 +1,7 @@
 // test.cpp : Defines the entry point for the console application.
 //
 
-#include "../FlyPartEngine/FlyPart.h"
+//#include "../FlyPartEngine/FlyPart.h"
 #ifdef PLATFORM_LINUX
 	#include "../FlyPartEngine/fpSystem/impl/linux/SDL2/fpWindowSDL_GL.h"
 #endif
@@ -16,24 +16,33 @@
 
 #include <iostream>
 #include <memory>
-#include <functional>
+
 using namespace std;
 
 struct test
 {
         int x, y, z;
+		test(int x, int y, int z) :x(x), y(y), z(z) {}
+		test(test& const  rv)
+		{
+			x = rv.x;y = rv.y;z = rv.z;
+		}
+		test(test&& rv)
+		{
+			x = rv.x;y = rv.y;z = rv.z;
+		}
 };
-
+/*
 void SharedRefTest(fpSharedRef<fpWindowSDL_GL> ref)
 {
 	fpSharedRef<fpWindowSDL_GL> other = ref;
 	cout << "in function ref counter(other): " <<other.GetRefCount() << endl;
 	cout << "in function ref counter(ref): " << ref.GetRefCount() << endl;
 }
-
+*/
 int main(int argc, char **argv)
 {
-	std::shared_ptr<fpWindowSDL_GL> test = std::shared_ptr<fpWindowSDL_GL>(new fpWindowSDL_GL("test3", 50, 651, 800, 600, false));
+	//std::shared_ptr<fpWindowSDL_GL> test = std::shared_ptr<fpWindowSDL_GL>(new fpWindowSDL_GL("test3", 50, 651, 800, 600, false));
 	/*fpSharedRef<fpWindowSDL_GL> SharedWindow = fpSharedRef<fpWindowSDL_GL>(new fpWindowSDL_GL("test3", 50, 651, 800, 600, false));
 	fpWindowSystem* wndSys = fpSystem::_wndSys;
 	
@@ -51,7 +60,7 @@ int main(int argc, char **argv)
 	
 	*/
 
-	fpWindowSDL_GL b = fpTemplate::Forward<fpWindowSDL_GL>(fpWindowSDL_GL("test3", 50, 651, 800, 600, false));
+
     return 0;
 }
 

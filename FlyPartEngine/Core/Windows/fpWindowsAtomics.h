@@ -11,5 +11,11 @@ public:
 
 	FORCEINLINE int32 InterlockedAdd_i32(volatile int32* Addend, int32 Value)override;
 	FORCEINLINE int64 InterlockedAdd_i64(volatile int64* Addend, int64 Value)override;
+
+	FORCEINLINE int32 InterlockedExchange_i32(volatile int32* Target, int32 Value)override;
+	FORCEINLINE int64 InterlockedExchange_i64(volatile int64* Target, int64 Value)override;
+
+	FORCEINLINE int32 InterlockedExchangeAdd_i32(volatile int32* Addend, int32 Value)override;
+	FORCEINLINE int64 InterlockedExchangeAdd_i64(volatile int64* Addend, int64 Value)override;
 };
 #endif

@@ -141,7 +141,7 @@ namespace fpTemplate {
 			{}
 			fpSharedRefController(fpRefControllerBase* InController):_controller(InController)
 			{}
-			fpSharedRefController(fpSharedRefController& const InSharedReference)
+			fpSharedRefController(fpSharedRefController& const  InSharedReference)
 				:_controller(InSharedReference._controller)
 			{
 				if (_controller != nullptr)
@@ -166,7 +166,7 @@ namespace fpTemplate {
 					}
 					if (_controller != nullptr)
 					{
-						OPS::ReleaseSharedReference(_controller)
+						OPS::ReleaseSharedReference(_controller);
 					}
 					_controller = NewController;
 				}
