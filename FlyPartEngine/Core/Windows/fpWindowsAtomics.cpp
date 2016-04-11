@@ -28,12 +28,12 @@ FORCEINLINE int64 fpWindowsAtomics::InterlockedDecrement_i64(volatile int64* Add
 FORCEINLINE int32 fpWindowsAtomics::InterlockedAdd_i32(volatile int32* Addend, int32 Value)
 {
 	//return (int32) ::_InlineInterlockedAdd((LPLONG)Addend, (LONG)Value);
-	return (int32)::_InterlockedAdd((LPLONG)Addend, (LONG)Value);
+	return (int32)::InterlockedAdd((LPLONG)Addend, (LONG)Value);
 }
 FORCEINLINE int64 fpWindowsAtomics::InterlockedAdd_i64(volatile int64* Addend, int64 Value)
 {
 	//return (int64) ::_InlineInterlockedAdd64((LONG64*)Addend, (LONG64)Value);
-	return (int64) ::_InterlockedAdd64((LONG64*)Addend, (LONG64)Value);
+	return (int64) ::InterlockedAdd64((LONG64*)Addend, (LONG64)Value);
 }
 
 

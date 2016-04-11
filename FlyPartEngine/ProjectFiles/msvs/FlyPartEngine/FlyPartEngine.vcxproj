@@ -21,7 +21,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{5AD79331-65CC-4CB3-8443-514501034F31}</ProjectGuid>
     <RootNamespace>fpSystem</RootNamespace>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.10586.0</WindowsTargetPlatformVersion>
     <ProjectName>FlyPartEngine</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -158,8 +158,6 @@
     <ClInclude Include="..\..\..\fpCommon\fpCommon.h" />
     <ClInclude Include="..\..\..\fpCommon\fpFunction.h" />
     <ClInclude Include="..\..\..\fpCommon\fpSharedPtr.h" />
-    <ClInclude Include="..\..\..\fpCommon\NotNull.h" />
-    <ClInclude Include="..\..\..\fpCommon\ReferenceBase.h" />
     <ClInclude Include="..\..\..\fpCommon\SmartPtrPrivate.h" />
     <ClInclude Include="..\..\..\fpCommon\typedefs.h" />
     <ClInclude Include="..\..\..\fpCommon\TypeTraits.h" />

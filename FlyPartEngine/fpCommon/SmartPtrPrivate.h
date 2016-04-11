@@ -6,11 +6,11 @@
 #include "../Core/CoreCommonHeader.h"
 #define FORCE_THREADSAFE_REFERENCE 0
 namespace fpTemplate {
-	namespace Private {
+	namespace SmartPtrPrivate {
 		enum RefControllerMode {
 			ThreadSafe = 0,
 			NotThreadSafe = 1,
-			Optional = FORCE_THREADSAFE_REFERENCE ? 0 : 1,
+			Auto = FORCE_THREADSAFE_REFERENCE ? 0 : 1,
 		};
 		class fpRefControllerBase {
 		public:
@@ -19,6 +19,9 @@ namespace fpTemplate {
 				WeakReferenceCount(1),
 				Object(obj)
 			{}
+			/*
+			*TODO: int32?
+			*/
 			int32 SharedReferenceCount;
 			int32 WeakReferenceCount;
 			void* Object;

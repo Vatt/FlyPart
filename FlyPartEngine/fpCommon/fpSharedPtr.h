@@ -5,16 +5,21 @@
 #include "SmartPtrPrivate.h"
 #include "NotNull.h"
 #include "../Core/GenericPlatform/Memory/fpMemorySystem.h"
-
-template <class ObjType>
+using namespace fpTemplate::SmartPtrPrivate;
+template <class ObjType,RefControllerMode mode>
 class fpSharedRef{
 private:
 
 public:
-	inline fpSharedRef(ObjType* ptr)
+	inline explicit fpSharedRef(ObjType* ptr)
+		:_controller(MakeDefaultReferenceController(ptr))
 	{
 		
 	}
+	template<class ObjType,class DeleterType>
+	inline explicit fpSharedRef(ObjType* ptr, DeleterType deleter) 
+		:_controller(MakeCustomReferenceController(ptr, deleter))
+	{}
 	FORCEINLINE fpSharedRef(fpSharedRef<ObjType>& const reference)
 	{}
 	FORCEINLINE fpSharedRef(fpSharedRef<ObjType>&& const reference) 
@@ -41,5 +46,6 @@ public:
 	}
 private:
 	ObjType* _object;
+	fpSharedRefController* _controller;
 };
 #endif
