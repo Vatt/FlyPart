@@ -1,7 +1,7 @@
 
 #ifndef _FP_WINDOW_SDL_INCLUDE_
 #define _FP_WINDOW_SDL_INCLUDE_
-#include "../../../WindowSystem/fpWindow.h"
+#include "../../GenericPlatform/Window/fpWindow.h"
 
 
 class fpD3D12Window : public  fpWindow

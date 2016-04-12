@@ -3,7 +3,7 @@
 #include <map>
 #include "fpWindow.h"
 #include <algorithm>
-#include "../../fpCommon/typedefs.h"
+#include "../../../fpCommon/typedefs.h"
 using namespace std;
 class fpWindowSystem
 {

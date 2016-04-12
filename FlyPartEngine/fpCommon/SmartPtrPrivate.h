@@ -3,6 +3,7 @@
 #define _REFERENCE_COUNTER_
 #pragma once
 #include "typedefs.h"
+#include "CommonHelperFunctions.h"
 #include "../Core/CoreCommonHeader.h"
 #define FORCE_THREADSAFE_REFERENCE 0
 namespace fpTemplate {
@@ -28,9 +29,9 @@ namespace fpTemplate {
 			virtual void DestroyObj() = 0;
 			virtual ~fpRefControllerBase() {};
 		private:
-			fpRefControllerBase(fpRefControllerBase& const);
+            fpRefControllerBase(const fpRefControllerBase& );
 			//fpRefControllerBase(fpRefControllerBase&& const);
-			fpRefControllerBase& operator=(fpRefControllerBase& const);
+            fpRefControllerBase& operator=(const fpRefControllerBase& );
 			//fpRefControllerBase& operator=(fpRefControllerBase&& const);
 		};
 		template<typename ObjType, typename DeleterType>
@@ -73,11 +74,11 @@ namespace fpTemplate {
 			}
 			static FORCEINLINE void AddSharedRef(fpRefControllerBase* controller)
 			{
-				fpAtomics::InterlockedIncrement_i32(&controller->SharedReferenceCount);
+                fpAtomics::InterlockedIncrement(&controller->SharedReferenceCount);
 			}
 			static FORCEINLINE void ReleaseSharedRef(fpRefControllerBase* controller)
 			{
-				if (fpAtomics::InterlockedDecrement_i32(&controller->SharedReferenceCount) == 0)
+                if (fpAtomics::InterlockedDecrement(&controller->SharedReferenceCount) == 0)
 				{
 					controller->DestroyObj();
 					ReleaseWeakReference(controller);
@@ -89,11 +90,11 @@ namespace fpTemplate {
 			}
 			static FORCEINLINE void AddWeakReference(fpRefControllerBase* controller)
 			{
-				fpAtomics::InterlockedIncrement_i32(&controller->WeakReferenceCount);
+                fpAtomics::InterlockedIncrement(&controller->WeakReferenceCount);
 			}
 			static FORCEINLINE void ReleaseWeakReference(fpRefControllerBase* controller)
 			{
-				if (fpAtomics::InterlockedDecrement_i32(&controller->WeakReferenceCount) == 0)
+                if (fpAtomics::InterlockedDecrement(&controller->WeakReferenceCount) == 0)
 				{
 					delete controller;
 				}
@@ -136,15 +137,15 @@ namespace fpTemplate {
 
 
 		template<RefControllerMode Mode>
-		class fpSharedRefController {
+        class fpSharedRefCounter {
 		private:
 			typedef RefControllerOps<Mode> OPS;
 		public:
-			fpSharedRefController() :_controller(nullptr)
+            fpSharedRefCounter() :_controller(nullptr)
 			{}
-			fpSharedRefController(fpRefControllerBase* InController):_controller(InController)
+            fpSharedRefCounter(fpRefControllerBase* InController):_controller(InController)
 			{}
-			fpSharedRefController(fpSharedRefController& const  InSharedReference)
+            fpSharedRefCounter(fpSharedRefCounter const&  InSharedReference)
 				:_controller(InSharedReference._controller)
 			{
 				if (_controller != nullptr)
@@ -152,15 +153,15 @@ namespace fpTemplate {
 					OPS::AddSharedReference(_controller);
 				}
 			}
-			fpSharedRefController(fpSharedRefController&& const InSharedReference)
+            fpSharedRefCounter(fpSharedRefCounter const&& InSharedReference)
 				:_controller(InSharedReference._controller)
 			{
 				InSharedReference._controller = nullptr;
 			}
 
-			inline fpSharedRefController& operator=(fpSharedRefController const& InSharedRefController)
+            inline fpSharedRefCounter& operator=(fpSharedRefCounter const& InSharedRefCounter)
 			{
-				auto NewController = InSharedRefController._controller;
+                auto NewController = InSharedRefCounter._controller;
 				if (NewController != _controller)
 				{
 					if (NewController != nullptr)
@@ -175,13 +176,13 @@ namespace fpTemplate {
 				}
 				return *this;
 			}
-			inline fpSharedRefController& operator=(fpSharedRefController&& inSharedRefController)
+            inline fpSharedRefCounter& operator=(fpSharedRefCounter&& InSharedRefCounter)
 			{
-				auto New = inSharedRefController._controller;
+                auto New = InSharedRefCounter._controller;
 				auto Old = _controller;
 				if (New != Old)
 				{				
-					inSharedRefController._controller = nullptr;
+                    InSharedRefCounter._controller = nullptr;
 					_controller = New;
 					if (Old != nullptr)
 					{
@@ -202,7 +203,7 @@ namespace fpTemplate {
 			{
 				return GetSharedRefCount() == 1;
 			}
-			~fpSharedRefController() 
+            ~fpSharedRefCounter()
 			{
 				if (_controller != nullptr) 
 				{

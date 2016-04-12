@@ -1,7 +1,7 @@
 
 #include "fpD3D12Window.h"
-#include <iostream>
-using namespace std;
+#include "../../../fpCommon/fpSharedPtr.h"
+//fpSharedRef<int> shared = fpSharedRef(1);
 fpD3D12Window::fpD3D12Window(void) { }
 fpD3D12Window::fpD3D12Window( const char* name, unsigned int x, unsigned int y,unsigned int width, unsigned int height, bool fullscreen)
 {
