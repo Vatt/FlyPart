@@ -3,7 +3,6 @@
 #define _FP_SHARED_PTR_
 #pragma once
 #include "SmartPtrPrivate.h"
-#include "NotNull.h"
 #include "../Core/GenericPlatform/Memory/fpMemorySystem.h"
 using namespace fpTemplate::SmartPtrPrivate;
 template <class ObjType,RefControllerMode mode>
@@ -16,13 +15,14 @@ public:
 	{
 		
 	}
-	template<class ObjType,class DeleterType>
-	inline explicit fpSharedRef(ObjType* ptr, DeleterType deleter) 
+    template <class OtherType,class DeleterType>
+    inline explicit fpSharedRef(OtherType* ptr, DeleterType deleter)
 		:_controller(MakeCustomReferenceController(ptr, deleter))
 	{}
-	FORCEINLINE fpSharedRef(fpSharedRef<ObjType>& const reference)
+    template<class OtherType>
+    FORCEINLINE fpSharedRef(fpSharedRef<OtherType,mode> const&  reference)
 	{}
-	FORCEINLINE fpSharedRef(fpSharedRef<ObjType>&& const reference) 
+    FORCEINLINE fpSharedRef(fpSharedRef<ObjType,mode>&& reference)
 	{}
 
 	FORCEINLINE ObjType& operator*()const{
@@ -31,9 +31,9 @@ public:
 	FORCEINLINE ObjType* operator->()const{
 		return _object;
 	}
-	FORCEINLINE fpSharedRef& operator=(fpSharedRef<ObjType>&& InReference)
+    FORCEINLINE fpSharedRef& operator=(fpSharedRef<ObjType,mode>&& InReference)
 	{
-		fpMemorySystem::PlatformMemory()::MemSwap(this, &InReference, sizeof(fpSharedRef));
+        //fpMemorySystem::PlatformMemory()::MemSwap(this, &InReference, sizeof(fpSharedRef));
 		return *this;
 	}
 
@@ -46,6 +46,6 @@ public:
 	}
 private:
 	ObjType* _object;
-	fpSharedRefController* _controller;
+    fpSharedRefCounter<mode>* _controller;
 };
 #endif

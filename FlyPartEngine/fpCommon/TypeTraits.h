@@ -11,9 +11,11 @@ template <> struct fpIsIntType<int8>    {enum{Value = true};};
 template <> struct fpIsIntType<int16>   {enum{Value = true};};
 template <> struct fpIsIntType<int32>   {enum{Value = true};};
 template <> struct fpIsIntType<int64>   {enum{Value = true};};
-template <> struct fpIsIntType<uint16>   {enum{Value = true};};
-template <> struct fpIsIntType<uint32>   {enum{Value = true};};
-template <> struct fpIsIntType<uint64>   {enum{Value = true};};
+template <> struct fpIsIntType<uint16>  {enum{Value = true};};
+template <> struct fpIsIntType<uint32>  {enum{Value = true};};
+template <> struct fpIsIntType<uint64>  {enum{Value = true};};
+template <> struct fpIsIntType<ASCICHAR>{enum{Value = true};};
+template <> struct fpIsIntType<WIDECHAR>{enum{Value = true};};
 
 template<typename T> struct fpIsSignedType{enum{Value = false};};
 template<> struct fpIsSignedType<int8>    {enum{Value = true};};
@@ -26,6 +28,9 @@ template<> struct fpIsUnsignedType<uint16>   {enum{Value = true};};
 template<> struct fpIsUnsignedType<uint32>   {enum{Value = true};};
 template<> struct fpIsUnsignedType<uint64>   {enum{Value = true};};
 
+template<typename T> struct fpIsArithmeticType{
+    enum{Value = fpIsIntType<T>::Value||fpIsFloatType<T>::Value};
+};
 
 
 template <typename T> struct fpIsPointerType         {enum{Value = false};};
@@ -51,6 +56,7 @@ template<> struct fpIsVoidType<const void>             {enum{Value = true};};
 template<> struct fpIsVoidType<void volatile>          {enum{Value = true};};
 template<> struct fpIsVoidType<const void volatile>    {enum{Value = true};};
 
+template<typename T> struct fpIsFunction{enum{Value = false};};
 template<typename RetType,typename ... Args>
 struct fpIsFunction<RetType(Args...)>
 {
@@ -59,5 +65,47 @@ struct fpIsFunction<RetType(Args...)>
 
 template<typename T,typename S> struct fpIsSame     {enum{Value = false};};
 template<typename T>            struct fpIsSame<T,T>{enum{Value = true};};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #endif // !_TYPE_TRAITS_INCLUDE_
 
