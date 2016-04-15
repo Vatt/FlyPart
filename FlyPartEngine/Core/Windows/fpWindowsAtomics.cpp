@@ -42,7 +42,8 @@ FORCEINLINE int64 fpWindowsAtomics::InterlockedExchangeAddImpl(volatile int64* A
 {
 	return (int64)::InterlockedExchange64((LONGLONG*)Addend, Value);
 }
+
+#endif
 fpWindowsAtomics::~fpWindowsAtomics()
 {
 }
-#endif

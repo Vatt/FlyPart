@@ -24,4 +24,5 @@
 #ifdef _M_AMD64
 #define PLATFORM_64
 #endif
+
 #endif //_DEFINES_H

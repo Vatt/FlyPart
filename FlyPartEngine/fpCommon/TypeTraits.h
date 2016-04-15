@@ -14,7 +14,7 @@ template <> struct fpIsIntType<int64>   {enum{Value = true};};
 template <> struct fpIsIntType<uint16>  {enum{Value = true};};
 template <> struct fpIsIntType<uint32>  {enum{Value = true};};
 template <> struct fpIsIntType<uint64>  {enum{Value = true};};
-template <> struct fpIsIntType<ASCICHAR>{enum{Value = true};};
+//template <> struct fpIsIntType<ASCICHAR>{enum{Value = true};};
 template <> struct fpIsIntType<WIDECHAR>{enum{Value = true};};
 
 template<typename T> struct fpIsSignedType{enum{Value = false};};

@@ -20,7 +20,7 @@ struct test
 {
         int x, y, z;
 		test(int x, int y, int z) :x(x), y(y), z(z) {}
-		test(test& const  rv)
+        test(test const&  rv)
 		{
 			x = rv.x;y = rv.y;z = rv.z;
 		}
@@ -39,8 +39,9 @@ void SharedRefTest(fpSharedRef<fpWindowSDL_GL> ref)
 */
 int main(int argc, char **argv)
 {
-	int32 i = 0;
-	fpAtomics::InterlockedAdd(&i, 100);
+    vector<int> s = {100};
+    vector<int> t = {500};
+    pair<vector<int>, vector<int>> p(fpTemplate::Move(s), fpTemplate::Move(t));
 	//std::shared_ptr<fpWindowSDL_GL> test = std::shared_ptr<fpWindowSDL_GL>(new fpWindowSDL_GL("test3", 50, 651, 800, 600, false));
 	/*fpSharedRef<fpWindowSDL_GL> SharedWindow = fpSharedRef<fpWindowSDL_GL>(new fpWindowSDL_GL("test3", 50, 651, 800, 600, false));
 	fpWindowSystem* wndSys = fpSystem::_wndSys;
