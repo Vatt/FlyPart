@@ -39,7 +39,7 @@ public:
 
 	FORCEINLINE const int32 GetRefCount() const
 	{
-		return 0;
+		return _controller->GetSharedRefCount();
 	}
 	~fpSharedRef() {
 		

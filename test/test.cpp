@@ -1,14 +1,11 @@
 // test.cpp : Defines the entry point for the console application.
 //
 
-//#include "../FlyPartEngine/FlyPart.h"
+#include "../FlyPartEngine/FlyPart.h"
 #ifdef PLATFORM_LINUX
-	#include "../FlyPartEngine/fpSystem/impl/linux/SDL2/fpWindowSDL_GL.h"
 #endif
 #ifdef PLATFORM_WINDOWS
 	#include <tchar.h>.
-	#define main _tmain
-	#include "../FlyPartEngine/Core/Windows/SDL2/fpWindowSDL_GL.h"
 //	#include "../FlyPartEngine/fpSystem/impl/windows/D3D12/fpD3D12Window.h"
 #endif
 
@@ -42,6 +39,8 @@ void SharedRefTest(fpSharedRef<fpWindowSDL_GL> ref)
 */
 int main(int argc, char **argv)
 {
+	int32 i = 0;
+	fpAtomics::InterlockedAdd(&i, 100);
 	//std::shared_ptr<fpWindowSDL_GL> test = std::shared_ptr<fpWindowSDL_GL>(new fpWindowSDL_GL("test3", 50, 651, 800, 600, false));
 	/*fpSharedRef<fpWindowSDL_GL> SharedWindow = fpSharedRef<fpWindowSDL_GL>(new fpWindowSDL_GL("test3", 50, 651, 800, 600, false));
 	fpWindowSystem* wndSys = fpSystem::_wndSys;

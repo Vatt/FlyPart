@@ -150,7 +150,6 @@
     <ClInclude Include="..\..\..\Core\GenericPlatform\Window\fpWindowSystem.h" />
     <ClInclude Include="..\..\..\Core\Windows\fpWindowsAtomics.h" />
     <ClInclude Include="..\..\..\Core\Windows\fpWindowsMemory.h" />
-    <ClInclude Include="..\..\..\Core\Windows\SDL2\fpWindowSDL_GL.h" />
     <ClInclude Include="..\..\..\FlyPart.h" />
     <ClInclude Include="..\..\..\fpCommon\CommonHelperFunctions.h" />
     <ClInclude Include="..\..\..\fpCommon\defines.h" />
@@ -171,7 +170,6 @@
     <ClCompile Include="..\..\..\Core\GenericPlatform\Window\fpWindowSystem.cpp" />
     <ClCompile Include="..\..\..\Core\Windows\fpWindowsAtomics.cpp" />
     <ClCompile Include="..\..\..\Core\Windows\fpWindowsMemory.cpp" />
-    <ClCompile Include="..\..\..\Core\Windows\SDL2\fpWindowSDL_GL.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

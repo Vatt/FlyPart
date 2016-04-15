@@ -33,22 +33,22 @@ template<typename T> struct fpIsArithmeticType{
 };
 
 
-template <typename T> struct fpIsPointerType         {enum{Value = false};};
-template <> struct fpIsPointerType<T*>               {enum{Value = true};};
-template <> struct fpIsPointerType<const T>          {enum{Value = true};};
-template <> struct fpIsPointerType<const T* const>   {enum{Value = true};};
-template <> struct fpIsPointerType<T* volatile>      {enum{Value = true};};
-template <> struct fpIsPointerType<T* const volatile>{enum{Value = true};};
+template <typename T> struct fpIsPointerType				   {enum{Value = false};};
+template <typename T> struct fpIsPointerType<T*>               {enum{Value = true};};
+template <typename T> struct fpIsPointerType<const T>          {enum{Value = true};};
+template <typename T> struct fpIsPointerType<const T* const>   {enum{Value = true};};
+template <typename T> struct fpIsPointerType<T* volatile>      {enum{Value = true};};
+template <typename T> struct fpIsPointerType<T* const volatile>{enum{Value = true};};
 
 template <typename T> struct fpIsReference{enum{Value = false};};
-template <> struct fpIsReference<T&>      {enum{Value = true};};
-template <> struct fpIsReference<T&&>     {enum{Value = true};};
+template <typename T> struct fpIsReference<T&>      {enum{Value = true};};
+template <typename T> struct fpIsReference<T&&>     {enum{Value = true};};
 
-template <typename T> struct fpIsLValueReference{enum{Value = false};};
-template <> struct fpIsLValueReference<T&>      {enum{Value = true};};
+template <typename T> struct fpIsLValueReference		  {enum{Value = false};};
+template <typename T> struct fpIsLValueReference<T&>      {enum{Value = true};};
 
-template <typename T> struct fpIsRValueReference{enum{Value = false};};
-template <> struct fpIsRValueReference<T&&>     {enum{Value = true};};
+template <typename T> struct fpIsRValueReference		  {enum{Value = false};};
+template <typename T> struct fpIsRValueReference<T&&>     {enum{Value = true};};
 
 template<typename T> struct fpIsVoidType               {enum{Value = false};};
 template<> struct fpIsVoidType<void>                   {enum{Value = true};};
@@ -56,7 +56,8 @@ template<> struct fpIsVoidType<const void>             {enum{Value = true};};
 template<> struct fpIsVoidType<void volatile>          {enum{Value = true};};
 template<> struct fpIsVoidType<const void volatile>    {enum{Value = true};};
 
-template<typename T> struct fpIsFunction{enum{Value = false};};
+
+template<typename T> struct fpIsFunction { enum { Value = false }; };
 template<typename RetType,typename ... Args>
 struct fpIsFunction<RetType(Args...)>
 {
