@@ -5,7 +5,7 @@
 #ifdef PLATFORM_LINUX
 #endif
 #ifdef PLATFORM_WINDOWS
-	#include <tchar.h>.
+	#include <tchar.h>
 //	#include "../FlyPartEngine/fpSystem/impl/windows/D3D12/fpD3D12Window.h"
 #endif
 
@@ -15,7 +15,7 @@
 #include <memory>
 
 using namespace std;
-
+using namespace fpTemplate;
 struct test
 {
         int x, y, z;
@@ -29,19 +29,24 @@ struct test
 			x = rv.x;y = rv.y;z = rv.z;
 		}
 };
-/*
-void SharedRefTest(fpSharedRef<fpWindowSDL_GL> ref)
+
+void 
+SharedRefTest(fpSharedRef<test>&&  ref)
+//(shared_ptr<test>& ref)//
 {
-	fpSharedRef<fpWindowSDL_GL> other = ref;
-	cout << "in function ref counter(other): " <<other.GetRefCount() << endl;
-	cout << "in function ref counter(ref): " << ref.GetRefCount() << endl;
+	//shared_ptr<test> other = ref;
+	auto other (ref);
+	cout << "in function ref counter(other): " << other.GetRefCount() << endl;// other.use_count() << endl;//
+	cout << "in function ref counter(ref): " << ref.GetRefCount() << endl;//other.use_count() << endl;//ref.GetRefCount() << endl;
 }
-*/
+
 int main(int argc, char **argv)
 {
-    vector<int> s = {100};
-    vector<int> t = {500};
-    pair<vector<int>, vector<int>> p(fpTemplate::Move(s), fpTemplate::Move(t));
+	//std::shared_ptr<test> shared(new test(1, 2, 3));
+	fpSharedRef<test> shared(new test(1,2,3));
+	cout << "after call test fn counter: " << shared.GetRefCount() << endl;//shared.use_count() << endl;//
+	SharedRefTest(fpTemplate::Move(shared));
+	cout << "before call test fn counter: " << shared.GetRefCount() << endl;// shared.use_count()<< endl;//shared.GetRefCount() << endl;
 	//std::shared_ptr<fpWindowSDL_GL> test = std::shared_ptr<fpWindowSDL_GL>(new fpWindowSDL_GL("test3", 50, 651, 800, 600, false));
 	/*fpSharedRef<fpWindowSDL_GL> SharedWindow = fpSharedRef<fpWindowSDL_GL>(new fpWindowSDL_GL("test3", 50, 651, 800, 600, false));
 	fpWindowSystem* wndSys = fpSystem::_wndSys;
