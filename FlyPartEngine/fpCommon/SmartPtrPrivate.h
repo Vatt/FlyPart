@@ -156,6 +156,15 @@ namespace fpTemplate {
 					OPS::AddSharedRef(_controller);
 				}
 			}
+            fpSharedRefCounter(fpWeakRefCounter const& InWeakRefCounter)
+                :_controller(InWeakRefCounter._controller)
+            {
+                if(_controller != nullptr)
+                {
+                    OPS::AddSharedRef(_controller);
+                }
+            }
+
             fpSharedRefCounter(fpSharedRefCounter const&& InSharedReference)
 				:_controller(InSharedReference._controller)
 			{
@@ -216,6 +225,80 @@ namespace fpTemplate {
 		private:
 			fpRefControllerBase* _controller;
 		};
+
+
+        template<RefControllerMode Mode>
+        class fpWeakRefCounter{
+        private:
+            typedef RefControllerOps<Mode> OPS;
+        public:
+            FORCEINLINE fpWeakRefCounter():_controller(nullptr)
+            {}
+            FORCEINLINE fpWeakRefCounter(fpWeakRefCounter const& InWeakRefCounter)
+                :_controller(InWeakRefCounter._controller)
+            {
+                if(_controller!=nullptr)
+                {
+                    OPS::AddWeakRef(_controller);
+                }
+            }
+            FORCEINLINE fpWeakRefCounter(fpWeakRefCounter&& InWeakRefCounter)
+                :_controller(InWeakRefCounter._controller)
+            {
+                InWeakRefCounter._controller = nullptr;
+            }
+            FORCEINLINE fpWeakRefCounter(fpSharedRefCounter<Mode> const& InSharedRefCounter)
+                :_controller(InSharedRefCounter._controller)
+
+            {
+                if (_controller != nullptr)
+                {
+                    OPS::AddWeakRef(_controller);
+                }
+            }
+
+            FORCEINLINE fpWeakRefCounter& operator=(fpWeakRefCounter const& InWeakRefCounter)
+            {
+                auto New = InWeakRefCounter._controller;
+                if (New!=_controller){
+                    if (New!=nullptr)
+                    {
+                        OPS::AddWeakRef(New);
+                    }
+                    if (_controller!=nullptr)
+                    {
+                        OPS::ReleaseWeakRef(_controller);
+                    }
+                    _controller = New;
+                }
+                return *this;
+            }
+            inline fpWeakRefCounter& operator=(fpWeakRefCounter&& InWeakRefCounter)
+            {
+
+            }
+            FORCEINLINE const bool isValid()const
+            {
+                return _controller!=nullptr;
+            }
+            FORCEINLINE const bool isUnique()const
+            {
+                return _controller->WeakReferenceCount==1;
+            }
+            FORCEINLINE const int32 GetWeakRefCount()const
+            {
+                return _controller->WeakReferenceCount;
+            }
+            ~fpWeakRefCounter()
+            {
+                if(_controller!=nullptr)
+                {
+                    OPS::ReleaseWeakRef(_controller);
+                }
+            }
+        private:
+            fpRefControllerBase* _controller;
+        };
 	};
 };
 #endif
