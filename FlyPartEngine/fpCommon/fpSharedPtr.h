@@ -10,7 +10,8 @@ using namespace fpTemplate;
 template <class ObjType,RefControllerMode Mode = RefControllerMode::Auto>
 class fpSharedRef{
 private:
-	typedef fpSharedRef<ObjType, Mode> Self;
+	typedef fpSharedRef<ObjType, Mode> SelfType;
+	typedef fpWeakRef<ObjType, Mode> WeakRefType;
 public:
 	template<class OtherType>
     inline explicit fpSharedRef(OtherType* InObj)
@@ -58,14 +59,14 @@ public:
 	FORCEINLINE ObjType* operator->()const{
 		return _object;
 	}
-    FORCEINLINE Self& operator=(fpSharedRef<ObjType,Mode>&& InReference)
+    FORCEINLINE SelfType& operator=(fpSharedRef<ObjType,Mode>&& InReference)
 	{       
         _controller = InReference._controller;
         _object = InReference._object;
         //fpMemorySystem::PlatformMemory()::MemSwap(this, &InReference, sizeof(fpSharedRef));
 		return *this;
 	}
-    FORCEINLINE Self& operator=(fpSharedRef<ObjType,Mode>const& InReference)
+    FORCEINLINE SelfType& operator=(fpSharedRef<ObjType,Mode>const& InReference)
     {
         _controller = InReference._controller;
         _object = InReference._object;
@@ -98,20 +99,10 @@ private:
 template <class ObjType, RefControllerMode Mode = RefControllerMode::Auto>
 class fpWeakRef
 {
-    typedef fpWeakRef<ObjType,Mode> Self;
+    typedef fpWeakRef<ObjType,Mode> SelfType;
+	typedef fpSharedRef<ObjType, Mode> SharedType;
 public:
-    template<class OtherType>
-    fpWeakRef(OtherType* InObj)
-        :_controller(SmartPtrPrivate::MakeDefaultReferenceController(InObj))
-    {
-        Init(InObj);
-    }
-    template<class OtherType,class DeleterType>
-    fpWeakRef(OtherType* InObj,DeleterType Deleter)
-        :_controller(SmartPtrPrivate::MakeCustomReferenceController(InObj,Deleter))
-    {
-        Init(InObj);
-    }
+
     fpWeakRef(fpWeakRef const& InWeakRef)
         :_controller(InWeakRef._controller),
          _object(InWeakRef._object)
@@ -120,13 +111,23 @@ public:
         :_controller(InWeakRef._controller),
          _object(InWeakRef._object)
     {}
-    inline Self& operator=(fpWeakRef const& InWeakRef)
-    {
+	fpWeakRef(SharedType const& InSharedRef)
+	{
 
+	}
+	fpWeakRef(SharedType&& InSharedRef)
+	{
+
+	}
+    inline SelfType& operator=(fpWeakRef const& InWeakRef)
+    {
+		_controller = InWeakRef._controller;
+		_object = InWeakRef._object;
     }
-    inline Self& operator=(fpWeakRef&& InWeakRef)
+    inline SelfType& operator=(fpWeakRef&& InWeakRef)
     {
-
+		_controller = InWeakRef._controller;
+		_object = InWeakRef._object;
     }
     FORCEINLINE ObjType& Get()const
     {
@@ -144,7 +145,16 @@ public:
     {
         return _controller.GetRefCount();
     }
-
+	FORCEINLINE void Reset()
+	{
+	}
+	FORCEINLINE SharedType Lock()
+	{
+	}
+	FORCEINLINE const bool isValid()const
+	{
+		return _object != nullptr && _controller.isValid();
+	}
 private:
     FORCEINLINE void Init(ObjType* InObj)
     {
