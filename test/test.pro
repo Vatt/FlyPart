@@ -14,6 +14,7 @@ HEADERS +=
 
 
 
+
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../Build/release/ -lFlyPartEngine
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../Build/debug/ -lFlyPartEngine
 else:unix: LIBS += -L$$PWD/../Build/ -lFlyPartEngine
@@ -26,3 +27,4 @@ else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../Build/de
 else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../Build/release/FlyPartEngine.lib
 else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../Build/debug/FlyPartEngine.lib
 else:unix: PRE_TARGETDEPS += $$PWD/../Build/libFlyPartEngine.a
+

@@ -7,12 +7,14 @@
 #include "../Core/CoreCommonHeader.h"
 #define FORCE_THREADSAFE_REFERENCE 0
 namespace fpTemplate {
-	namespace SmartPtrPrivate {
-		enum RefControllerMode {
-			ThreadSafe = 0,
-			NotThreadSafe = 1,
-			Auto = FORCE_THREADSAFE_REFERENCE ? 0 : 1,
-		};
+	enum RefControllerMode {
+		ThreadSafe = 0,
+		NotThreadSafe = 1,
+		Auto = FORCE_THREADSAFE_REFERENCE ? 0 : 1,
+	};
+	namespace SmartPtrPrivate {	
+
+		
 		class fpRefControllerBase {
 		public:
 			FORCEINLINE explicit fpRefControllerBase(void *obj) :
@@ -37,6 +39,7 @@ namespace fpTemplate {
 		template<typename ObjType, typename DeleterType>
 		class fpRefControllerWithDeleter :public fpRefControllerBase, private DeleterType
 		{
+		public:
 			explicit fpRefControllerWithDeleter(void* obj, DeleterType&& deleter) :
 				fpRefControllerBase(obj), DeleterType(fpTemplate::Move(deleter))
 			{}
@@ -150,7 +153,7 @@ namespace fpTemplate {
 			{
 				if (_controller != nullptr)
 				{
-					OPS::AddSharedReference(_controller);
+					OPS::AddSharedRef(_controller);
 				}
 			}
             fpSharedRefCounter(fpSharedRefCounter const&& InSharedReference)
@@ -166,11 +169,11 @@ namespace fpTemplate {
 				{
 					if (NewController != nullptr)
 					{
-						OPS::AddSharedReference(NewController);
+						OPS::AddSharedRef(NewController);
 					}
 					if (_controller != nullptr)
 					{
-						OPS::ReleaseSharedReference(_controller);
+						OPS::ReleaseSharedRef(_controller);
 					}
 					_controller = NewController;
 				}
@@ -186,7 +189,7 @@ namespace fpTemplate {
 					_controller = New;
 					if (Old != nullptr)
 					{
-						OPS::ReleaseSharedReference(Old);
+						OPS::ReleaseSharedRef(Old);
 					}
 				}
 				return *this;
@@ -197,7 +200,7 @@ namespace fpTemplate {
 			}
 			FORCEINLINE const int32 GetSharedRefCount()const 
 			{
-				return _controller != nullptr ? OPS::GetSharedRefCount() : 0;
+				return _controller != nullptr ? OPS::GetSharedRefCount(_controller) : 0;
 			}
 			FORCEINLINE const bool isUnique()const
 			{

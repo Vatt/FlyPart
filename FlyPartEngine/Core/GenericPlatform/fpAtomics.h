@@ -32,7 +32,7 @@ public:
 	}
     static FORCEINLINE int32 InterlockedDecrement(volatile int32* Addend)
     {
-        _atomicsImpl->InterlockedDecrementImpl(Addend);
+        return _atomicsImpl->InterlockedDecrementImpl(Addend);
     }
     static FORCEINLINE int32 InterlockedAdd(volatile int32* Addend, int32 Value)
     {
