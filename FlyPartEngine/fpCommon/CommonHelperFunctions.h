@@ -2,6 +2,7 @@
 #define _COMMON_HELPER_FUNCTIONS_
 #pragma once
 #include "defines.h"
+#include "typedefs.h"
 namespace fpTemplate {
 	template<typename T> struct RemoveReference { typedef T Type; };
 	template<typename T> struct RemoveReference<T&> { typedef T Type; };
@@ -20,7 +21,7 @@ namespace fpTemplate {
 	template<typename T>
 	FORCEINLINE typename RemoveReference<T>::Type&& Move(T&& Obj)
 	{
-		return static_cast<RemoveReference<T>::Type&&>(T);
+        return static_cast<typename RemoveReference<T>::Type&& >(Obj);
 	}
 
 

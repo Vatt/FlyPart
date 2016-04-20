@@ -17,11 +17,9 @@
 #define FORCEINLINE __forceinline
 #define CONSTEXPR constexpr
 #endif
-#if defined(__LP64__) || defined(_M_IA64)
+#if defined(__LP64__) || defined(_M_IA64) || defined(_WIN64)
 #define PLATFORM_64
 #endif
 
-#ifdef _M_AMD64
-#define PLATFORM_64
-#endif
+
 #endif //_DEFINES_H

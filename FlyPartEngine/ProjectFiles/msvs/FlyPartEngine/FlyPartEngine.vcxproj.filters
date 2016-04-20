@@ -16,13 +16,7 @@
     <ClInclude Include="..\..\..\fpCommon\fpSharedPtr.h">
       <Filter>fpCommon</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\fpCommon\NotNull.h">
-      <Filter>fpCommon</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\fpCommon\fpCommon.h">
-      <Filter>fpCommon</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\fpCommon\ReferenceCounter.h">
       <Filter>fpCommon</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\FlyPart.h" />
@@ -62,9 +56,6 @@
     <ClInclude Include="..\..\..\Core\Windows\fpWindowsMemory.h">
       <Filter>Core\Windows</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Core\Windows\SDL2\fpWindowSDL_GL.h">
-      <Filter>Core\Windows\SDL2</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Core\GenericPlatform\fpSystemInterface.h">
       <Filter>Core\GenericPlatform</Filter>
     </ClInclude>
@@ -83,13 +74,13 @@
     <ClInclude Include="..\..\..\Core\CoreCommonHeader.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\fpCommon\ReferenceBase.h">
-      <Filter>fpCommon</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\fpCommon\CommonHelperFunctions.h">
       <Filter>fpCommon</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\fpCommon\TypeTraits.h">
+      <Filter>fpCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\fpCommon\SmartPtrPrivate.h">
       <Filter>fpCommon</Filter>
     </ClInclude>
   </ItemGroup>
@@ -118,9 +109,6 @@
     <Filter Include="Core\CoreAbstractLayer">
       <UniqueIdentifier>{1b47da54-f1ad-416a-900f-dffdb4d9a43c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Core\Windows\SDL2">
-      <UniqueIdentifier>{9dbafdfc-f903-4eb1-b596-2f00e8418406}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Core\GenericPlatform\Input\fpInputSystem.cpp">
@@ -143,9 +131,6 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Core\Windows\fpWindowsMemory.cpp">
       <Filter>Core\Windows</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Core\Windows\SDL2\fpWindowSDL_GL.cpp">
-      <Filter>Core\Windows\SDL2</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Core\Windows\fpWindowsAtomics.cpp">
       <Filter>Core\Windows</Filter>

@@ -12,8 +12,8 @@ fpWindowsMemory::fpWindowsMemory() :fpPlatformMemory()
 	GetSystemInfo(&sys_info);
 	mem_info.dwLength = sizeof(MEMORYSTATUSEX);
 	GlobalMemoryStatusEx(&mem_info);
+    /*TODO: 1024 заглушка*/
 	fpMemoryStats::SetupSats(mem_info.ullTotalPhys,1024, sys_info.dwPageSize, sys_info.dwAllocationGranularity);
-    //TODO: выше строка с заглушкой
 }
 void* fpWindowsMemory::SystemAlloc(size_t size)
 {

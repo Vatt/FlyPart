@@ -93,7 +93,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <SDLCheck>true</SDLCheck>
+      <SDLCheck>false</SDLCheck>
       <EnablePREfast>false</EnablePREfast>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
       <OpenMPSupport>true</OpenMPSupport>
@@ -150,7 +150,6 @@
     <ClInclude Include="..\..\..\Core\GenericPlatform\Window\fpWindowSystem.h" />
     <ClInclude Include="..\..\..\Core\Windows\fpWindowsAtomics.h" />
     <ClInclude Include="..\..\..\Core\Windows\fpWindowsMemory.h" />
-    <ClInclude Include="..\..\..\Core\Windows\SDL2\fpWindowSDL_GL.h" />
     <ClInclude Include="..\..\..\FlyPart.h" />
     <ClInclude Include="..\..\..\fpCommon\CommonHelperFunctions.h" />
     <ClInclude Include="..\..\..\fpCommon\defines.h" />
@@ -158,9 +157,7 @@
     <ClInclude Include="..\..\..\fpCommon\fpCommon.h" />
     <ClInclude Include="..\..\..\fpCommon\fpFunction.h" />
     <ClInclude Include="..\..\..\fpCommon\fpSharedPtr.h" />
-    <ClInclude Include="..\..\..\fpCommon\NotNull.h" />
-    <ClInclude Include="..\..\..\fpCommon\ReferenceBase.h" />
-    <ClInclude Include="..\..\..\fpCommon\ReferenceCounter.h" />
+    <ClInclude Include="..\..\..\fpCommon\SmartPtrPrivate.h" />
     <ClInclude Include="..\..\..\fpCommon\typedefs.h" />
     <ClInclude Include="..\..\..\fpCommon\TypeTraits.h" />
   </ItemGroup>
@@ -173,7 +170,6 @@
     <ClCompile Include="..\..\..\Core\GenericPlatform\Window\fpWindowSystem.cpp" />
     <ClCompile Include="..\..\..\Core\Windows\fpWindowsAtomics.cpp" />
     <ClCompile Include="..\..\..\Core\Windows\fpWindowsMemory.cpp" />
-    <ClCompile Include="..\..\..\Core\Windows\SDL2\fpWindowSDL_GL.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

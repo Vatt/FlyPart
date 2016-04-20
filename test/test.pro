@@ -10,19 +10,21 @@ SOURCES += \
 HEADERS +=
 
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../FlyPartEngine/Build/fpSystem/release/ -lFlyPartEngine
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../FlyPartEngine/Build/fpSystem/debug/ -lFlyPartEngine
-else:unix: LIBS += -L$$PWD/../FlyPartEngine/Build/fpSystem/ -lfpSystem
-
-INCLUDEPATH += $$PWD/../FlyPartEngine/Build/FlyPartEngine
-DEPENDPATH += $$PWD/../FlyPartEngine/Build/FlyPartEngine
-
-win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../FlyPartEngine/Build/FlyPartEngine/release/libfpSystem.a
-else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../FlyPartEngine/Build/fpSystem/debug/libFlyPartEngine.a
-else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../FlyPartEngine/Build/fpSystem/release/FlyPartEngine.lib
-else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../FlyPartEngine/Build/fpSystem/debug/FlyPartEngine.lib
-else:unix: PRE_TARGETDEPS += $$PWD/../FlyPartEngine/Build/fpSystem/libFlyPartEngine.a
 
 
 
-unix|win32: LIBS += -lSDL2
+
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../Build/release/ -lFlyPartEngine
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../Build/debug/ -lFlyPartEngine
+else:unix: LIBS += -L$$PWD/../Build/ -lFlyPartEngine
+
+INCLUDEPATH += $$PWD/../Build/Debug
+DEPENDPATH += $$PWD/../Build/Debug
+
+win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../Build/release/libFlyPartEngine.a
+else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../Build/debug/libFlyPartEngine.a
+else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../Build/release/FlyPartEngine.lib
+else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../Build/debug/FlyPartEngine.lib
+else:unix: PRE_TARGETDEPS += $$PWD/../Build/libFlyPartEngine.a
+
