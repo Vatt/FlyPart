@@ -11,7 +11,7 @@ template <class ObjType,RefControllerMode Mode = RefControllerMode::Auto>
 class fpSharedRef{
 private:
 	typedef fpSharedRef<ObjType, Mode> SelfType;
-	typedef fpWeakRef<ObjType, Mode> WeakRefType;
+    typedef fpWeakPtr<ObjType, Mode> WeakPtrType;
 public:
 	template<class OtherType>
     inline explicit fpSharedRef(OtherType* InObj)
@@ -97,38 +97,50 @@ private:
 
 
 template <class ObjType, RefControllerMode Mode = RefControllerMode::Auto>
-class fpWeakRef
+class fpWeakPtr
 {
-    typedef fpWeakRef<ObjType,Mode> SelfType;
-	typedef fpSharedRef<ObjType, Mode> SharedType;
+    typedef fpWeakPtr<ObjType,Mode> SelfType;
+    typedef fpSharedRef<ObjType, Mode> SharedRefType;
 public:
 
-    fpWeakRef(fpWeakRef const& InWeakRef)
+    fpWeakPtr(fpWeakPtr const& InWeakRef)
         :_controller(InWeakRef._controller),
          _object(InWeakRef._object)
     {}
-    fpWeakRef(fpWeakRef&& InWeakRef)
+    fpWeakPtr(fpWeakPtr&& InWeakRef)
         :_controller(InWeakRef._controller),
          _object(InWeakRef._object)
     {}
-	fpWeakRef(SharedType const& InSharedRef)
+    fpWeakPtr(SharedRefType const& InSharedRef)
 	{
 
 	}
-	fpWeakRef(SharedType&& InSharedRef)
+    fpWeakPtr(SharedRefType&& InSharedRef)
 	{
 
 	}
-    inline SelfType& operator=(fpWeakRef const& InWeakRef)
+    inline SelfType& operator=(fpWeakPtr const& InWeakRef)
     {
 		_controller = InWeakRef._controller;
 		_object = InWeakRef._object;
     }
-    inline SelfType& operator=(fpWeakRef&& InWeakRef)
+    inline SelfType& operator=(fpWeakPtr&& InWeakRef)
     {
 		_controller = InWeakRef._controller;
 		_object = InWeakRef._object;
     }
+
+    inline SelfType& operator=(SharedRefType const& InSharedRef)
+    {
+        _controller = InSharedRef._controller;
+        _object = InSharedRef._object;
+    }
+    inline SelfType& operator=(SharedRefType&& InSharedRef)
+    {
+        _controller = InSharedRef._controller;
+        _object = InSharedRef._object;
+    }
+
     FORCEINLINE ObjType& Get()const
     {
         return *_object;
@@ -148,7 +160,7 @@ public:
 	FORCEINLINE void Reset()
 	{
 	}
-	FORCEINLINE SharedType Lock()
+    FORCEINLINE SharedRefType Lock()
 	{
 	}
 	FORCEINLINE const bool isValid()const
@@ -156,13 +168,6 @@ public:
 		return _object != nullptr && _controller.isValid();
 	}
 private:
-    FORCEINLINE void Init(ObjType* InObj)
-    {
-/*
-* TODВставить проверку на не nullptr
-*/
-        _object = InObj;
-    }
 
     ObjType* _object;
     SmartPtrPrivate::fpWeakRefCounter<Mode> _controller;
