@@ -72,7 +72,7 @@ public:
         _object = InReference._object;
         return *this;
     }
-	FORCEINLINE const int32 GetRefCount() const
+    FORCEINLINE const int32 GetRefCount() const
 	{
 		return _controller.GetSharedRefCount();
 	}
@@ -155,7 +155,7 @@ public:
     }
     FORCEINLINE int32 GetRefCount()const
     {
-        return _controller.GetRefCount();
+        return _controller.GetWeakRefCount();
     }
 	FORCEINLINE void Reset()
 	{
