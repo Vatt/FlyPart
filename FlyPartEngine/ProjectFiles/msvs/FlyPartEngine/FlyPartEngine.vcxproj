@@ -158,6 +158,7 @@
     <ClInclude Include="..\..\..\fpCommon\fpFunction.h" />
     <ClInclude Include="..\..\..\fpCommon\fpSharedPtr.h" />
     <ClInclude Include="..\..\..\fpCommon\SmartPtrPrivate.h" />
+    <ClInclude Include="..\..\..\fpCommon\SmartPtrTest.h" />
     <ClInclude Include="..\..\..\fpCommon\typedefs.h" />
     <ClInclude Include="..\..\..\fpCommon\TypeTraits.h" />
   </ItemGroup>

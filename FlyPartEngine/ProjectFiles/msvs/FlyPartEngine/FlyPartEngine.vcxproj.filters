@@ -83,6 +83,9 @@
     <ClInclude Include="..\..\..\fpCommon\SmartPtrPrivate.h">
       <Filter>fpCommon</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\fpCommon\SmartPtrTest.h">
+      <Filter>fpCommon</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="fpCommon">

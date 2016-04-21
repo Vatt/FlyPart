@@ -100,25 +100,21 @@ template <class ObjType, RefControllerMode Mode = RefControllerMode::Auto>
 class fpWeakPtr
 {
     typedef fpWeakPtr<ObjType,Mode> SelfType;
-    typedef fpSharedRef<ObjType, Mode> SharedRefType;
 public:
 
-    fpWeakPtr(fpWeakPtr const& InWeakRef)
-        :_controller(InWeakRef._controller),
-         _object(InWeakRef._object)
+    fpWeakPtr(fpWeakPtr const& InWeakPtr)
+        :_controller(InWeakPtr._controller),
+         _object(InWeakPtr._object)
     {}
-    fpWeakPtr(fpWeakPtr&& InWeakRef)
-        :_controller(InWeakRef._controller),
-         _object(InWeakRef._object)
+    fpWeakPtr(fpWeakPtr&& InWeakPtr)
+        :_controller(InWeakPtr._controller),
+         _object(InWeakPtr._object)
     {}
-    fpWeakPtr(SharedRefType const& InSharedRef)
-	{
+    fpWeakPtr(fpSharedRef<ObjType,Mode> const& InSharedRef)
+		:_controller(InSharedRef._controller),
+		 _object(InSharedRef._object)
+	{}
 
-	}
-    fpWeakPtr(SharedRefType&& InSharedRef)
-	{
-
-	}
     inline SelfType& operator=(fpWeakPtr const& InWeakRef)
     {
 		_controller = InWeakRef._controller;
@@ -130,12 +126,12 @@ public:
 		_object = InWeakRef._object;
     }
 
-    inline SelfType& operator=(SharedRefType const& InSharedRef)
+    inline SelfType& operator=(fpSharedRef<ObjType> const& InSharedRef)
     {
         _controller = InSharedRef._controller;
         _object = InSharedRef._object;
     }
-    inline SelfType& operator=(SharedRefType&& InSharedRef)
+    inline SelfType& operator=(fpSharedRef<ObjType>&& InSharedRef)
     {
         _controller = InSharedRef._controller;
         _object = InSharedRef._object;
@@ -160,7 +156,7 @@ public:
 	FORCEINLINE void Reset()
 	{
 	}
-    FORCEINLINE SharedRefType Lock()
+    FORCEINLINE fpSharedRef<ObjType> Lock()
 	{
 	}
 	FORCEINLINE const bool isValid()const
