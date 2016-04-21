@@ -2,17 +2,17 @@
 #ifndef _FP_MEMORY_STATS_
 #define _FP_MEMORY_STATS_
 #include <stddef.h>
+#include "../../fpCommon/typedefs.h"
 /* all in bytes*/
 struct fpMemoryStats{
     static size_t usedMemory;
-//  static size_t availableVirtualMemory;
     static size_t availablePhysMemory;
 
-    static void SetupSats(size_t totalPhysMem,size_t memLimit, size_t  pSize, size_t granularity)
+    static void SetupSats(size_t totalPhysMem,size_t memLimit, uint32  pSize, size_t granularity)
     {
         if (isInit)
         {
-                //TODO: запилить ошибку. запись в лог , ибо нефиг переустанавливать
+                //TODO: пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ. пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅ , пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
           return;
         }
         totalPhysMemory = totalPhysMem;

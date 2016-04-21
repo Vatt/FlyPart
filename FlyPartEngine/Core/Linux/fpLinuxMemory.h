@@ -1,6 +1,6 @@
-#pragma once
-#ifndef _FP_WINDOWS_MEMORY_
-#define _FP_WINDOWS_MEMORY_
+
+#ifndef _FP_LINUX_MEMORY_
+#define _FP_LINUX_MEMORY_
 #include "../GenericPlatform/Memory/fpPlatformMemory.h"
 
 class fpLinuxMemory : public fpPlatformMemory

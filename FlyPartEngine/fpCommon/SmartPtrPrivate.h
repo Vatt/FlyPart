@@ -12,9 +12,9 @@ namespace fpTemplate {
 		NotThreadSafe = 1,
 		Auto = FORCE_THREADSAFE_REFERENCE ? 0 : 1,
 	};
+
 	namespace SmartPtrPrivate {	
 
-		
 		class fpRefControllerBase {
 		public:
 			FORCEINLINE explicit fpRefControllerBase(void *obj) :
@@ -84,18 +84,18 @@ namespace fpTemplate {
                 if (fpAtomics::InterlockedDecrement(&controller->SharedReferenceCount) == 0)
 				{
 					controller->DestroyObj();
-					ReleaseWeakReference(controller);
+					ReleaseWeakRef(controller);
 				}
 			}
-			static FORCEINLINE int32 GetWeakReference(fpRefControllerBase* controller)
+			static FORCEINLINE int32 GetWeakRefCount(fpRefControllerBase* controller)
 			{
 				return static_cast<int32 const volatile&>(controller->WeakReferenceCount);
 			}
-			static FORCEINLINE void AddWeakReference(fpRefControllerBase* controller)
+			static FORCEINLINE void AddWeakRef(fpRefControllerBase* controller)
 			{
                 fpAtomics::InterlockedIncrement(&controller->WeakReferenceCount);
 			}
-			static FORCEINLINE void ReleaseWeakReference(fpRefControllerBase* controller)
+			static FORCEINLINE void ReleaseWeakRef(fpRefControllerBase* controller)
 			{
                 if (fpAtomics::InterlockedDecrement(&controller->WeakReferenceCount) == 0)
 				{
@@ -125,7 +125,7 @@ namespace fpTemplate {
 			{
 				return controller->WeakReferenceCount;
 			}
-			static FORCEINLINE void AddWeakReference(fpRefControllerBase* controller)
+			static FORCEINLINE void AddWeakRef(fpRefControllerBase* controller)
 			{
 				++controller->WeakReferenceCount;
 			}
@@ -139,10 +139,13 @@ namespace fpTemplate {
 		};
 
 
+		template <RefControllerMode Mode> class fpWeakRefCounter;
+
 		template<RefControllerMode Mode>
         class fpSharedRefCounter {
 		private:
 			typedef RefControllerOps<Mode> OPS;
+			template <RefControllerMode OtherMode> friend class fpWeakRefCounter;
 		public:
             fpSharedRefCounter() :_controller(nullptr)
 			{}
@@ -156,7 +159,7 @@ namespace fpTemplate {
 					OPS::AddSharedRef(_controller);
 				}
 			}
-            fpSharedRefCounter(fpWeakRefCounter const& InWeakRefCounter)
+            fpSharedRefCounter(fpWeakRefCounter<Mode> const& InWeakRefCounter)
                 :_controller(InWeakRefCounter._controller)
             {
                 if(_controller != nullptr)
@@ -165,7 +168,7 @@ namespace fpTemplate {
                 }
             }
 
-            fpSharedRefCounter(fpSharedRefCounter const&& InSharedReference)
+            fpSharedRefCounter(fpSharedRefCounter&& InSharedReference)
 				:_controller(InSharedReference._controller)
 			{
 				InSharedReference._controller = nullptr;
@@ -231,6 +234,7 @@ namespace fpTemplate {
         class fpWeakRefCounter{
         private:
             typedef RefControllerOps<Mode> OPS;
+			template<RefControllerMode > class fpSharedRefCounter;
         public:
             FORCEINLINE fpWeakRefCounter():_controller(nullptr)
             {}

@@ -17,10 +17,7 @@ FORCEINLINE int32 fpWindowsAtomics::InterlockedExchangeImpl(volatile int32* Targ
 {
     return (int32)::InterlockedExchange((LPLONG)Target, Value);
 }
-FORCEINLINE int32 fpWindowsAtomics::InterlockedExchangeAddImpl(volatile int32* Addend, int32 Value)
-{
-    return (int32)::InterlockedExchangeAdd((LPLONG)Addend, Value);
-}
+
 #ifdef ENABLE_64BITS_ATOMICS
 FORCEINLINE int64 fpWindowsAtomics::InterlockedIncrementImpl(volatile int64* Addend)
 {
@@ -37,10 +34,6 @@ FORCEINLINE int64 fpWindowsAtomics::InterlockedAddImpl(volatile int64* Addend, i
 FORCEINLINE int64 fpWindowsAtomics::InterlockedExchangeImpl(volatile int64* Target, int64 Value)
 {
 	return (int64)::InterlockedExchange64((LONGLONG*)Target, Value);
-}
-FORCEINLINE int64 fpWindowsAtomics::InterlockedExchangeAddImpl(volatile int64* Addend, int64 Value)
-{
-	return (int64)::InterlockedExchange64((LONGLONG*)Addend, Value);
 }
 
 #endif

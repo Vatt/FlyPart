@@ -5,13 +5,13 @@
 #include "SmartPtrPrivate.h"
 #include "../Core/GenericPlatform/Memory/fpMemorySystem.h"
 using namespace fpTemplate;
-
-
+template <class ObjType, RefControllerMode Mode> class fpWeakPtr;
 template <class ObjType,RefControllerMode Mode = RefControllerMode::Auto>
 class fpSharedRef{
 private:
 	typedef fpSharedRef<ObjType, Mode> SelfType;
     typedef fpWeakPtr<ObjType, Mode> WeakPtrType;
+	template<class OtherObjType,RefControllerMode OtherMode> friend class fpWeakPtr;
 public:
 	template<class OtherType>
     inline explicit fpSharedRef(OtherType* InObj)
@@ -39,13 +39,13 @@ public:
 	{}
 */
 	
-	FORCEINLINE fpSharedRef(fpSharedRef<ObjType,Mode> const&  reference)
+	FORCEINLINE fpSharedRef(SelfType const&  reference)
         :_controller(reference._controller),_object(reference._object)
 	{}
-    FORCEINLINE fpSharedRef(fpSharedRef<ObjType,Mode> const& InOtherRef, ObjType* InObj)
+    FORCEINLINE fpSharedRef(SelfType const& InOtherRef, ObjType* InObj)
         :_object(InObj),_controller(InOtherRef._controller)
     {}
-    FORCEINLINE fpSharedRef(fpSharedRef<ObjType,Mode>&& reference)
+    FORCEINLINE fpSharedRef(SelfType&& reference)
         :_controller(reference._controller),_object(reference._object)
     {}
 
