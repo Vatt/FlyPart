@@ -31,12 +31,12 @@
       <sourceFolder url="file://$MODULE_DIR$/CMakeLists.txt" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/fpCommon/fpCallback.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/fpCommon/fpSharedPtr.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/fpCommon/SmartPtrPrivate.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/fpCommon/TypeTraits.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/fpCommon/SmartPtrTest.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/fpCommon/fpCommon.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/fpCommon/defines.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/fpCommon/CommonHelperFunctions.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/fpCommon/SmartPtrTest.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/fpCommon/SmartPtrPrivate.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/fpCommon/TypeTraits.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/fpCommon/fpFunction.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/fpCommon/typedefs.h" isTestSource="false" />
     </content>

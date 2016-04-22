@@ -59,14 +59,14 @@ public:
 	FORCEINLINE ObjType* operator->()const{
 		return _object;
 	}
-    FORCEINLINE SelfType& operator=(fpSharedRef<ObjType,Mode>&& InReference)
+    FORCEINLINE SelfType& operator=(SelfType&& InReference)
 	{       
         _controller = InReference._controller;
         _object = InReference._object;
         //fpMemorySystem::PlatformMemory()::MemSwap(this, &InReference, sizeof(fpSharedRef));
 		return *this;
 	}
-    FORCEINLINE SelfType& operator=(fpSharedRef<ObjType,Mode>const& InReference)
+    FORCEINLINE SelfType& operator=(SelfType const& InReference)
     {
         _controller = InReference._controller;
         _object = InReference._object;
@@ -89,7 +89,7 @@ private:
 	{
         _object = InObj;
 	}
-	FORCEINLINE fpSharedRef& operator=(fpSharedRef<ObjType, Mode>& InReference);
+	FORCEINLINE fpSharedRef& operator=(SelfType& InReference);
 	ObjType* _object;
 	SmartPtrPrivate::fpSharedRefCounter<Mode> _controller;
 };
@@ -126,7 +126,7 @@ public:
 		_object = InWeakRef._object;
     }
 
-    inline SelfType& operator=(fpSharedRef<ObjType> const& InSharedRef)
+  /*  inline SelfType& operator=(fpSharedRef<ObjType> const& InSharedRef)
     {
         _controller = InSharedRef._controller;
         _object = InSharedRef._object;
@@ -135,7 +135,7 @@ public:
     {
         _controller = InSharedRef._controller;
         _object = InSharedRef._object;
-    }
+    }*/
 
     FORCEINLINE ObjType& Get()const
     {
@@ -156,7 +156,7 @@ public:
 	FORCEINLINE void Reset()
 	{
 	}
-    FORCEINLINE fpSharedRef<ObjType> Lock()
+    FORCEINLINE fpSharedRef<ObjType,Mode> Lock()
 	{
 	}
 	FORCEINLINE const bool isValid()const

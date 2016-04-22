@@ -234,7 +234,6 @@ namespace fpTemplate {
         class fpWeakRefCounter{
         private:
             typedef RefControllerOps<Mode> OPS;
-			template<RefControllerMode > class fpSharedRefCounter;
         public:
             FORCEINLINE fpWeakRefCounter():_controller(nullptr)
             {}
