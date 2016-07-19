@@ -2,7 +2,7 @@
 #ifndef _REFERENCE_COUNTER_
 #define _REFERENCE_COUNTER_
 #pragma once
-#include "typedefs.h"
+#include "../Core/GenericPlatform/fpPlatform.h"
 #include "CommonHelperFunctions.h"
 #include "../Core/CoreCommonHeader.h"
 #define FORCE_THREADSAFE_REFERENCE 0

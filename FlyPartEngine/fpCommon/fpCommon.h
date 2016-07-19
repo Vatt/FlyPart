@@ -5,7 +5,7 @@
 #include "fpCallback.h"
 #include "fpFunction.h"
 #include "fpSharedPtr.h"
-#include "typedefs.h"
+#include "../Core/GenericPlatform/typedefs.h"
 #include "CommonHelperFunctions.h"
 #include "TypeTraits.h"
 #endif // !_FP_COMMON_INCLUDE_

@@ -3,6 +3,7 @@
 #define FPFUNCTION_H_
 #pragma once
 #include <memory>
+#include "fpSharedPtr.h"
 template<typename _none> class fpFunction;
 
 template<typename _retType, typename ... _args>
@@ -69,7 +70,8 @@ public:
 
 
 private:
-	typedef std::auto_ptr<holder> invoker_t;
+	//typedef std::auto_ptr<holder> invoker_t;
+	typedef fpSharedRef<holder> invoker_t;
 	invoker_t _invoker;
 
 };

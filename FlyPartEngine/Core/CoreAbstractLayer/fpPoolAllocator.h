@@ -2,11 +2,15 @@
 #define _FP_POOL_ALLOCATOR_
 #include <stddef.h>
 #include "fpAllocator.h"
+#include "fpMemoryStats.h"
 #include <new>
+#include <stdatomic.h>
+#include <cstdint>
+
 class fpPoolAllocator: public fpAllocator
 {
 private:
-    enum {PAGES_IN_POOL = 1};
+    enum {PAGES_IN_POOL = 1}; //FIXIT: testing value, set 16
 	
 	struct FreeMem
 	{
@@ -37,7 +41,7 @@ private:
 	MemPool* makeNewPool()
 	{
 		MemPool* pool;
-		void* memory = platform->SystemAlloc(fpMemoryStats::PageSize()* PAGES_IN_POOL);
+		void* memory = fpMemory::SystemAlloc(fpMemoryStats::PageSize()* PAGES_IN_POOL);
 		new(memory)MemPool();
 
 		pool->ptr = (void*)((char)memory + sizeof(MemPool));//todo: this is shit

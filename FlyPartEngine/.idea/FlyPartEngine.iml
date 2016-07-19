@@ -9,48 +9,52 @@
       <sourceFolder url="file://$MODULE_DIR$/Core/GenericPlatform/Window/fpWindow.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Core/GenericPlatform/Window/fpWindowSystem.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Core/GenericPlatform/Window/fpWindow.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Core/GenericPlatform/fpPlatformAtomics.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Core/GenericPlatform/Memory/fpMemorySystem.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Core/GenericPlatform/Memory/fpMemorySystem.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Core/GenericPlatform/Memory/fpPlatformMemory.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/Core/GenericPlatform/Input/fpKeyBind.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Core/GenericPlatform/Input/fpInputSystem.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Core/GenericPlatform/Input/fpKeyboard.hpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Core/GenericPlatform/Input/fpKeyBind.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Core/GenericPlatform/Input/fpKeyBind.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Core/GenericPlatform/Input/fpInputSystem.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/Core/GenericPlatform/Input/fpKeyboard.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Core/GenericPlatform/Input/fpKeyBoard.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Core/GenericPlatform/Input/fpKey.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/Core/GenericPlatform/fpAtomics.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Core/GenericPlatform/defines.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Core/GenericPlatform/fpSystemInterface.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Core/GenericPlatform/fpSystemEventHandler.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Core/GenericPlatform/fpPlatform.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Core/GenericPlatform/fpSystemEventDispatcher.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/Core/Linux/fpLinuxMemory.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/Core/Linux/fpLinuxAtomics.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/Core/Linux/fpLinuxMemory.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Core/GenericPlatform/typedefs.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Core/Linux/.directory" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/Core/Linux/fpLinuxAtomics.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Core/Linux/fpLinuxAtomics.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Core/Linux/fpLinuxPlatformMemory.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Core/Linux/fpLinuxPlatformMemory.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/CMakeLists.txt" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/fpCommon/fpCallback.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/fpCommon/fpSharedPtr.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/fpCommon/SmartPtrTest.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/fpCommon/fpCommon.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/fpCommon/defines.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/fpCommon/TypeTraits.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/fpCommon/.directory" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/fpCommon/CommonHelperFunctions.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/fpCommon/SmartPtrPrivate.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/fpCommon/TypeTraits.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/fpCommon/Containers/fpArray.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/fpCommon/fpCommon.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/fpCommon/fpFunction.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/fpCommon/typedefs.h" isTestSource="false" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module-library">
       <library name="Header Search Paths">
         <CLASSES>
           <root url="file:///usr/include" />
-          <root url="file:///usr/lib/clang/3.7.1/include" />
+          <root url="file:///usr/lib/gcc/x86_64-pc-linux-gnu/6.1.1/include" />
+          <root url="file:///usr/lib/gcc/x86_64-pc-linux-gnu/6.1.1/include-fixed" />
           <root url="file:///usr/local/include" />
         </CLASSES>
         <SOURCES>
           <root url="file:///usr/include" />
-          <root url="file:///usr/lib/clang/3.7.1/include" />
+          <root url="file:///usr/lib/gcc/x86_64-pc-linux-gnu/6.1.1/include" />
+          <root url="file:///usr/lib/gcc/x86_64-pc-linux-gnu/6.1.1/include-fixed" />
           <root url="file:///usr/local/include" />
         </SOURCES>
       </library>

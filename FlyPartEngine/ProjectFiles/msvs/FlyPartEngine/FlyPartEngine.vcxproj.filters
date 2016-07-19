@@ -65,7 +65,7 @@
     <ClInclude Include="..\..\..\Core\GenericPlatform\fpSystemEventHandler.h">
       <Filter>Core\GenericPlatform</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Core\GenericPlatform\fpAtomics.h">
+    <ClInclude Include="..\..\..\Core\GenericPlatform\fpPlatformAtomics.h">
       <Filter>Core\GenericPlatform</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Core\Windows\fpWindowsAtomics.h">

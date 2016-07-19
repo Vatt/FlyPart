@@ -2,6 +2,8 @@
 #ifndef _FP_SHARED_PTR_
 #define _FP_SHARED_PTR_
 #pragma once
+
+#include <assert.h>
 #include "SmartPtrPrivate.h"
 #include "../Core/GenericPlatform/Memory/fpMemorySystem.h"
 using namespace fpTemplate;
@@ -9,7 +11,7 @@ template <class ObjType, RefControllerMode Mode> class fpWeakPtr;
 template <class ObjType,RefControllerMode Mode = RefControllerMode::Auto>
 class fpSharedRef{
 private:
-	typedef fpSharedRef<ObjType, Mode> SelfType;
+	typedef fpSharedRef<ObjType> SelfType;
     typedef fpWeakPtr<ObjType, Mode> WeakPtrType;
 	template<class OtherObjType,RefControllerMode OtherMode> friend class fpWeakPtr;
 public:
@@ -59,18 +61,22 @@ public:
 	FORCEINLINE ObjType* operator->()const{
 		return _object;
 	}
-    FORCEINLINE SelfType& operator=(SelfType&& InReference)
+    FORCEINLINE fpSharedRef& operator=(SelfType&& InReference)
 	{       
         _controller = InReference._controller;
         _object = InReference._object;
         //fpMemorySystem::PlatformMemory()::MemSwap(this, &InReference, sizeof(fpSharedRef));
 		return *this;
 	}
-    FORCEINLINE SelfType& operator=(SelfType const& InReference)
+    FORCEINLINE fpSharedRef& operator=(SelfType const& InReference)
     {
         _controller = InReference._controller;
         _object = InReference._object;
         return *this;
+    }
+    FORCEINLINE void Reset()
+    {
+
     }
     FORCEINLINE const int32 GetRefCount() const
 	{
@@ -87,6 +93,7 @@ public:
 private:
     FORCEINLINE void Init(ObjType* InObj)
 	{
+        assert(InObj!=nullptr);
         _object = InObj;
 	}
 	FORCEINLINE fpSharedRef& operator=(SelfType& InReference);

@@ -2,7 +2,7 @@
 #define _COMMON_HELPER_FUNCTIONS_
 #pragma once
 #include "defines.h"
-#include "typedefs.h"
+#include "../Core/GenericPlatform/typedefs.h"
 namespace fpTemplate {
 	template<typename T> struct RemoveReference { typedef T Type; };
 	template<typename T> struct RemoveReference<T&> { typedef T Type; };

@@ -136,7 +136,7 @@
     <ClInclude Include="..\..\..\Core\CoreAbstractLayer\fpMemoryStats.h" />
     <ClInclude Include="..\..\..\Core\CoreAbstractLayer\fpPoolAllocator.h" />
     <ClInclude Include="..\..\..\Core\CoreCommonHeader.h" />
-    <ClInclude Include="..\..\..\Core\GenericPlatform\fpAtomics.h" />
+    <ClInclude Include="..\..\..\Core\GenericPlatform\fpPlatformAtomics.h" />
     <ClInclude Include="..\..\..\Core\GenericPlatform\fpSystemEventDispatcher.h" />
     <ClInclude Include="..\..\..\Core\GenericPlatform\fpSystemEventHandler.h" />
     <ClInclude Include="..\..\..\Core\GenericPlatform\fpSystemInterface.h" />

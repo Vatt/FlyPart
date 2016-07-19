@@ -49,6 +49,12 @@ namespace SmartPtrTest{
         cout << "after call WeakRefTestLValue weak   counter: " << WeakRef.GetRefCount() << endl;
         cout << "after call WeakRefTestLValue shared counter: " << SharedRef.GetRefCount() << endl;
         cout<<"End WeakRefTest"<<endl;
+        cout<<"after assignment SharedRef counter: "<<SharedRef.GetRefCount()<<endl;
+        fpSharedRef<test> newRef = SharedRef;
+        cout<<"before assignment SharedRef counter: "<<SharedRef.GetRefCount()<<endl;
+        cout<<"before assignment newRef counter: "<<newRef.GetRefCount()<<endl;
+        newRef.~fpSharedRef();
+        cout<<"force destroy newRef, counter SharedRef: "<<SharedRef.GetRefCount()<<endl;
         cout<<"******************SmartPtrTest END**************************"<<endl;
     };
 

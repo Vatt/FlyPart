@@ -3,14 +3,14 @@
 #ifndef _FP_MEMORY_SYSTEM
 #	define _FP_MEMORY_SYSTEM
 #include "fpPlatformMemory.h"
-#include "../../../fpCommon/defines.h"
+#include "../defines.h"
 class fpMemorySystem
 {
 #if defined(PLATFORM_WINDOWS) 
 		friend class fpWindowsMemory;
 #endif 
 #if defined(PLATFORM_LINUX) 
-		friend class fpLinuxMemory;
+		friend class fpLinuxPlatformMemory;
 #endif	
 private:
     static fpPlatformMemory* platformMemory;

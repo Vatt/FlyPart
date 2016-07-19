@@ -2,12 +2,12 @@
 #ifndef _FP_MEMORY_STATS_
 #define _FP_MEMORY_STATS_
 #include <stddef.h>
-#include "../../fpCommon/typedefs.h"
+#include "../GenericPlatform/typedefs.h"
 /* all in bytes*/
 struct fpMemoryStats{
     static size_t usedMemory;
     static size_t availablePhysMemory;
-
+    //todo: выставить статически
     static void SetupSats(size_t totalPhysMem,size_t memLimit, uint32  pSize, size_t granularity)
     {
         if (isInit)

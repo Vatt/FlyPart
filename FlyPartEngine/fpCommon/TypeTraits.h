@@ -1,6 +1,6 @@
 #ifndef _TYPE_TRAITS_INCLUDE_
 #define _TYPE_TRAITS_INCLUDE_
-#include "typedefs.h"
+#include "../Core/GenericPlatform/typedefs.h"
 template <typename T> struct fpIsFloatType   {enum{Value = false};};
 template <> struct fpIsFloatType<float>      {enum{Value = true};};
 template <> struct fpIsFloatType<double>     {enum{Value = true};};
