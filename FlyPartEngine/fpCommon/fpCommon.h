@@ -1,7 +1,7 @@
 #ifndef _FP_COMMON_INCLUDE_
 #define _FP_COMMON_INCLUDE_
 #pragma once
-#include "defines.h"
+
 #include "fpCallback.h"
 #include "fpFunction.h"
 #include "fpSharedPtr.h"
