@@ -2,7 +2,7 @@
 #define _FP_POOL_ALLOCATOR_
 #include <stddef.h>
 #include "fpAllocator.h"
-#include "fpMemoryStats.h"
+#include "../GenericPlatform/fpPlatform.h"
 #include <new>
 #include <stdatomic.h>
 #include <cstdint>
@@ -41,11 +41,11 @@ private:
 	MemPool* makeNewPool()
 	{
 		MemPool* pool;
-		void* memory = fpMemory::SystemAlloc(fpMemoryStats::PageSize()* PAGES_IN_POOL);
+		void* memory = fpMemory::SystemAlloc(fpMemory::Stats.PageSize* PAGES_IN_POOL);
 		new(memory)MemPool();
 
-		pool->ptr = (void*)((char)memory + sizeof(MemPool));//todo: this is shit
-		pool->total = fpMemoryStats::PageSize()* PAGES_IN_POOL - sizeof(MemPool);
+		pool->ptr = (void*)((int8)memory + sizeof(MemPool));
+		pool->total = fpMemory::Stats.PageSize * PAGES_IN_POOL - sizeof(MemPool);
 		pool->used = 0;
 		return pool;
 	}

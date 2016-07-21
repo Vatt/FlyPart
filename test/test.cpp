@@ -20,6 +20,13 @@ using namespace fpTemplate;
 int main(int argc, char **argv)
 {
     SmartPtrTest::SmartPtrTestRun();
+    fpMemory::UpdateMemoryStats();
+    void* raw_mem = fpMemory::SystemAlloc(4096);
+    auto ps = fpMemory::Stats.PageSize;
+    auto totalMem = fpMemory::Stats.TotalPhysMemory/1024/1024;
+    auto freeMem  = fpMemory::Stats.AvailablePhysMemory/1024/1024;
+    auto memLimit = fpMemory::Stats.MemoryLimit;
+
     return 0;
 }
 

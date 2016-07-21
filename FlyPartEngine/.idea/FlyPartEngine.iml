@@ -4,7 +4,6 @@
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/Core/CoreAbstractLayer/fpAllocator.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Core/CoreAbstractLayer/fpPoolAllocator.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/Core/CoreAbstractLayer/fpMemoryStats.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Core/GenericPlatform/Window/fpWindowSystem.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Core/GenericPlatform/Window/fpWindow.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Core/GenericPlatform/Window/fpWindowSystem.h" isTestSource="false" />

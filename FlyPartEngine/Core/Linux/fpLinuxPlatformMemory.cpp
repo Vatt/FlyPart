@@ -1,30 +1,31 @@
 #include "fpLinuxPlatformMemory.h"
-
-#include "../CoreAbstractLayer/fpMemoryStats.h"
-
 #include <utility>
 #include <stdlib.h>
 #include <cstring>
-#include <linux/sysinfo.h>
+
 #include <malloc.h>
-/*fpLinuxPlatformMemory::fpLinuxPlatformMemory() :fpPlatformMemory()
-{
-	fpMemoryStats::SetupSats(sysinfo().totalram,1024, sysconf(_SC_PAGE_SIZE),0);
-    //TODO: убрать заглушку
-}*/
+#include <zconf.h>
+#include <sys/sysinfo.h>
+//#include <linux/sysinfo.h>
+fpPlatformMemory::MemoryStats fpPlatformMemory::Stats = MemoryStats(sysconf(_SC_PHYS_PAGES)*sysconf(_SC_PAGE_SIZE),
+                                                                    1024,sysconf(_SC_PAGE_SIZE));
+
 void* fpLinuxPlatformMemory::SystemAlloc(size_t size)
 {
-    fpMemoryStats::IncrementSystemAllocCallCounter();
+
+    Stats.IncrementSystemAllocCallCounter();
 	return valloc(size);
 }
 void fpLinuxPlatformMemory::SystemFree(void* ptr)
 {
-    fpMemoryStats::IncrementSystemFreeCallCounter();
+    Stats.IncrementSystemFreeCallCounter();
 	free(ptr);
 }
 void fpLinuxPlatformMemory::UpdateMemoryStats()
 {
-	fpMemoryStats::availablePhysMemory = sysinfo().freeram;
+    struct sysinfo info;
+    sysinfo(&info);
+    Stats.AvailablePhysMemory = info.freeram;
 }
 void* fpLinuxPlatformMemory::MemMove(void* Dest, const void* Src, size_t Size)
 {
