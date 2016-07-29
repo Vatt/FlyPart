@@ -26,7 +26,7 @@ int main(int argc, char **argv)
     auto totalMem = fpMemory::Stats.TotalPhysMemory/1024/1024;
     auto freeMem  = fpMemory::Stats.AvailablePhysMemory/1024/1024;
     auto memLimit = fpMemory::Stats.MemoryLimit;
-
+	system("PAUSE");
     return 0;
 }
 

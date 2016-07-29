@@ -1,16 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClInclude Include="..\..\..\fpCommon\defines.h">
-      <Filter>fpCommon</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\fpCommon\fpCallback.h">
       <Filter>fpCommon</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\fpCommon\fpFunction.h">
-      <Filter>fpCommon</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\fpCommon\typedefs.h">
       <Filter>fpCommon</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\fpCommon\fpSharedPtr.h">
@@ -86,6 +80,18 @@
     <ClInclude Include="..\..\..\fpCommon\SmartPtrTest.h">
       <Filter>fpCommon</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Core\GenericPlatform\defines.h">
+      <Filter>Core\GenericPlatform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Core\GenericPlatform\typedefs.h">
+      <Filter>Core\GenericPlatform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\fpCommon\Containers\ContainerBase.h">
+      <Filter>fpCommon\Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\fpCommon\Containers\fpArray.h">
+      <Filter>fpCommon\Containers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="fpCommon">
@@ -112,6 +118,9 @@
     <Filter Include="Core\CoreAbstractLayer">
       <UniqueIdentifier>{1b47da54-f1ad-416a-900f-dffdb4d9a43c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="fpCommon\Containers">
+      <UniqueIdentifier>{26b3f4cb-17e7-4995-a7fe-047d3417ebb0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Core\GenericPlatform\Input\fpInputSystem.cpp">
@@ -133,9 +142,6 @@
       <Filter>Core\GenericPlatform\Memory</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Core\Windows\fpWindowsMemory.cpp">
-      <Filter>Core\Windows</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Core\Windows\fpWindowsAtomics.cpp">
       <Filter>Core\Windows</Filter>
     </ClCompile>
   </ItemGroup>

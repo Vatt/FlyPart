@@ -4,7 +4,7 @@
 #include "fpAllocator.h"
 #include "../GenericPlatform/fpPlatform.h"
 #include <new>
-#include <stdatomic.h>
+
 #include <cstdint>
 
 class fpPoolAllocator: public fpAllocator

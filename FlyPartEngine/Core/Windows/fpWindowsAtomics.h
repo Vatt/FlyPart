@@ -2,7 +2,7 @@
 #define _FP_WINDOWS_INCREMENT_INCLUDE_
 #include "../GenericPlatform/fpPlatformAtomics.h"
 #include <Windows.h>
-class fpWindowsPlatformAtomics:public fpPlatformAtomics{
+struct fpWindowsPlatformAtomics:public fpPlatformAtomics{
     static FORCEINLINE int32 InterlockedIncrement(volatile int32* Addend)
     {
         return (int32)::InterlockedIncrement((LPLONG)Addend);
