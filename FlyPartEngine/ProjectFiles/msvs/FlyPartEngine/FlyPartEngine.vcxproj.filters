@@ -38,15 +38,6 @@
     <ClInclude Include="..\..\..\Core\GenericPlatform\Memory\fpPlatformMemory.h">
       <Filter>Core\GenericPlatform\Memory</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Core\CoreAbstractLayer\fpAllocator.h">
-      <Filter>Core\CoreAbstractLayer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Core\CoreAbstractLayer\fpMemoryStats.h">
-      <Filter>Core\CoreAbstractLayer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Core\CoreAbstractLayer\fpPoolAllocator.h">
-      <Filter>Core\CoreAbstractLayer</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Core\Windows\fpWindowsMemory.h">
       <Filter>Core\Windows</Filter>
     </ClInclude>
@@ -92,6 +83,18 @@
     <ClInclude Include="..\..\..\fpCommon\Containers\fpArray.h">
       <Filter>fpCommon\Containers</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Core\CoreAbstractLayer\Memory\fpAllocator.h">
+      <Filter>Core\CoreAbstractLayer\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Core\CoreAbstractLayer\Memory\fpPoolAllocator.h">
+      <Filter>Core\CoreAbstractLayer\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Core\CoreAbstractLayer\Memory\fpCommonHeap.h">
+      <Filter>Core\CoreAbstractLayer\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Core\CoreAbstractLayer\Memory\fpHeapInterface.h">
+      <Filter>Core\CoreAbstractLayer\Memory</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="fpCommon">
@@ -120,6 +123,9 @@
     </Filter>
     <Filter Include="fpCommon\Containers">
       <UniqueIdentifier>{26b3f4cb-17e7-4995-a7fe-047d3417ebb0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\CoreAbstractLayer\Memory">
+      <UniqueIdentifier>{d6d22aab-9c01-4586-8c7a-c32a8edcc2f3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

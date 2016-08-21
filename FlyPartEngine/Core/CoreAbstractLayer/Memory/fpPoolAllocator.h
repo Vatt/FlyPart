@@ -2,12 +2,12 @@
 #define _FP_POOL_ALLOCATOR_
 #include <stddef.h>
 #include "fpAllocator.h"
-#include "../GenericPlatform/fpPlatform.h"
+#include "../../GenericPlatform/fpPlatform.h"
 #include <new>
 
 #include <cstdint>
 
-class fpPoolAllocator: public fpAllocator
+class fpPoolAllocator
 {
 private:
     enum {PAGES_IN_POOL = 1}; //FIXIT: testing value, set 16
@@ -16,13 +16,14 @@ private:
 	{
 		FreeMem* next;
 	};
-
+/*32 byte pool structure*/
     struct MemPool
     {
-        uint32 used;
-		uint32 total;		
 		FreeMem* freeMem;
 		void* ptr;
+        uint32 used;
+		uint32 total;		
+		uint64 ForAllign;
     };
 	struct PoolTable
 	{
@@ -42,15 +43,17 @@ private:
 	{
 		MemPool* pool;
 		void* memory = fpMemory::SystemAlloc(fpMemory::Stats.PageSize* PAGES_IN_POOL);
+		/*первые 32 байта информация о самом пуле*/
 		new(memory)MemPool();
 
-		pool->ptr = (void*)((int8)memory + sizeof(MemPool));
+		pool->ptr = (void*)((uint8)memory + sizeof(MemPool));
 		pool->total = fpMemory::Stats.PageSize * PAGES_IN_POOL - sizeof(MemPool);
 		pool->used = 0;
+
 		return pool;
 	}
 public:
-    fpPoolAllocator() :fpAllocator()
+    fpPoolAllocator()
     {
 		
     }

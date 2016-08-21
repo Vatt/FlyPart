@@ -132,9 +132,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\Core\CoreAbstractLayer\fpAllocator.h" />
-    <ClInclude Include="..\..\..\Core\CoreAbstractLayer\fpMemoryStats.h" />
-    <ClInclude Include="..\..\..\Core\CoreAbstractLayer\fpPoolAllocator.h" />
+    <ClInclude Include="..\..\..\Core\CoreAbstractLayer\Memory\fpAllocator.h" />
+    <ClInclude Include="..\..\..\Core\CoreAbstractLayer\Memory\fpCommonHeap.h" />
+    <ClInclude Include="..\..\..\Core\CoreAbstractLayer\Memory\fpHeapInterface.h" />
+    <ClInclude Include="..\..\..\Core\CoreAbstractLayer\Memory\fpPoolAllocator.h" />
     <ClInclude Include="..\..\..\Core\CoreCommonHeader.h" />
     <ClInclude Include="..\..\..\Core\GenericPlatform\defines.h" />
     <ClInclude Include="..\..\..\Core\GenericPlatform\fpPlatformAtomics.h" />
