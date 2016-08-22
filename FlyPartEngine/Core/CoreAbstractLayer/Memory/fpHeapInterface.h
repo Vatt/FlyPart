@@ -9,7 +9,7 @@ struct fpHeapInterface
 	virtual void  HeapFree(void* target, SIZE_T size) = 0;
 	virtual void* HeapRealloc(void* target, SIZE_T size) = 0;
 	virtual void  HeapCleanup() = 0;
-	virtual ~fpHeapInterface() = 0;
+	virtual void  HeapDestroy() = 0;
 };
 
 #endif
