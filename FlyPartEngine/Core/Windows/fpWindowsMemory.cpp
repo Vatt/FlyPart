@@ -22,7 +22,9 @@ fpPlatformMemory::MemoryStats fpPlatformMemory::Stats = MemoryStats(GetWinTotalR
 void* fpWindowsPlatformMemory::SystemAlloc(size_t size)
 {
     fpPlatformMemory::Stats.IncrementSystemAllocCallCounter();
-	return VirtualAlloc(NULL, size, MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE);
+	void* ptr = VirtualAlloc(NULL, size, MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE);
+	memset(ptr, 0, size); //FIXIT: implement function
+	return ptr;
 }
 void fpWindowsPlatformMemory::SystemFree(void* ptr)
 {

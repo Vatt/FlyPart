@@ -34,8 +34,8 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
-    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -132,6 +132,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\Core\CoreAbstractLayer\CoreAbstractLayerInclude.h" />
     <ClInclude Include="..\..\..\Core\CoreAbstractLayer\Memory\fpAllocator.h" />
     <ClInclude Include="..\..\..\Core\CoreAbstractLayer\Memory\fpCommonHeap.h" />
     <ClInclude Include="..\..\..\Core\CoreAbstractLayer\Memory\fpHeapInterface.h" />
@@ -166,6 +167,7 @@
     <ClInclude Include="..\..\..\fpCommon\TypeTraits.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\Core\CoreAbstractLayer\Memory\fpCommonHeap.cpp" />
     <ClCompile Include="..\..\..\Core\GenericPlatform\Input\fpInputSystem.cpp" />
     <ClCompile Include="..\..\..\Core\GenericPlatform\Input\fpKeyBind.cpp" />
     <ClCompile Include="..\..\..\Core\GenericPlatform\Input\fpKeyBoard.cpp" />

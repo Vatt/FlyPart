@@ -95,6 +95,9 @@
     <ClInclude Include="..\..\..\Core\CoreAbstractLayer\Memory\fpHeapInterface.h">
       <Filter>Core\CoreAbstractLayer\Memory</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Core\CoreAbstractLayer\CoreAbstractLayerInclude.h">
+      <Filter>Core\CoreAbstractLayer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="fpCommon">
@@ -149,6 +152,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Core\Windows\fpWindowsMemory.cpp">
       <Filter>Core\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Core\CoreAbstractLayer\Memory\fpCommonHeap.cpp">
+      <Filter>Core\CoreAbstractLayer\Memory</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
