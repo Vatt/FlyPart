@@ -23,7 +23,7 @@ int main(int argc, char **argv)
     fpMemory::UpdateMemoryStats();
 	fpCommonHeap Heap = fpCommonHeap();
 	Heap.HeapInit();
-	system("PAUSE");
+	//system("PAUSE");
     return 0;
 }
 
