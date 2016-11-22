@@ -6,7 +6,7 @@
 class fpCommonHeap : public fpHeapInterface
 {
 	enum { PAGES_IN_POOL = 1 }; //FIXIT: This is test value replace on 16
-	enum { START_POOL_COUNT = 1 }; //FIXIT: This is test value replace after
+	enum { START_POOL_COUNT = 4 }; //FIXIT: This is test value replace after
 	struct FreeMemory
 	{
 		FreeMemory* next;
@@ -18,11 +18,12 @@ class fpCommonHeap : public fpHeapInterface
 	struct Pool
 	{
 		FreeMemory* FreeMem;
+		uint32 TableIndex;
 		uint32 BlockSize;
 		uint32 FreeBlocks;
 #ifdef PLATFORM_64
 		//выравниваем до 32 бит
-		uint64 align[2];
+		uint32 align[3];
 #elif  PLATFORM_32
 		//если 32 битная платформа размер равен 16 выравнивание ненужно
 #endif
@@ -39,6 +40,9 @@ public:
 	void* HeapRealloc(void* target, SIZE_T size)override;
 	void  HeapCleanup()override;
 	void  HeapDestroy()override;
+private:
+	const uint16 POOL_SIZES[4] = {8,16,32,40};
+	//Pool** PoolTable;
 };
 
 #endif
