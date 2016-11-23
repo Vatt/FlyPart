@@ -12,8 +12,7 @@ public:
 	{}
 	~fpAllocator() 
 	{
-		_heap->HeapCleanup();
-		_heap->HeapDestroy();
+
 	};
 	virtual void* allocate(size_t size) = 0;
 	virtual void  free(void* ptr) = 0;

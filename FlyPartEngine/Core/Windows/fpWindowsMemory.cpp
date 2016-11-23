@@ -3,20 +3,21 @@
 #include <wchar.h>
 #include <utility>
 #include <Windows.h>
-DWORDLONG GetWinTotalRam() {
-	SYSTEM_INFO sys_info;
-	MEMORYSTATUSEX mem_info;
+FORCEINLINE DWORDLONG GetWinTotalRam() {
+//	SYSTEM_INFO sys_info;
+    MEMORYSTATUSEX mem_info;
 	mem_info.dwLength = sizeof(MEMORYSTATUSEX);
 	GlobalMemoryStatusEx(&mem_info);
 	return mem_info.ullTotalPhys;
 }
-DWORDLONG GetWinPageSize() {
+FORCEINLINE DWORDLONG GetWinPageSize() {
 	SYSTEM_INFO sys_info;
-	MEMORYSTATUSEX mem_info;
+//	MEMORYSTATUSEX mem_info;
 	GetSystemInfo(&sys_info);
 /*TODO: возможно лучше указать гранул€рность(dwAllocationGranularity)*/
 	return sys_info.dwPageSize;
 }
+/*FIXIT: «аглушка в лимите, с лимитом вообще ничего не провер€етс€*/
 fpPlatformMemory::MemoryStats fpPlatformMemory::Stats = MemoryStats(GetWinTotalRam(), 1024, GetWinPageSize());
 
 void* fpWindowsPlatformMemory::SystemAlloc(size_t size)

@@ -21,18 +21,19 @@ class fpCommonHeap : public fpHeapInterface
 		uint32 TableIndex;
 		uint32 BlockSize;
 		uint32 FreeBlocks;
-#ifdef PLATFORM_64
-		//выравниваем до 32 бит
-		uint32 align[3];
-#elif  PLATFORM_32
-		//если 32 битная платформа размер равен 16 выравнивание ненужно
+//выравниваем до 32 бит
+#ifdef PLATFORM_64		
+		uint32 align[3];	
 #endif
-
+#ifdef PLATFORM_32
+        uint32 align[4];
+#endif
 	};
 private:
 	FORCEINLINE void* getPoolRawData(Pool* pool);
 	Pool* makeNewPool(uint32 inBlockSize);
-	void* poolAllocate(SIZE_T size);
+    FORCEINLINE void* inPoolAllocate(Pool* inPool);
+    FORCEINLINE void  inPoolDeallocate(Pool* inPool, void* inPtr);
 public:
 	void  HeapInit() override;
 	void* HeapAlloc(SIZE_T size)override;

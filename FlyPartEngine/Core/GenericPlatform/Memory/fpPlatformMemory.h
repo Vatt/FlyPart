@@ -11,9 +11,8 @@ struct fpPlatformMemory
         size_t UsedMemory;
         size_t AvailablePhysMemory;
         size_t MemoryLimit;
-        MemoryStats(size_t totalPhysMem,size_t memLimit, uint32 pageSize):TotalPhysMemory(totalPhysMem),
-                                                                          MemoryLimit(memLimit),
-                                                                          PageSize(pageSize)
+        MemoryStats(size_t totalPhysMem,size_t memLimit, uint32 pageSize)
+            :TotalPhysMemory(totalPhysMem),MemoryLimit(memLimit),PageSize(pageSize)
         {
             AllocCallCounter=0;
             FreeCallCounter=0;
