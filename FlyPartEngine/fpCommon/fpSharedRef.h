@@ -8,7 +8,8 @@
 #include "../Core/GenericPlatform/Memory/fpMemorySystem.h"
 using namespace fpTemplate;
 template <class ObjType, RefControllerMode Mode> class fpWeakPtr;
-template <class ObjType,RefControllerMode Mode = RefControllerMode::Auto>
+
+template <class ObjType, RefControllerMode Mode = RefControllerMode::Auto>
 class fpSharedRef{
 private:
 	typedef fpSharedRef<ObjType> SelfType;

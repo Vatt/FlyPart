@@ -161,7 +161,7 @@
     <ClInclude Include="..\..\..\fpCommon\fpCallback.h" />
     <ClInclude Include="..\..\..\fpCommon\fpCommon.h" />
     <ClInclude Include="..\..\..\fpCommon\fpFunction.h" />
-    <ClInclude Include="..\..\..\fpCommon\fpSharedPtr.h" />
+    <ClInclude Include="..\..\..\fpCommon\fpSharedRef.h" />
     <ClInclude Include="..\..\..\fpCommon\SmartPtrPrivate.h" />
     <ClInclude Include="..\..\..\fpCommon\SmartPtrTest.h" />
     <ClInclude Include="..\..\..\fpCommon\TypeTraits.h" />

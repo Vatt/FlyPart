@@ -40,5 +40,5 @@ void fpWindowSystem::triggerWndEvent()
 	}
 }
 uint32 fpWindowSystem::wndCount(){
-  return _wndList.size();
+return _wndList.size();
 }

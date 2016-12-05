@@ -49,18 +49,31 @@ fpCommonHeap::Pool* fpCommonHeap::makeNewPool(uint32 inBlockSize)
 	pool = new(memory)Pool();
 	pool->BlockSize = inBlockSize;
 	pool->FreeBlocks = blocks_count;
-	FreeMemory* first = new((uint8*)getPoolRawData(pool))FreeMemory;
-	for (uint32  mem_ind = 1; mem_ind <= blocks_count; mem_ind++)
+
+
+	FreeMemory* ptr = (FreeMemory*)getPoolRawData(pool);
+	pool->FreeMem = ptr;
+	UINTPTR mem_pos = (UINTPTR)((UINTPTR)getPoolRawData(pool) + inBlockSize);
+	UINTPTR end_mem_pos = mem_pos  + (blocks_count * inBlockSize);
+	FreeMemory& free_mem = *ptr;
+	while (mem_pos < end_mem_pos)
 	{
-		FreeMemory* newMem = new((FreeMemory*)(first + mem_ind))FreeMemory;
-		FreeMemory* prevMem = ((FreeMemory*)newMem - 1);
-		prevMem->next = newMem;
+		free_mem.next = new((void*)mem_pos)FreeMemory;
+		free_mem = *free_mem.next;
+		mem_pos += inBlockSize;
+
 	}
-	pool->FreeMem = first;
+
 	return pool;
 }
 FORCEINLINE void* fpCommonHeap::inPoolAllocate(Pool* inPool)
 {
+	if (inPool->FreeBlocks == 0)
+	{
+		inPool->FreeMem = nullptr;
+		return nullptr;
+	}
+
     FreeMemory* new_free_mem = inPool->FreeMem->next;
     void* allocated = inPool->FreeMem;
     inPool->FreeMem = new_free_mem;

@@ -1,8 +1,8 @@
 // test.cpp : Defines the entry point for the console application.
 //
 
-#include "../FlyPartEngine/Core/CoreAbstractLayer/CoreAbstractLayerInclude.h"
-//#include "../FlyPartEngine/fpCommon/SmartPtrTest.h"
+#include "../FlyPartEngine/FlyPart.h"
+#include "../FlyPartEngine/fpCommon/SmartPtrTest.h"
 #ifdef PLATFORM_LINUX
 #endif
 #ifdef PLATFORM_WINDOWS
@@ -18,7 +18,7 @@
 //using namespace fpTemplate;
 int main(int argc, char **argv)
 {
- /*   SmartPtrTest::SmartPtrTestRun();*/
+    SmartPtrTest::SmartPtrTestRun();
     fpMemory::UpdateMemoryStats();
     fpCommonHeap Heap = fpCommonHeap();
     Heap.HeapInit();

@@ -4,7 +4,7 @@
 
 #include "fpCallback.h"
 #include "fpFunction.h"
-#include "fpSharedPtr.h"
+#include "fpSharedRef.h"
 #include "../Core/GenericPlatform/typedefs.h"
 #include "CommonHelperFunctions.h"
 #include "TypeTraits.h"

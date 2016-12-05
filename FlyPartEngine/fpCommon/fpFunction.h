@@ -3,7 +3,7 @@
 #define FPFUNCTION_H_
 #pragma once
 #include <memory>
-#include "fpSharedPtr.h"
+#include "fpSharedRef.h"
 template<typename _none> class fpFunction;
 
 template<typename _retType, typename ... _args>

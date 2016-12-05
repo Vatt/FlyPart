@@ -7,9 +7,6 @@
     <ClInclude Include="..\..\..\fpCommon\fpFunction.h">
       <Filter>fpCommon</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\fpCommon\fpSharedPtr.h">
-      <Filter>fpCommon</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\fpCommon\fpCommon.h">
       <Filter>fpCommon</Filter>
     </ClInclude>
@@ -97,6 +94,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Core\CoreAbstractLayer\CoreAbstractLayerInclude.h">
       <Filter>Core\CoreAbstractLayer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\fpCommon\fpSharedRef.h">
+      <Filter>fpCommon</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
