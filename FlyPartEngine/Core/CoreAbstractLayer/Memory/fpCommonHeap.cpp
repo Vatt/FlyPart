@@ -3,7 +3,7 @@
 
 void fpCommonHeap::HeapInit()
 {
-	for (uint32 index = 0; index <= START_POOL_COUNT;index++)
+	for (uint32 index = 0; index < START_POOL_COUNT;index++)
 	{
         makeNewPool(POOL_SIZES[index]);
 	}
@@ -27,17 +27,17 @@ void fpCommonHeap::HeapDestroy()
 {
 }
 
-void * fpCommonHeap::HeapRealloc(void * target, SIZE_T size)
+void* fpCommonHeap::HeapRealloc(void * target, SIZE_T size)
 {
 	return nullptr;
 }
 
-void * fpCommonHeap::getPoolRawData(Pool * pool)
+void* fpCommonHeap::PoolList::getPoolRawData(Pool* pool)
 {
-	return (pool + sizeof(Pool));
+	return (void*)((UINTPTR)pool + (UINTPTR)sizeof(Pool));
 }
 
-fpCommonHeap::Pool* fpCommonHeap::makeNewPool(uint32 inBlockSize)
+fpCommonHeap::Pool* fpCommonHeap::PoolList::makeNewPool(uint32 inBlockSize)
 {
 	Pool* pool;
 	uint32 size_alloc = fpMemory::Stats.PageSize * PAGES_IN_POOL;
@@ -50,24 +50,28 @@ fpCommonHeap::Pool* fpCommonHeap::makeNewPool(uint32 inBlockSize)
 	pool->BlockSize = inBlockSize;
 	pool->FreeBlocks = blocks_count;
 
-
-	FreeMemory* ptr = (FreeMemory*)getPoolRawData(pool);
-	pool->FreeMem = ptr;
-	UINTPTR mem_pos = (UINTPTR)((UINTPTR)getPoolRawData(pool) + inBlockSize);
-	UINTPTR end_mem_pos = mem_pos  + (blocks_count * inBlockSize);
-	FreeMemory& free_mem = *ptr;
-	while (mem_pos < end_mem_pos)
+	void* pool_raw_ptr = getPoolRawData(pool);	
+	FreeMemory* free_ptr = new(pool_raw_ptr)FreeMemory;
+	SIZE_T limit =(UINTPTR)((UINTPTR)pool+size_alloc);
+	for (UINTPTR offset = (UINTPTR)free_ptr + pool->BlockSize;
+		offset < limit;
+		offset = offset  + pool->BlockSize)
 	{
-		free_mem.next = new((void*)mem_pos)FreeMemory;
-		free_mem = *free_mem.next;
-		mem_pos += inBlockSize;
-
+		FreeMemory* ptr = new ((void*)offset)FreeMemory;
+		FreeMemory* prev = (FreeMemory*)((UINTPTR)ptr - pool->BlockSize);
+		prev->next = ptr;
 	}
-
+	pool->FreeMem = free_ptr;
+	//uint32 count = 0;
+	//for (FreeMemory* mem = pool->FreeMem; mem != nullptr;mem = mem->next)
+	//{
+	//	count++;
+	//}
 	return pool;
 }
-FORCEINLINE void* fpCommonHeap::inPoolAllocate(Pool* inPool)
+FORCEINLINE void* fpCommonHeap::PoolList::inPoolAllocate(Pool* inPool)
 {
+	//FIXIT: Заглушка
 	if (inPool->FreeBlocks == 0)
 	{
 		inPool->FreeMem = nullptr;
@@ -80,7 +84,7 @@ FORCEINLINE void* fpCommonHeap::inPoolAllocate(Pool* inPool)
     inPool->FreeBlocks -= 1;
     return allocated;
 }
-FORCEINLINE void  fpCommonHeap::inPoolDeallocate(Pool* inPool, void* inPtr)
+FORCEINLINE void  fpCommonHeap::PoolList::inPoolDeallocate(Pool* inPool, void* inPtr)
 {
     FreeMemory* new_free_mem = new(inPtr)FreeMemory;
     new_free_mem->next = inPool->FreeMem;

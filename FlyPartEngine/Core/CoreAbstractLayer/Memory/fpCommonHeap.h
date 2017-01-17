@@ -5,15 +5,15 @@
 #include "../../GenericPlatform/fpPlatform.h"
 class fpCommonHeap : public fpHeapInterface
 {
-	enum { PAGES_IN_POOL = 1 }; //FIXIT: This is test value replace on 16
-	enum { START_POOL_COUNT = 4 }; //FIXIT: This is test value replace after
+	enum { PAGES_IN_POOL = 16 }; //FIXIT: This is test value replace on 16
+	enum { START_POOL_COUNT = 2 }; //FIXIT: This is test value replace after
 	struct FreeMemory
 	{
 		FreeMemory* next;
 /* Выравнивание до 8 бит для 32 битных систем*/
 #ifdef PLATFORM_32
 		uint32 _allign;
-#endif
+#endif		
 	};
 	struct Pool
 	{
@@ -21,6 +21,7 @@ class fpCommonHeap : public fpHeapInterface
 		uint32 TableIndex;
 		uint32 BlockSize;
 		uint32 FreeBlocks;
+
 //выравниваем до 32 бит
 #ifdef PLATFORM_64		
 		uint32 align[3];	
@@ -29,11 +30,21 @@ class fpCommonHeap : public fpHeapInterface
         uint32 align[4];
 #endif
 	};
+	struct PoolList 
+	{
+		Pool* first;
+		FreeMemory* ListFreeMemPtr;
+		uint32 BlockSize;
+		uint32 PoolCount;
+		Pool* makeNewPool(uint32 inBlockSize);
+		FORCEINLINE void* getPoolRawData(Pool* pool);
+		FORCEINLINE void* inPoolAllocate(Pool* inPool);
+		FORCEINLINE void  inPoolDeallocate(Pool* inPool, void* inPtr);
+	};
 private:
-	FORCEINLINE void* getPoolRawData(Pool* pool);
-	Pool* makeNewPool(uint32 inBlockSize);
-    FORCEINLINE void* inPoolAllocate(Pool* inPool);
-    FORCEINLINE void  inPoolDeallocate(Pool* inPool, void* inPtr);
+	
+	
+
 public:
 	void  HeapInit() override;
 	void* HeapAlloc(SIZE_T size)override;
@@ -42,8 +53,8 @@ public:
 	void  HeapCleanup()override;
 	void  HeapDestroy()override;
 private:
-	const uint16 POOL_SIZES[4] = {8,16,32,40};
-	//Pool** PoolTable;
+	const uint16 POOL_SIZES[7] = {8,12,16,18,24,32,40};
+
 };
 
 #endif
