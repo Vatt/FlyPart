@@ -4,11 +4,11 @@
 #include "../../GenericPlatform/fpPlatform.h"
 #include "fpHeapInterface.h"
 class fpMemorySystem;
-class fpAllocator
+class fpAllocatorInterface
 {
-	fpHeapInterface* _heap;
+	fpHeapInterface* Heap;
 public:
-	fpAllocator(fpHeapInterface* heap) :_heap(heap)
+	fpAllocatorInterface(fpHeapInterface* heap) :Heap(heap)
 	{}
 	~fpAllocator() 
 	{
@@ -16,7 +16,14 @@ public:
 	};
 	virtual void* allocate(size_t size) = 0;
 	virtual void  free(void* ptr) = 0;
-	
 };
+class fpFixedAllocator:public fpAllocatorInterface{
+	uint32 _size;
+public:
+	fpFixedAllocator(fpHeapInterface* heap,uint32 block_size) : fpAllocatorInterface(heap),_size(block_size)
+	{}
+	virtual void* allocate(size_t size);
+	virtual void  free(void* ptr);
 
+};
 #endif

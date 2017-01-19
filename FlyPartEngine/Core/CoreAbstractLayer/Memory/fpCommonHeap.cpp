@@ -3,10 +3,7 @@
 
 void fpCommonHeap::HeapInit()
 {
-	for (uint32 index = 0; index < START_POOL_COUNT;index++)
-	{
-        makeNewPool(POOL_SIZES[index]);
-	}
+
 }
 
 void * fpCommonHeap::HeapAlloc(SIZE_T size)
@@ -32,25 +29,64 @@ void* fpCommonHeap::HeapRealloc(void * target, SIZE_T size)
 	return nullptr;
 }
 
-void* fpCommonHeap::PoolList::getPoolRawData(Pool* pool)
+fpCommonHeap::PoolList::PoolList(uint32 block_size)
 {
-	return (void*)((UINTPTR)pool + (UINTPTR)sizeof(Pool));
+    this->BlockSize = block_size;
+    for (uint32 index = 0; index < START_POOL_COUNT;index++)
+    {
+        if (!this->Front)
+        {
+            Front = makeNewPool();
+        }else{
+            LinkPoolToFront(makeNewPool());
+        }
+        this->ListFreeBlocksCount += Front->FreeBlocks;
+    }
+    this->ListFreeMemory = Front->FreeMem;
+    this->BlocksNumPerPool = ((fpMemory::Stats.PageSize * PAGES_IN_POOL)- sizeof(PoolHeader))/this->BlockSize;
+
+}
+FORCEINLINE void fpCommonHeap::PoolList::LinkPoolToFront(PoolHeader *target)
+{
+    target->Next = this->Front;
+    this->Front = target;
+    this->PoolCount++;
+    this->ListFreeBlocksCount+=this->BlocksNumPerPool;
+}
+FORCEINLINE void fpCommonHeap::PoolList::ExtendPoolsCount(uint32 num)
+{
+    PoolHeader* pools = makeNewPool();
+    PoolHeader* prev_pool = pools;
+    for(uint32 i = 0;i<num-1;i++)
+    {
+        PoolHeader* new_pool  = makeNewPool();
+        prev_pool->Next = new_pool;
+        prev_pool = new_pool;
+    }
+    LinkPoolToFront(pools);
+    this->ListFreeBlocksCount += (this->BlocksNumPerPool*num);
 }
 
-fpCommonHeap::Pool* fpCommonHeap::PoolList::makeNewPool(uint32 inBlockSize)
+FORCEINLINE void* fpCommonHeap::PoolList::GetPoolRawData(PoolHeader *pool)const
 {
-	Pool* pool;
-	uint32 size_alloc = fpMemory::Stats.PageSize * PAGES_IN_POOL;
-	uint32 pool_size = size_alloc - sizeof(Pool);
-	uint32 blocks_count = pool_size / inBlockSize;
+	return (void*)((UINTPTR)pool + (UINTPTR)sizeof(PoolHeader));
+}
+
+fpCommonHeap::PoolHeader* fpCommonHeap::PoolList::makeNewPool()const
+{
+	PoolHeader* pool;
+	SIZE_T size_alloc = fpMemory::Stats.PageSize * PAGES_IN_POOL;
+    SIZE_T pool_size = size_alloc - sizeof(PoolHeader);
+    uint32 blocks_count = pool_size / this->BlockSize;
 	void* memory = fpMemory::SystemAlloc(size_alloc);
 
-	/*первые 32 байта информация о самом пуле*/
-	pool = new(memory)Pool();
-	pool->BlockSize = inBlockSize;
+	/*РїРµСЂРІС‹Рµ 32 Р±РёС‚Р° РёРЅС„РѕСЂРјР°С†РёСЏ Рѕ СЃР°РјРѕРј РїСѓР»Рµ*/
+	pool = new(memory)PoolHeader();
+    pool->Next = nullptr;
+	pool->BlockSize = this->BlockSize;
 	pool->FreeBlocks = blocks_count;
 
-	void* pool_raw_ptr = getPoolRawData(pool);	
+	void* pool_raw_ptr = GetPoolRawData(nullptr);
 	FreeMemory* free_ptr = new(pool_raw_ptr)FreeMemory;
 	SIZE_T limit =(UINTPTR)((UINTPTR)pool+size_alloc);
 	for (UINTPTR offset = (UINTPTR)free_ptr + pool->BlockSize;
@@ -62,33 +98,70 @@ fpCommonHeap::Pool* fpCommonHeap::PoolList::makeNewPool(uint32 inBlockSize)
 		prev->next = ptr;
 	}
 	pool->FreeMem = free_ptr;
-	//uint32 count = 0;
-	//for (FreeMemory* mem = pool->FreeMem; mem != nullptr;mem = mem->next)
-	//{
-	//	count++;
-	//}
+
+    /*uint32 count = 0;
+	for (FreeMemory* mem = pool->FreeMem; mem != nullptr;mem = mem->Next)
+	{
+		count++;
+	}*/
 	return pool;
 }
-FORCEINLINE void* fpCommonHeap::PoolList::inPoolAllocate(Pool* inPool)
+FORCEINLINE void* fpCommonHeap::PoolList::PoolAllocate()
 {
-	//FIXIT: Заглушка
-	if (inPool->FreeBlocks == 0)
-	{
-		inPool->FreeMem = nullptr;
-		return nullptr;
-	}
-
-    FreeMemory* new_free_mem = inPool->FreeMem->next;
-    void* allocated = inPool->FreeMem;
-    inPool->FreeMem = new_free_mem;
-    inPool->FreeBlocks -= 1;
-    return allocated;
+    void* free_block = nullptr;
+    PoolHeader* iterator = this->Front;
+    if (!this->ListFreeMemory)
+    {
+        do{
+            if (iterator->Next&&iterator->Next->FreeMem!=nullptr)
+            {
+                this->ListFreeMemory = iterator->FreeMem->next;
+                free_block = iterator->FreeMem;
+                return free_block;
+            }
+            iterator = iterator->Next;
+        }while(iterator->Next);
+        ExtendPoolsCount(static_cast<uint32>(this->PoolCount*1.3));
+    }
+    this->ListFreeMemory = this->Front->FreeMem->next;
+    free_block = this->Front->FreeMem;
+    this->ListFreeBlocksCount--;
+    return free_block;
 }
-FORCEINLINE void  fpCommonHeap::PoolList::inPoolDeallocate(Pool* inPool, void* inPtr)
+FORCEINLINE void fpCommonHeap::PoolList::PoolFree(void *inPtr)
 {
-    FreeMemory* new_free_mem = new(inPtr)FreeMemory;
-    new_free_mem->next = inPool->FreeMem;
-    inPool->FreeMem  = new_free_mem;
-    inPool->FreeBlocks += 1;
+    FreeMemory* temp = this->ListFreeMemory;
+    this->ListFreeMemory = static_cast<FreeMemory*>(inPtr);
+    this->ListFreeMemory->next = temp;
+    this->ListFreeBlocksCount++;
+}
 
+FORCEINLINE uint32 fpCommonHeap::PoolList::CalcRealNumFreeBlocks() const
+{
+    uint32 count = 0;
+    FreeMemory* free_mem_iterator = this->ListFreeMemory;
+    PoolHeader* pool_iterator = this->Front;
+    if (free_mem_iterator == nullptr)
+    {
+        free_mem_iterator = pool_iterator->Next->FreeMem;
+        pool_iterator = pool_iterator->Next;
+    }
+    while(free_mem_iterator != nullptr)
+    {
+        free_mem_iterator = free_mem_iterator->next;
+        count++;
+        if (free_mem_iterator == nullptr)
+        {
+            free_mem_iterator = pool_iterator->Next->FreeMem;
+            pool_iterator = pool_iterator->Next;
+        }
+    }
+
+    return count;
+}
+
+
+fpCommonHeap::~fpCommonHeap()
+{
+	this->HeapDestroy();
 }
