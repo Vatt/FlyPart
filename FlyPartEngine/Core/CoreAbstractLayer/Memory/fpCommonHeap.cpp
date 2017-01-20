@@ -5,7 +5,7 @@ void fpCommonHeap::HeapInit()
 {
 
 }
-
+/*
 void * fpCommonHeap::HeapAlloc(SIZE_T size)
 {
 	return nullptr;
@@ -19,7 +19,7 @@ void fpCommonHeap::HeapCleanup()
 {
 	
 }
-
+*/
 void fpCommonHeap::HeapDestroy()
 {
 }
@@ -28,10 +28,21 @@ void* fpCommonHeap::HeapRealloc(void * target, SIZE_T size)
 {
 	return nullptr;
 }
-
+bool fpCommonHeap::ValidateHeap()
+{
+    for(uint16 i = 0;i<9;i++)
+    {
+        if(!PoolTable[i]->ValidateList())
+        { 
+            return false;
+        }
+    }
+    return true;
+}
 fpCommonHeap::PoolList::PoolList(uint32 block_size)
 {
     this->BlockSize = block_size;
+    this->BlocksNumPerPool = ((fpMemory::Stats.PageSize * PAGES_IN_POOL)- sizeof(PoolHeader))/this->BlockSize;
     for (uint32 index = 0; index < START_POOL_COUNT;index++)
     {
         if (!this->Front)
@@ -40,10 +51,10 @@ fpCommonHeap::PoolList::PoolList(uint32 block_size)
         }else{
             LinkPoolToFront(makeNewPool());
         }
-        this->ListFreeBlocksCount += Front->FreeBlocks;
+        this->ListFreeBlocksCount += this->BlocksNumPerPool;
     }
     this->ListFreeMemory = Front->FreeMem;
-    this->BlocksNumPerPool = ((fpMemory::Stats.PageSize * PAGES_IN_POOL)- sizeof(PoolHeader))/this->BlockSize;
+    
 
 }
 FORCEINLINE void fpCommonHeap::PoolList::LinkPoolToFront(PoolHeader *target)
@@ -84,8 +95,6 @@ fpCommonHeap::PoolHeader* fpCommonHeap::PoolList::makeNewPool()const
 	pool = new(memory)PoolHeader();
     pool->Next = nullptr;
 	pool->BlockSize = this->BlockSize;
-	pool->FreeBlocks = blocks_count;
-
 	void* pool_raw_ptr = GetPoolRawData(nullptr);
 	FreeMemory* free_ptr = new(pool_raw_ptr)FreeMemory;
 	SIZE_T limit =(UINTPTR)((UINTPTR)pool+size_alloc);
@@ -123,8 +132,8 @@ FORCEINLINE void* fpCommonHeap::PoolList::PoolAllocate()
         }while(iterator->Next);
         ExtendPoolsCount(static_cast<uint32>(this->PoolCount*1.3));
     }
-    this->ListFreeMemory = this->Front->FreeMem->next;
-    free_block = this->Front->FreeMem;
+    free_block = this->ListFreeMemory;
+    this->ListFreeMemory = this->ListFreeMemory->next;
     this->ListFreeBlocksCount--;
     return free_block;
 }
@@ -159,9 +168,21 @@ FORCEINLINE uint32 fpCommonHeap::PoolList::CalcRealNumFreeBlocks() const
 
     return count;
 }
-
-
+FORCEINLINE bool fpCommonHeap::PoolList::ValidateList()const
+{
+    uint32 real_free_blocks_count = this->CalcRealNumFreeBlocks();
+    if (real_free_blocks_count != this->ListFreeBlocksCount)
+    {
+        return true;
+    }else{
+        return false;
+    }
+}
 fpCommonHeap::~fpCommonHeap()
 {
 	this->HeapDestroy();
+}
+fpCommonHeap::CommonAllocator::CommonAllocator()
+{
+    fpAllocatorInterface((fpHeapInterface*) this);
 }

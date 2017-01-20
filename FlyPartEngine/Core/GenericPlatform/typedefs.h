@@ -4,7 +4,6 @@
 #include "defines.h"
 #include <wchar.h>
 #include <stdint.h>
-#include <lzma.h>
 
 #if defined (PLATFORM_64) && defined(PLATFORM_WINDOWS)
 typedef uint32_t				uint32; //4 unsigned int

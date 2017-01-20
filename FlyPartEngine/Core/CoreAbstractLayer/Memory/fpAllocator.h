@@ -10,20 +10,9 @@ class fpAllocatorInterface
 public:
 	fpAllocatorInterface(fpHeapInterface* heap) :Heap(heap)
 	{}
-	~fpAllocator() 
-	{
-
-	};
-	virtual void* allocate(size_t size) = 0;
-	virtual void  free(void* ptr) = 0;
-};
-class fpFixedAllocator:public fpAllocatorInterface{
-	uint32 _size;
-public:
-	fpFixedAllocator(fpHeapInterface* heap,uint32 block_size) : fpAllocatorInterface(heap),_size(block_size)
-	{}
-	virtual void* allocate(size_t size);
-	virtual void  free(void* ptr);
-
+	virtual void* Allocate(SIZE_T size) = 0;
+	virtual void  Free(void* ptr) = 0;
+	virtual void* Realloc(void* ptr, SIZE_T size) = 0;
+	virtual ~fpAllocatorInterface()=0;
 };
 #endif
