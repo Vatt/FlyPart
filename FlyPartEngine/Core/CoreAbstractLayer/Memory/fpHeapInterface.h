@@ -1,8 +1,9 @@
-#ifndef _FP_HEAP_INLUDE_
+#ifndef _FP_HEAP_INCLUDE_
 #define _FP_HEAP_INCLUDE_
 #pragma once
 #include "../../GenericPlatform/fpPlatform.h"
 #include "fpAllocator.h"
+
 struct fpHeapInterface
 {
 	virtual void  HeapInit() = 0;
@@ -14,7 +15,7 @@ struct fpHeapInterface
 	*/
 	virtual void  HeapDestroy() = 0;
 	virtual bool  ValidateHeap() =0;
-	virtual fpAllocatorInterface* MakeAllocator()=0;
+	virtual fpAllocatorInterface* MakeDefaultAllocator()=0;
 };
 
 #endif

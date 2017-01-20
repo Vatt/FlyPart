@@ -33,14 +33,12 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="fpCommonHeap.h" pinned="false" current-in-tab="true">
+      <file leaf-file-name="fpCommonHeap.h" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Core/CoreAbstractLayer/Memory/fpCommonHeap.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="396">
-              <caret line="53" column="48" lean-forward="false" selection-start-line="53" selection-start-column="48" selection-end-line="53" selection-end-column="48" />
-              <folding>
-                <element signature="e#507#522#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="71">
+              <caret line="58" column="0" lean-forward="false" selection-start-line="58" selection-start-column="0" selection-end-line="58" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -48,10 +46,22 @@
       <file leaf-file-name="fpCommonHeap.cpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Core/CoreAbstractLayer/Memory/fpCommonHeap.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="387">
-              <caret line="138" column="12" lean-forward="false" selection-start-line="138" selection-start-column="12" selection-end-line="138" selection-end-column="12" />
+            <state relative-caret-position="-9">
+              <caret line="147" column="0" lean-forward="false" selection-start-line="147" selection-start-column="0" selection-end-line="147" selection-end-column="0" />
               <folding>
                 <element signature="e#0#25#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="fpHeapInterface.h" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Core/CoreAbstractLayer/Memory/fpHeapInterface.h">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="378">
+              <caret line="21" column="0" lean-forward="true" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+              <folding>
+                <element signature="e#65#110#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -60,11 +70,11 @@
       <file leaf-file-name="fpAllocator.h" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Core/CoreAbstractLayer/Memory/fpAllocator.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="486">
-              <caret line="28" column="6" lean-forward="false" selection-start-line="28" selection-start-column="6" selection-end-line="28" selection-end-column="6" />
+            <state relative-caret-position="72">
+              <caret line="4" column="28" lean-forward="true" selection-start-line="4" selection-start-column="28" selection-end-line="4" selection-end-column="28" />
               <folding>
-                <marker date="1484792842136" expanded="true" signature="171:370" ph="{...}" />
-                <marker date="1484792842136" expanded="true" signature="284:289" ph="{...}" />
+                <element signature="e#47#92#0" expanded="true" />
+                <marker date="1484944037223" expanded="true" signature="194:293" ph="{...}" />
               </folding>
             </state>
           </provider>
@@ -102,11 +112,12 @@
         <option value="$PROJECT_DIR$/Core/Linux/fpLinuxPlatformMemory.cpp" />
         <option value="$PROJECT_DIR$/Core/CoreAbstractLayer/fpPoolAllocator.h" />
         <option value="$PROJECT_DIR$/Core/GenericPlatform/typedefs.h" />
-        <option value="$PROJECT_DIR$/Core/CoreAbstractLayer/Memory/fpAllocator.h" />
         <option value="$PROJECT_DIR$/Core/GenericPlatform/Memory/fpPlatformMemory.h" />
         <option value="$PROJECT_DIR$/CMakeLists.txt" />
-        <option value="$PROJECT_DIR$/Core/CoreAbstractLayer/Memory/fpCommonHeap.h" />
+        <option value="$PROJECT_DIR$/Core/CoreAbstractLayer/Memory/fpAllocator.h" />
         <option value="$PROJECT_DIR$/Core/CoreAbstractLayer/Memory/fpCommonHeap.cpp" />
+        <option value="$PROJECT_DIR$/Core/CoreAbstractLayer/Memory/fpCommonHeap.h" />
+        <option value="$PROJECT_DIR$/Core/CoreAbstractLayer/Memory/fpHeapInterface.h" />
       </list>
     </option>
   </component>
@@ -472,11 +483,13 @@
       <workItem from="1484694387528" duration="571000" />
       <workItem from="1484694973098" duration="4389000" />
       <workItem from="1484772132999" duration="36243000" />
+      <workItem from="1484895095569" duration="1020000" />
+      <workItem from="1484938663308" duration="7740000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="68507000" />
+    <option name="totallyTimeSpent" value="77267000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -496,7 +509,6 @@
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32800853" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32800853" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3290735" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3290735" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.253125" sideWeight="0.54565215" order="3" side_tool="true" content_ui="tabs" x="766" y="166" width="474" height="949" />
@@ -508,6 +520,7 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3997879" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3290735" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -537,7 +550,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/fpCommon/fpSharedPtr.h" />
     <entry file="file://$PROJECT_DIR$/FlyPart.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="18">
@@ -736,20 +748,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="387">
           <caret line="35" column="49" lean-forward="false" selection-start-line="35" selection-start-column="49" selection-end-line="35" selection-end-column="49" />
-          <folding>
-            <element signature="e#53#73#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Core/CoreAbstractLayer/Memory/fpAllocator.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="486">
-          <caret line="28" column="6" lean-forward="false" selection-start-line="28" selection-start-column="6" selection-end-line="28" selection-end-column="6" />
-          <folding>
-            <marker date="1484792842136" expanded="true" signature="171:370" ph="{...}" />
-            <marker date="1484792842136" expanded="true" signature="284:289" ph="{...}" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -757,7 +755,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="702">
           <caret line="40" column="0" lean-forward="false" selection-start-line="40" selection-start-column="0" selection-end-line="40" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -769,10 +766,21 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Core/CoreAbstractLayer/Memory/fpAllocator.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="72">
+          <caret line="4" column="28" lean-forward="true" selection-start-line="4" selection-start-column="28" selection-end-line="4" selection-end-column="28" />
+          <folding>
+            <element signature="e#47#92#0" expanded="true" />
+            <marker date="1484944037223" expanded="true" signature="194:293" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Core/CoreAbstractLayer/Memory/fpCommonHeap.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="387">
-          <caret line="138" column="12" lean-forward="false" selection-start-line="138" selection-start-column="12" selection-end-line="138" selection-end-column="12" />
+        <state relative-caret-position="-9">
+          <caret line="147" column="0" lean-forward="false" selection-start-line="147" selection-start-column="0" selection-end-line="147" selection-end-column="0" />
           <folding>
             <element signature="e#0#25#0" expanded="true" />
           </folding>
@@ -781,10 +789,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Core/CoreAbstractLayer/Memory/fpCommonHeap.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="396">
-          <caret line="53" column="48" lean-forward="false" selection-start-line="53" selection-start-column="48" selection-end-line="53" selection-end-column="48" />
+        <state relative-caret-position="71">
+          <caret line="58" column="0" lean-forward="false" selection-start-line="58" selection-start-column="0" selection-end-line="58" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Core/CoreAbstractLayer/Memory/fpHeapInterface.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="378">
+          <caret line="21" column="0" lean-forward="true" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
           <folding>
-            <element signature="e#507#522#0" expanded="true" />
+            <element signature="e#65#110#0" expanded="true" />
           </folding>
         </state>
       </provider>

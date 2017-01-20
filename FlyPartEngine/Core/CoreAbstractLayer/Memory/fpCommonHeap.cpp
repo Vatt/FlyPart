@@ -20,14 +20,15 @@ void fpCommonHeap::HeapCleanup()
 	
 }
 */
+/*void* fpCommonHeap::HeapRealloc(void * target, SIZE_T size)
+{
+    return nullptr;
+}*/
 void fpCommonHeap::HeapDestroy()
 {
 }
 
-void* fpCommonHeap::HeapRealloc(void * target, SIZE_T size)
-{
-	return nullptr;
-}
+
 bool fpCommonHeap::ValidateHeap()
 {
     for(uint16 i = 0;i<9;i++)
@@ -171,18 +172,21 @@ FORCEINLINE uint32 fpCommonHeap::PoolList::CalcRealNumFreeBlocks() const
 FORCEINLINE bool fpCommonHeap::PoolList::ValidateList()const
 {
     uint32 real_free_blocks_count = this->CalcRealNumFreeBlocks();
-    if (real_free_blocks_count != this->ListFreeBlocksCount)
-    {
-        return true;
-    }else{
-        return false;
-    }
+    return real_free_blocks_count == this->ListFreeBlocksCount;
 }
 fpCommonHeap::~fpCommonHeap()
 {
 	this->HeapDestroy();
 }
-fpCommonHeap::CommonAllocator::CommonAllocator()
+
+fpAllocatorInterface *fpCommonHeap::MakeDefaultAllocator() {
+    return  new CommonAllocator(this);
+}
+
+fpCommonHeap::CommonAllocator::CommonAllocator(fpCommonHeap* heap)
+        :fpAllocatorInterface((fpHeapInterface*) heap),TableIndex(NO_INIT_TABLE_INDEX)
+{}
+void* fpCommonHeap::CommonAllocator::Allocate(SIZE_T size)
 {
-    fpAllocatorInterface((fpHeapInterface*) this);
+
 }

@@ -4,9 +4,10 @@
 #include "../../GenericPlatform/fpPlatform.h"
 #include "fpHeapInterface.h"
 class fpMemorySystem;
+class fpHeapInterface;
 class fpAllocatorInterface
 {
-	fpHeapInterface* Heap;
+    fpHeapInterface* Heap;
 public:
 	fpAllocatorInterface(fpHeapInterface* heap) :Heap(heap)
 	{}

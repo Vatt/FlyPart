@@ -59,10 +59,6 @@ class fpCommonHeap : public fpHeapInterface
         /*
          * This method only for validate list;
          * */        
-        FORCEINLINE uint32 CalcNumFreeBlocks()const;
-        /*
-         * This method only for validate list;
-         * */        
         FORCEINLINE bool  ValidateList()const;
         
 
@@ -70,7 +66,8 @@ class fpCommonHeap : public fpHeapInterface
 
 	class CommonAllocator:public fpAllocatorInterface
 	{
-		uint16 	TableIndex;
+		enum {NO_INIT_TABLE_INDEX = -1};
+        int16 	TableIndex;
 	public:
 		CommonAllocator(fpCommonHeap* heap);
 		virtual void* Allocate(SIZE_T size);
@@ -80,9 +77,9 @@ class fpCommonHeap : public fpHeapInterface
 	};
 
 public:
-	/*
+
 	virtual void  HeapInit() override;
-	virtual void* HeapAlloc(SIZE_T size)override;
+	/*virtual void* HeapAlloc(SIZE_T size)override;
 	virtual void  HeapFree(void* target, SIZE_T size)override;
 	virtual void* HeapRealloc(void* target, SIZE_T size)override;
 	virtual void  HeapCleanup()override;
@@ -90,7 +87,7 @@ public:
 	virtual void  HeapDestroy()override;
 	virtual bool  ValidateHeap()override;
 	
-	virtual fpAllocatorInterface* MakeAllocator();
+	virtual fpAllocatorInterface* MakeDefaultAllocator();
 
 	virtual ~fpCommonHeap();
 private:
