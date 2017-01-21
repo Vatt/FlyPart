@@ -73,6 +73,7 @@
     <RunCodeAnalysis>false</RunCodeAnalysis>
     <IncludePath>..\..\..\ThirdParty\include;$(IncludePath)</IncludePath>
     <LibraryPath>..\..\..\ThirdParty\lib;$(LibraryPath)</LibraryPath>
+    <EnableExperimentalCppCoreCheck>true</EnableExperimentalCppCoreCheck>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>..\..\..\..\Build\$(Configuration)\</OutDir>
@@ -98,6 +99,7 @@
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
       <OpenMPSupport>true</OpenMPSupport>
       <EnforceTypeConversionRules>true</EnforceTypeConversionRules>
+      <LanguageStandard>stdcpp14</LanguageStandard>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -146,7 +148,6 @@
     <ClInclude Include="..\..\..\Core\GenericPlatform\Input\fpKey.h" />
     <ClInclude Include="..\..\..\Core\GenericPlatform\Input\fpKeyBind.h" />
     <ClInclude Include="..\..\..\Core\GenericPlatform\Input\fpKeyboard.hpp" />
-    <ClInclude Include="..\..\..\Core\GenericPlatform\Memory\fpMemorySystem.h" />
     <ClInclude Include="..\..\..\Core\GenericPlatform\Memory\fpPlatformMemory.h" />
     <ClInclude Include="..\..\..\Core\GenericPlatform\typedefs.h" />
     <ClInclude Include="..\..\..\Core\GenericPlatform\Window\fpWindow.h" />

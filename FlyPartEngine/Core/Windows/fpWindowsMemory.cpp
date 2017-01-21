@@ -20,7 +20,7 @@ FORCEINLINE DWORDLONG GetWinPageSize() {
 /*FIXIT: Заглушка в лимите, с лимитом вообще ничего не проверяется*/
 fpPlatformMemory::MemoryStats fpPlatformMemory::Stats = MemoryStats(GetWinTotalRam(), 1024, GetWinPageSize());
 
-void* fpWindowsPlatformMemory::SystemAlloc(size_t size)
+void* fpWindowsPlatformMemory::SystemAlloc(SIZE_T size)
 {
     fpPlatformMemory::Stats.IncrementSystemAllocCallCounter();
 	void* ptr = VirtualAlloc(NULL, size, MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE);

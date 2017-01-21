@@ -46,12 +46,17 @@ class fpCommonHeap : public fpHeapInterface
         uint32 BlocksNumPerPool;
 		uint32 ListFreeBlocksCount;
         PoolList(uint32 block_size);
-		PoolHeader* makeNewPool()const;
+		PoolHeader* makeNewPool();
+		FORCEINLINE void  MapThePoolOfFreeBlocks(PoolHeader* pool);
         FORCEINLINE void  LinkPoolToFront(PoolHeader* target);
 		FORCEINLINE void* GetPoolRawData(PoolHeader *pool)const;
 		FORCEINLINE void* PoolAllocate();
 		FORCEINLINE void  PoolFree(void *inPtr);
         FORCEINLINE void  ExtendPoolsCount(uint32 num);		
+		FORCEINLINE void  CleanupList();
+		FORCEINLINE void  CleanupPool(PoolHeader* pool);
+		FORCEINLINE void  ListDestroy();
+		FORCEINLINE void  PoolDestroy(PoolHeader* pool);
         /*
          * This method only for validate list;
          * */
@@ -66,7 +71,10 @@ class fpCommonHeap : public fpHeapInterface
 
 	class CommonAllocator:public fpAllocatorInterface
 	{
-		enum {NO_INIT_TABLE_INDEX = -1};
+		enum {
+				NO_INIT_TABLE_INDEX = -1,
+				PERFECT_ALLOC_FREE_FAIL = -2
+		};
         int16 	TableIndex;
 	public:
 		CommonAllocator(fpCommonHeap* heap);
@@ -79,11 +87,11 @@ class fpCommonHeap : public fpHeapInterface
 public:
 
 	virtual void  HeapInit() override;
-	/*virtual void* HeapAlloc(SIZE_T size)override;
+	virtual void* HeapAlloc(SIZE_T size)override;
 	virtual void  HeapFree(void* target, SIZE_T size)override;
 	virtual void* HeapRealloc(void* target, SIZE_T size)override;
 	virtual void  HeapCleanup()override;
-	*/
+	
 	virtual void  HeapDestroy()override;
 	virtual bool  ValidateHeap()override;
 	
@@ -91,18 +99,8 @@ public:
 
 	virtual ~fpCommonHeap();
 private:
-	const uint32 POOL_SIZES[9] = {8,12,16,18,24,32,40,48,64};
-    const PoolList* PoolTable[9] = {
-    	new PoolList(POOL_SIZES[0]),
-    	new PoolList(POOL_SIZES[1]),
-    	new PoolList(POOL_SIZES[2]),
-    	new PoolList(POOL_SIZES[3]),
-    	new PoolList(POOL_SIZES[4]),
-    	new PoolList(POOL_SIZES[5]),
-    	new PoolList(POOL_SIZES[6]),
-    	new PoolList(POOL_SIZES[7]),
-    	new PoolList(POOL_SIZES[8])
-    };
+	
+	PoolList* PoolTable[9];
 
 };
 

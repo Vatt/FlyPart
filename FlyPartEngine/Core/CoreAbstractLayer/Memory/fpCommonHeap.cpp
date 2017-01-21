@@ -1,45 +1,7 @@
 #include "fpCommonHeap.h"
 #include <new>
+const uint32 POOL_SIZES[9] = { 16,24,32,64,128,256,512,1024,2048 };
 
-void fpCommonHeap::HeapInit()
-{
-
-}
-/*
-void * fpCommonHeap::HeapAlloc(SIZE_T size)
-{
-	return nullptr;
-}
-
-void fpCommonHeap::HeapFree(void * target, SIZE_T size)
-{
-}
-
-void fpCommonHeap::HeapCleanup()
-{
-	
-}
-*/
-/*void* fpCommonHeap::HeapRealloc(void * target, SIZE_T size)
-{
-    return nullptr;
-}*/
-void fpCommonHeap::HeapDestroy()
-{
-}
-
-
-bool fpCommonHeap::ValidateHeap()
-{
-    for(uint16 i = 0;i<9;i++)
-    {
-        if(!PoolTable[i]->ValidateList())
-        { 
-            return false;
-        }
-    }
-    return true;
-}
 fpCommonHeap::PoolList::PoolList(uint32 block_size)
 {
     this->BlockSize = block_size;
@@ -83,8 +45,24 @@ FORCEINLINE void* fpCommonHeap::PoolList::GetPoolRawData(PoolHeader *pool)const
 {
 	return (void*)((UINTPTR)pool + (UINTPTR)sizeof(PoolHeader));
 }
-
-fpCommonHeap::PoolHeader* fpCommonHeap::PoolList::makeNewPool()const
+FORCEINLINE void fpCommonHeap::PoolList::MapThePoolOfFreeBlocks(PoolHeader* pool)
+{
+	void* raw = this->GetPoolRawData(pool);
+	SIZE_T size_alloc = fpMemory::Stats.PageSize * PAGES_IN_POOL;
+	SIZE_T pool_size = size_alloc - sizeof(PoolHeader);
+	FreeMemory* free_ptr = new(raw)FreeMemory;
+	SIZE_T limit = (UINTPTR)((UINTPTR)pool + size_alloc);
+	for (UINTPTR offset = (UINTPTR)free_ptr + pool->BlockSize;
+		offset < limit;
+		offset = offset + pool->BlockSize)
+	{
+		FreeMemory* ptr = new ((void*)offset)FreeMemory;
+		FreeMemory* prev = (FreeMemory*)((UINTPTR)ptr - pool->BlockSize);
+		prev->next = ptr;
+	}
+	pool->FreeMem = free_ptr;
+}
+fpCommonHeap::PoolHeader* fpCommonHeap::PoolList::makeNewPool()
 {
 	PoolHeader* pool;
 	SIZE_T size_alloc = fpMemory::Stats.PageSize * PAGES_IN_POOL;
@@ -96,7 +74,7 @@ fpCommonHeap::PoolHeader* fpCommonHeap::PoolList::makeNewPool()const
 	pool = new(memory)PoolHeader();
     pool->Next = nullptr;
 	pool->BlockSize = this->BlockSize;
-	void* pool_raw_ptr = GetPoolRawData(nullptr);
+	/*void* pool_raw_ptr = GetPoolRawData(nullptr);
 	FreeMemory* free_ptr = new(pool_raw_ptr)FreeMemory;
 	SIZE_T limit =(UINTPTR)((UINTPTR)pool+size_alloc);
 	for (UINTPTR offset = (UINTPTR)free_ptr + pool->BlockSize;
@@ -108,12 +86,8 @@ fpCommonHeap::PoolHeader* fpCommonHeap::PoolList::makeNewPool()const
 		prev->next = ptr;
 	}
 	pool->FreeMem = free_ptr;
-
-    /*uint32 count = 0;
-	for (FreeMemory* mem = pool->FreeMem; mem != nullptr;mem = mem->Next)
-	{
-		count++;
-	}*/
+	*/
+	this->MapThePoolOfFreeBlocks(pool);
 	return pool;
 }
 FORCEINLINE void* fpCommonHeap::PoolList::PoolAllocate()
@@ -174,10 +148,39 @@ FORCEINLINE bool fpCommonHeap::PoolList::ValidateList()const
     uint32 real_free_blocks_count = this->CalcRealNumFreeBlocks();
     return real_free_blocks_count == this->ListFreeBlocksCount;
 }
-fpCommonHeap::~fpCommonHeap()
+FORCEINLINE void fpCommonHeap::PoolList::CleanupList()
 {
-	this->HeapDestroy();
+	PoolHeader* iterator = this->Front;
+	this->ListFreeBlocksCount = 0;
+	while (iterator != nullptr)
+	{
+		CleanupPool(iterator);
+		this->ListFreeBlocksCount += this->BlocksNumPerPool;
+		iterator = iterator->Next;
+	}
 }
+FORCEINLINE void fpCommonHeap::PoolList::CleanupPool(PoolHeader* pool)
+{
+	this->MapThePoolOfFreeBlocks(pool);
+}
+
+void fpCommonHeap::PoolList::ListDestroy()
+{
+	PoolHeader* iterator = this->Front;
+	this->ListFreeBlocksCount = 0;
+	while (iterator != nullptr)
+	{
+		PoolHeader* temp = iterator->Next;
+		this->PoolDestroy(iterator);
+		iterator = temp;
+	}
+}
+
+void fpCommonHeap::PoolList::PoolDestroy(PoolHeader * pool)
+{
+	fpMemory::SystemFree((void*) pool);
+}
+
 
 fpAllocatorInterface *fpCommonHeap::MakeDefaultAllocator() {
     return  new CommonAllocator(this);
@@ -188,5 +191,60 @@ fpCommonHeap::CommonAllocator::CommonAllocator(fpCommonHeap* heap)
 {}
 void* fpCommonHeap::CommonAllocator::Allocate(SIZE_T size)
 {
+	return nullptr;
+}
 
+void fpCommonHeap::HeapInit()
+{
+	for (uint8 i = 0; i < 9;i++)
+	{
+		PoolTable[i] = new PoolList(POOL_SIZES[i]);
+	}
+
+}
+
+void * fpCommonHeap::HeapAlloc(SIZE_T size)
+{
+	return nullptr;
+}
+
+void fpCommonHeap::HeapFree(void * target, SIZE_T size)
+{
+}
+
+void fpCommonHeap::HeapCleanup()
+{
+	for (uint8 i = 0; i < 9;i++)
+	{
+		this->PoolTable[i]->CleanupList();
+	}
+}
+
+void* fpCommonHeap::HeapRealloc(void * target, SIZE_T size)
+{
+	return nullptr;
+}
+void fpCommonHeap::HeapDestroy()
+{
+	for (uint8 i = 0; i < 9; i++)
+	{
+		this->PoolTable[i]->ListDestroy();
+	}
+}
+
+
+bool fpCommonHeap::ValidateHeap()
+{
+	for (uint16 i = 0;i<9;i++)
+	{
+		if (!PoolTable[i]->ValidateList())
+		{
+			return false;
+		}
+	}
+	return true;
+}
+fpCommonHeap::~fpCommonHeap()
+{
+	this->HeapDestroy();
 }

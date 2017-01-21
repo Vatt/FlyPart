@@ -32,7 +32,7 @@ struct fpPlatformMemory
     };
 
     static MemoryStats Stats;
-    static void* SystemAlloc(size_t size);
+    static void* SystemAlloc(SIZE_T size);
     static void SystemFree(void* ptr);
     static void UpdateMemoryStats();
     static void* MemMove(void* Dest, const void* Src, size_t size);

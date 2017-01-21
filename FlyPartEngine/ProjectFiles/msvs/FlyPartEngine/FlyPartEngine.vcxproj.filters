@@ -29,9 +29,6 @@
     <ClInclude Include="..\..\..\Core\GenericPlatform\Window\fpWindowSystem.h">
       <Filter>Core\GenericPlatform\Window</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Core\GenericPlatform\Memory\fpMemorySystem.h">
-      <Filter>Core\GenericPlatform\Memory</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Core\GenericPlatform\Memory\fpPlatformMemory.h">
       <Filter>Core\GenericPlatform\Memory</Filter>
     </ClInclude>
