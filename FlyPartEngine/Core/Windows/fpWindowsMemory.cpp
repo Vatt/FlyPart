@@ -14,10 +14,10 @@ FORCEINLINE DWORDLONG GetWinPageSize() {
 	SYSTEM_INFO sys_info;
 //	MEMORYSTATUSEX mem_info;
 	GetSystemInfo(&sys_info);
-/*TODO: возможно лучше указать гранулярность(dwAllocationGranularity)*/
+/*TODO: пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ(dwAllocationGranularity)*/
 	return sys_info.dwPageSize;
 }
-/*FIXIT: Заглушка в лимите, с лимитом вообще ничего не проверяется*/
+/*FIXIT: пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ*/
 fpPlatformMemory::MemoryStats fpPlatformMemory::Stats = MemoryStats(GetWinTotalRam(), 1024, GetWinPageSize());
 
 void* fpWindowsPlatformMemory::SystemAlloc(SIZE_T size)
@@ -27,7 +27,7 @@ void* fpWindowsPlatformMemory::SystemAlloc(SIZE_T size)
 	memset(ptr, 0, size); //FIXIT: implement function
 	return ptr;
 }
-void fpWindowsPlatformMemory::SystemFree(void* ptr)
+void fpWindowsPlatformMemory::SystemFree(void* ptr,SIZE_T size)
 {
 	fpPlatformMemory::Stats.IncrementSystemFreeCallCounter();
 	VirtualFree(ptr,0, MEM_RELEASE );
@@ -41,14 +41,14 @@ void fpWindowsPlatformMemory::UpdateMemoryStats()
 }
 void* fpWindowsPlatformMemory::MemMove(void* Dest, const void* Src, size_t Size)
 {
-	return memmove(Dest, Src, Size); //TODO: Заглушка, свапилку запилить на 4 8 16 32 64 варианты и все остальное как дефолт
+	return memmove(Dest, Src, Size); //TODO: пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ 4 8 16 32 64 пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 }
 int32 fpWindowsPlatformMemory::MemCmp(void* const Buf1, const void* Buf2, size_t size)
 {
 	
-	return memcmp(Buf1,Buf2, size); //TODO: Заглушка, свапилку запилить на 4 8 16 32 64 варианты и все остальное как дефолт
+	return memcmp(Buf1,Buf2, size); //TODO: пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ 4 8 16 32 64 пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 }
 void fpWindowsPlatformMemory::MemSwap(void* ptr1, void* ptr2, size_t size)
 {
-	std::swap(ptr1, ptr2); //TODO: Заглушка, свапилку запилить на 4 8 16 32 64 варианты и все остальное как дефолт
+	std::swap(ptr1, ptr2); //TODO: пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ 4 8 16 32 64 пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 }

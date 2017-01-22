@@ -1,4 +1,4 @@
-project(FlyPartEngine)
+project(FlyPartRuntime)
 cmake_minimum_required(VERSION 2.8)
 
 
@@ -29,9 +29,9 @@ if ( CMAKE_COMPILER_IS_GNUCXX )
     set(CMAKE_CXX_FLAGS "-O0 ${MY_CXX_FLAGS}")
 endif ()
 
-add_library(FlyPartEngine STATIC ${fpCommonSrc}
+add_library(FlyPartRuntime STATIC ${fpCommonSrc}
                                  ${GenericPlatformSrc}
                                  ${CoreAbstractSrc}
                                  ${CorePlatformImpl})
-SET_TARGET_PROPERTIES(FlyPartEngine PROPERTIES LINKER_LANGUAGE CXX)
-SET_TARGET_PROPERTIES(FlyPartEngine PROPERTIES OUTPUT_NAME FlyPartEngine)
+SET_TARGET_PROPERTIES(FlyPartRuntime PROPERTIES LINKER_LANGUAGE CXX)
+SET_TARGET_PROPERTIES(FlyPartRuntime PROPERTIES OUTPUT_NAME FlyPartRuntime)

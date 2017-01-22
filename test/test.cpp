@@ -20,9 +20,10 @@ int main(int argc, char **argv)
 {
     SmartPtrTest::SmartPtrTestRun();
     fpMemory::UpdateMemoryStats();
-    fpCommonHeap Heap = fpCommonHeap();
-    Heap.HeapInit();
-	//system("PAUSE");
+    fpCommonHeap* Heap = new fpCommonHeap;
+    Heap->HeapInit();
+    //system("PAUSE");
+    bool is_valid = Heap->ValidateHeap();
     return 0;
 }
 

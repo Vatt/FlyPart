@@ -7,13 +7,14 @@ class fpMemorySystem;
 class fpHeapInterface;
 class fpAllocatorInterface
 {
-    fpHeapInterface* Heap;
+protected:
+    fpHeapInterface* _heap;
 public:
-	fpAllocatorInterface(fpHeapInterface* heap) :Heap(heap)
+	fpAllocatorInterface(fpHeapInterface* heap) :_heap(heap)
 	{}
 	virtual void* Allocate(SIZE_T size) = 0;
-	virtual void  Free(void* ptr) = 0;
+	virtual void Free(void *ptr, SIZE_T size) = 0;
 	virtual void* Realloc(void* ptr, SIZE_T size) = 0;
-	virtual ~fpAllocatorInterface()=0;
+	virtual ~fpAllocatorInterface() {}
 };
 #endif

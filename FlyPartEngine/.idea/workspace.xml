@@ -3,12 +3,13 @@
   <component name="CMakeRunConfigurationManager" shouldGenerate="true" buildAllGenerated="true">
     <generated>
       <config projectName="FlyPartEngine" targetName="FlyPartEngine" />
+      <config projectName="FlyPartRuntime" targetName="FlyPartRuntime" />
     </generated>
   </component>
   <component name="CMakeSettings" AUTO_RELOAD="true">
     <configurations>
-      <configuration CONFIG_NAME="Debug" GENERATION_DIR="$PROJECT_DIR$/../Build/Debug" />
-      <configuration CONFIG_NAME="Release" GENERATION_DIR="$PROJECT_DIR$/../Build" />
+      <configuration CONFIG_NAME="Debug" GENERATION_DIR="$PROJECT_DIR$/../Build/FlyPartRuntime/Debug" />
+      <configuration CONFIG_NAME="Release" GENERATION_DIR="$PROJECT_DIR$/../Build/FlyPartRuntime/Release" />
     </configurations>
   </component>
   <component name="ChangeListManager">
@@ -16,7 +17,10 @@
     <ignored path="FlyPartEngine.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
-    <ignored path="$PROJECT_DIR$/../Build/" />
+    <ignored path="$PROJECT_DIR$/../Build/Release/FlyPartRuntime/" />
+    <ignored path="$PROJECT_DIR$/../Build/Debug/FlyPartRuntime/" />
+    <ignored path="$PROJECT_DIR$/../Build/FlyPartRuntime/Debug/" />
+    <ignored path="$PROJECT_DIR$/../Build/FlyPartRuntime/Release/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -36,18 +40,18 @@
       <file leaf-file-name="fpCommonHeap.h" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Core/CoreAbstractLayer/Memory/fpCommonHeap.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="71">
-              <caret line="58" column="0" lean-forward="false" selection-start-line="58" selection-start-column="0" selection-end-line="58" selection-end-column="0" />
+            <state relative-caret-position="398">
+              <caret line="98" column="12" lean-forward="false" selection-start-line="98" selection-start-column="12" selection-end-line="98" selection-end-column="12" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="fpCommonHeap.cpp" pinned="false" current-in-tab="false">
+      <file leaf-file-name="fpCommonHeap.cpp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Core/CoreAbstractLayer/Memory/fpCommonHeap.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-9">
-              <caret line="147" column="0" lean-forward="false" selection-start-line="147" selection-start-column="0" selection-end-line="147" selection-end-column="0" />
+            <state relative-caret-position="450">
+              <caret line="25" column="9" lean-forward="false" selection-start-line="25" selection-start-column="9" selection-end-line="25" selection-end-column="9" />
               <folding>
                 <element signature="e#0#25#0" expanded="true" />
               </folding>
@@ -55,32 +59,12 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="fpHeapInterface.h" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/Core/CoreAbstractLayer/Memory/fpHeapInterface.h">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="378">
-              <caret line="21" column="0" lean-forward="true" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
-              <folding>
-                <element signature="e#65#110#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="fpAllocator.h" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Core/CoreAbstractLayer/Memory/fpAllocator.h">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="72">
-              <caret line="4" column="28" lean-forward="true" selection-start-line="4" selection-start-column="28" selection-end-line="4" selection-end-column="28" />
-              <folding>
-                <element signature="e#47#92#0" expanded="true" />
-                <marker date="1484944037223" expanded="true" signature="194:293" ph="{...}" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
     </leaf>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>9</find>
+    </findStrings>
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -104,20 +88,21 @@
         <option value="$PROJECT_DIR$/Core/Linux/fpLinuxMemory.h" />
         <option value="$PROJECT_DIR$/Core/CoreAbstractLayer/fpAllocator.h" />
         <option value="$PROJECT_DIR$/Core/Windows/fpWindowsAtomics.h" />
-        <option value="$PROJECT_DIR$/Core/Windows/fpWindowsMemory.h" />
         <option value="$PROJECT_DIR$/Core/Linux/fpLinuxAtomics.h" />
         <option value="$PROJECT_DIR$/Core/CoreAbstractLayer/fpMemoryStats.cpp" />
         <option value="$PROJECT_DIR$/Core/CoreAbstractLayer/fpMemoryStats.h" />
-        <option value="$PROJECT_DIR$/Core/Linux/fpLinuxPlatformMemory.h" />
         <option value="$PROJECT_DIR$/Core/Linux/fpLinuxPlatformMemory.cpp" />
         <option value="$PROJECT_DIR$/Core/CoreAbstractLayer/fpPoolAllocator.h" />
         <option value="$PROJECT_DIR$/Core/GenericPlatform/typedefs.h" />
-        <option value="$PROJECT_DIR$/Core/GenericPlatform/Memory/fpPlatformMemory.h" />
-        <option value="$PROJECT_DIR$/CMakeLists.txt" />
-        <option value="$PROJECT_DIR$/Core/CoreAbstractLayer/Memory/fpAllocator.h" />
-        <option value="$PROJECT_DIR$/Core/CoreAbstractLayer/Memory/fpCommonHeap.cpp" />
-        <option value="$PROJECT_DIR$/Core/CoreAbstractLayer/Memory/fpCommonHeap.h" />
         <option value="$PROJECT_DIR$/Core/CoreAbstractLayer/Memory/fpHeapInterface.h" />
+        <option value="$PROJECT_DIR$/Core/CoreAbstractLayer/Memory/fpAllocator.h" />
+        <option value="$PROJECT_DIR$/CMakeLists.txt" />
+        <option value="$PROJECT_DIR$/Core/Windows/fpWindowsMemory.cpp" />
+        <option value="$PROJECT_DIR$/Core/Windows/fpWindowsMemory.h" />
+        <option value="$PROJECT_DIR$/Core/GenericPlatform/Memory/fpPlatformMemory.h" />
+        <option value="$PROJECT_DIR$/Core/Linux/fpLinuxPlatformMemory.h" />
+        <option value="$PROJECT_DIR$/Core/CoreAbstractLayer/Memory/fpCommonHeap.h" />
+        <option value="$PROJECT_DIR$/Core/CoreAbstractLayer/Memory/fpCommonHeap.cpp" />
       </list>
     </option>
   </component>
@@ -151,7 +136,7 @@
         <subPane>
           <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="FlyPartEngine" />
+              <option name="myItemId" value="FlyPartRuntime" />
               <option name="myItemType" value="com.jetbrains.cidr.projectView.CidrFilesViewHelper$MyProjectTreeStructure$1" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -161,7 +146,7 @@
           </PATH>
           <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="FlyPartEngine" />
+              <option name="myItemId" value="FlyPartRuntime" />
               <option name="myItemType" value="com.jetbrains.cidr.projectView.CidrFilesViewHelper$MyProjectTreeStructure$1" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -175,7 +160,43 @@
           </PATH>
           <PATH>
             <PATH_ELEMENT>
+              <option name="myItemId" value="FlyPartRuntime" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.CidrFilesViewHelper$MyProjectTreeStructure$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="FlyPartEngine" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Core" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Windows" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="FlyPartRuntime" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.CidrFilesViewHelper$MyProjectTreeStructure$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="FlyPartEngine" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Core" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Linux" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="FlyPartRuntime" />
               <option name="myItemType" value="com.jetbrains.cidr.projectView.CidrFilesViewHelper$MyProjectTreeStructure$1" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -193,7 +214,7 @@
           </PATH>
           <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="FlyPartEngine" />
+              <option name="myItemId" value="FlyPartRuntime" />
               <option name="myItemType" value="com.jetbrains.cidr.projectView.CidrFilesViewHelper$MyProjectTreeStructure$1" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -215,7 +236,7 @@
           </PATH>
           <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="FlyPartEngine" />
+              <option name="myItemId" value="FlyPartRuntime" />
               <option name="myItemType" value="com.jetbrains.cidr.projectView.CidrFilesViewHelper$MyProjectTreeStructure$1" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -233,7 +254,7 @@
           </PATH>
           <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="FlyPartEngine" />
+              <option name="myItemId" value="FlyPartRuntime" />
               <option name="myItemType" value="com.jetbrains.cidr.projectView.CidrFilesViewHelper$MyProjectTreeStructure$1" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -259,8 +280,8 @@
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Build" />
+    <property name="settings.editor.selected.configurable" value="CMakeSettings" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../test" />
     <property name="js-jscs-nodeInterpreter" value="/usr/bin/node" />
     <property name="nodejs_interpreter_path" value="/usr/bin/node" />
     <property name="js.eslint.eslintPackage" value="" />
@@ -446,9 +467,14 @@
       <envs />
       <method />
     </configuration>
-    <list size="2">
+    <configuration default="false" name="FlyPartRuntime" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="FlyPartRuntime" TARGET_NAME="FlyPartRuntime" CONFIG_NAME="Debug">
+      <envs />
+      <method />
+    </configuration>
+    <list size="3">
       <item index="0" class="java.lang.String" itemvalue="Application.Build All" />
       <item index="1" class="java.lang.String" itemvalue="Application.FlyPartEngine" />
+      <item index="2" class="java.lang.String" itemvalue="Application.FlyPartRuntime" />
     </list>
   </component>
   <component name="ShelveChangesManager" show_recycled="false">
@@ -484,12 +510,14 @@
       <workItem from="1484694973098" duration="4389000" />
       <workItem from="1484772132999" duration="36243000" />
       <workItem from="1484895095569" duration="1020000" />
-      <workItem from="1484938663308" duration="7740000" />
+      <workItem from="1484938663308" duration="8287000" />
+      <workItem from="1485046106852" duration="9120000" />
+      <workItem from="1485090991094" duration="5494000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="77267000" />
+    <option name="totallyTimeSpent" value="92428000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -576,13 +604,6 @@
     <entry file="file:///usr/include/malloc.h" />
     <entry file="file:///usr/include/stdlib.h" />
     <entry file="file:///usr/include/c++/5.3.0/bits/move.h" />
-    <entry file="file://$PROJECT_DIR$/Core/Windows/fpWindowsMemory.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="9" column="4" lean-forward="false" selection-start-line="9" selection-start-column="4" selection-end-line="9" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/fpCommon/SmartPtrTest.cpp" />
     <entry file="file://$PROJECT_DIR$/fpCommon/defines.h" />
     <entry file="file://$PROJECT_DIR$/FlyPart.h">
@@ -708,22 +729,8 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Core/Windows/fpWindowsMemory.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
-          <caret line="16" column="41" lean-forward="false" selection-start-line="16" selection-start-column="41" selection-end-line="16" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Core/CoreAbstractLayer/fpMemoryStats.cpp" />
     <entry file="file://$PROJECT_DIR$/Core/CoreAbstractLayer/fpMemoryStats.h" />
-    <entry file="file://$PROJECT_DIR$/Core/Linux/fpLinuxPlatformMemory.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="14" column="4" lean-forward="false" selection-start-line="14" selection-start-column="4" selection-end-line="14" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file:///usr/include/unistd.h" />
     <entry file="file:///usr/include/bits/confname.h" />
     <entry file="file:///usr/include/sys/sysinfo.h" />
@@ -751,56 +758,81 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Core/CoreAbstractLayer/Memory/fpHeapInterface.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="378">
+          <caret line="21" column="0" lean-forward="false" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+          <folding>
+            <element signature="e#65#110#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Core/Windows/fpWindowsMemory.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="337">
+          <caret line="29" column="63" lean-forward="true" selection-start-line="29" selection-start-column="40" selection-end-line="29" selection-end-column="63" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Core/Linux/fpLinuxPlatformMemory.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="10" column="21" lean-forward="false" selection-start-line="10" selection-start-column="21" selection-end-line="10" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Core/GenericPlatform/Memory/fpPlatformMemory.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="702">
-          <caret line="40" column="0" lean-forward="false" selection-start-line="40" selection-start-column="0" selection-end-line="40" selection-end-column="0" />
+        <state relative-caret-position="612">
+          <caret line="35" column="49" lean-forward="false" selection-start-line="35" selection-start-column="49" selection-end-line="35" selection-end-column="49" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Core/Windows/fpWindowsMemory.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="10" column="49" lean-forward="false" selection-start-line="10" selection-start-column="49" selection-end-line="10" selection-end-column="49" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="486">
-          <caret line="27" column="39" lean-forward="false" selection-start-line="27" selection-start-column="39" selection-end-line="27" selection-end-column="39" />
+        <state relative-caret-position="666">
+          <caret line="37" column="0" lean-forward="false" selection-start-line="37" selection-start-column="0" selection-end-line="37" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Core/CoreAbstractLayer/Memory/fpAllocator.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="4" column="28" lean-forward="true" selection-start-line="4" selection-start-column="28" selection-end-line="4" selection-end-column="28" />
+        <state relative-caret-position="306">
+          <caret line="17" column="37" lean-forward="false" selection-start-line="17" selection-start-column="37" selection-end-line="17" selection-end-column="37" />
           <folding>
             <element signature="e#47#92#0" expanded="true" />
-            <marker date="1484944037223" expanded="true" signature="194:293" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Core/CoreAbstractLayer/Memory/fpCommonHeap.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-9">
-          <caret line="147" column="0" lean-forward="false" selection-start-line="147" selection-start-column="0" selection-end-line="147" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#25#0" expanded="true" />
+            <marker date="1485050342040" expanded="true" signature="194:306" ph="{...}" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Core/CoreAbstractLayer/Memory/fpCommonHeap.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="71">
-          <caret line="58" column="0" lean-forward="false" selection-start-line="58" selection-start-column="0" selection-end-line="58" selection-end-column="0" />
+        <state relative-caret-position="398">
+          <caret line="98" column="12" lean-forward="false" selection-start-line="98" selection-start-column="12" selection-end-line="98" selection-end-column="12" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Core/CoreAbstractLayer/Memory/fpHeapInterface.h">
+    <entry file="file://$PROJECT_DIR$/Core/CoreAbstractLayer/Memory/fpCommonHeap.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="378">
-          <caret line="21" column="0" lean-forward="true" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+        <state relative-caret-position="450">
+          <caret line="25" column="9" lean-forward="false" selection-start-line="25" selection-start-column="9" selection-end-line="25" selection-end-column="9" />
           <folding>
-            <element signature="e#65#110#0" expanded="true" />
+            <element signature="e#0#25#0" expanded="true" />
           </folding>
         </state>
       </provider>

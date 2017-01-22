@@ -16,7 +16,7 @@ void* fpLinuxPlatformMemory::SystemAlloc(size_t size)
     Stats.IncrementSystemAllocCallCounter();
 	return valloc(size);
 }
-void fpLinuxPlatformMemory::SystemFree(void* ptr)
+void fpLinuxPlatformMemory::SystemFree(void *ptr, SIZE_T size)
 {
     Stats.IncrementSystemFreeCallCounter();
 	free(ptr);

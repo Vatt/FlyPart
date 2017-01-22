@@ -45,7 +45,7 @@ class fpCommonHeap : public fpHeapInterface
 		uint32 PoolCount;
         uint32 BlocksNumPerPool;
 		uint32 ListFreeBlocksCount;
-        PoolList(uint32 block_size);
+        PoolList(uint32 block_size, uint32 table_index);
 		PoolHeader* makeNewPool();
 		FORCEINLINE void  MapThePoolOfFreeBlocks(PoolHeader* pool);
         FORCEINLINE void  LinkPoolToFront(PoolHeader* target);
@@ -79,7 +79,7 @@ class fpCommonHeap : public fpHeapInterface
 	public:
 		CommonAllocator(fpCommonHeap* heap);
 		virtual void* Allocate(SIZE_T size);
-		virtual void  Free(void* ptr);
+		virtual void Free(void *ptr, SIZE_T size);
 		virtual void* Realloc(void* ptr, SIZE_T size);	
 		virtual ~CommonAllocator();
 	};
@@ -96,8 +96,13 @@ public:
 	virtual bool  ValidateHeap()override;
 	
 	virtual fpAllocatorInterface* MakeDefaultAllocator();
-
+	fpCommonHeap();
 	virtual ~fpCommonHeap();
+private:
+    fpCommonHeap(const fpCommonHeap&);
+    fpCommonHeap(fpCommonHeap&&);
+    fpCommonHeap& operator=(const fpCommonHeap&);
+    fpCommonHeap& operator=(fpCommonHeap&&);
 private:
 	
 	PoolList* PoolTable[9];
