@@ -16,7 +16,7 @@ Build/
 [Oo]bj/
 
 # Enable "build/" folder in the NuGet Packages folder since NuGet packages use it for MSBuild targets
-!packages/*/build/
+#!packages/*/build/
 
 # MSTest test Results
 [Tt]est[Rr]esult*/
@@ -157,8 +157,6 @@ $RECYCLE.BIN/
 .DS_Store
 
 
-FlyPartEngine/Build/*
-FlyPartEngine/Build/*
 FlyPartEngine/CMakeLists.txt.user.3.3-pre1
 *.directory
 FlyPartEngine/CMakeLists.txt.user.18

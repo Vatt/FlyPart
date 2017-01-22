@@ -1,5 +1,6 @@
 #include "fpCommonHeap.h"
 #include <new>
+#include <iostream>
 const static uint8 LENGTH_TABLE = 9;
 const static uint32 POOL_SIZES[9] = { 16,24,32,64,128,256,512,1024,2048 };
 //FIXIT: Заглушка
@@ -7,20 +8,24 @@ const static SIZE_T DefaultAlign = 16;
 //FIXIT: Заглушка
 FORCEINLINE static SIZE_T ALIGN(SIZE_T size)
 {
-    SIZE_T _try = size%16;
-    return _try == 0 ? size : (size = size + (DefaultAlign - _try));
+    SIZE_T test = size%16;
+    return test == 0 ? size : (size = size + (DefaultAlign - test));
 }
 fpCommonHeap::PoolList::PoolList(uint32 block_size, uint32 table_index)
 {
     this->TableIndex = table_index;
     this->BlockSize = block_size;
     this->BlocksNumPerPool = ((fpMemory::Stats.PageSize * PAGES_IN_POOL)- sizeof(PoolHeader))/this->BlockSize;
+	this->Front = nullptr;
+	this->ListFreeBlocksCount = 0;
+	this->PoolCount = 0;
     for (uint32 index = 0; index < START_POOL_COUNT;index++)
     {
         if (!this->Front)
         {
             Front = makeNewPool();
             this->ListFreeBlocksCount += this->BlocksNumPerPool;
+			this->PoolCount++;
         }else{
             LinkPoolToFront(makeNewPool());
         }
@@ -61,13 +66,17 @@ FORCEINLINE void fpCommonHeap::PoolList::MapThePoolOfFreeBlocks(PoolHeader* pool
 	SIZE_T pool_size = size_alloc - sizeof(PoolHeader);
 	FreeMemory* free_ptr = new(raw)FreeMemory;
 	SIZE_T limit = (UINTPTR)((UINTPTR)pool + size_alloc);
+	UINTPTR offset_ = 0;
+	std::cout << " ------------------------------------------------" << std::endl;
 	for (UINTPTR offset = (UINTPTR)free_ptr + pool->BlockSize;
 		offset < limit;
 		offset = offset + pool->BlockSize)
-	{
+	{	
 		FreeMemory* ptr = new ((void*)offset)FreeMemory;
 		FreeMemory* prev = (FreeMemory*)((UINTPTR)ptr - pool->BlockSize);
+		std::cout << (UINTPTR)prev  << "\t" << offset << "\t" <<offset - (UINTPTR)prev<<std::endl;
 		prev->next = ptr;
+		offset_ = offset;
 	}
 	pool->FreeMem = free_ptr;
 }
@@ -83,19 +92,6 @@ fpCommonHeap::PoolHeader* fpCommonHeap::PoolList::makeNewPool()
 	pool = new(memory)PoolHeader();
     pool->Next = nullptr;
 	pool->BlockSize = this->BlockSize;
-	/*void* pool_raw_ptr = GetPoolRawData(nullptr);
-	FreeMemory* free_ptr = new(pool_raw_ptr)FreeMemory;
-	SIZE_T limit =(UINTPTR)((UINTPTR)pool+size_alloc);
-	for (UINTPTR offset = (UINTPTR)free_ptr + pool->BlockSize;
-		offset < limit;
-		offset = offset  + pool->BlockSize)
-	{
-		FreeMemory* ptr = new ((void*)offset)FreeMemory;
-		FreeMemory* prev = (FreeMemory*)((UINTPTR)ptr - pool->BlockSize);
-		prev->next = ptr;
-	}
-	pool->FreeMem = free_ptr;
-	*/
 	this->MapThePoolOfFreeBlocks(pool);
 	return pool;
 }
@@ -131,24 +127,40 @@ FORCEINLINE void fpCommonHeap::PoolList::PoolFree(void *inPtr)
 
 FORCEINLINE uint32 fpCommonHeap::PoolList::CalcRealNumFreeBlocks() const
 {
+	//FIXIT: подумать над вот строкой ниже
     uint32 count = 0;
     FreeMemory* free_mem_iterator = this->ListFreeMemory;
     PoolHeader* pool_iterator = this->Front;
-    if (free_mem_iterator == nullptr)
+ /*   if (free_mem_iterator == nullptr)
     {
         free_mem_iterator = pool_iterator->Next->FreeMem;
         pool_iterator = pool_iterator->Next;
     }
     while(free_mem_iterator != nullptr)
-    {
-        free_mem_iterator = free_mem_iterator->next;
-        count++;
-        if (free_mem_iterator == nullptr)
+    {        
+        count++;		
+        if (free_mem_iterator->next == nullptr)
         {
-            free_mem_iterator = pool_iterator->Next->FreeMem;
+			if (pool_iterator->Next == nullptr)
+			{
+				return count;
+			}            
             pool_iterator = pool_iterator->Next;
+			free_mem_iterator = pool_iterator->FreeMem;
         }
+		free_mem_iterator = free_mem_iterator->next;
     }
+*/
+	while (pool_iterator != nullptr)
+	{
+		uint32 temp = 0;
+		for (FreeMemory* mem = pool_iterator->FreeMem; mem != nullptr;mem = mem->next)
+		{
+			temp++;
+		}
+		count += temp;
+		pool_iterator = pool_iterator->Next;
+	}
 
     return count;
 }
@@ -194,11 +206,11 @@ void fpCommonHeap::PoolList::PoolDestroy(PoolHeader * pool)
 
 void fpCommonHeap::HeapInit()
 {
-	for (uint8 i = 0; i < LENGTH_TABLE;i++)
+	//PoolTable = new PoolList[LENGTH_TABLE];
+	for (uint8 i = 0;i < LENGTH_TABLE;i++)
 	{
 		PoolTable[i] = new PoolList(POOL_SIZES[i], i);
 	}
-
 }
 
 void * fpCommonHeap::HeapAlloc(SIZE_T size)
