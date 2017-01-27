@@ -1,6 +1,6 @@
 #include "fpCommonHeap.h"
 #include <new>
-#include <intrin.h>
+
 const static uint8 LENGTH_TABLE = 8;
 const static uint32 POOL_SIZES[8] = { 16,/*24,*/32,64,128,256,512,1024,2048 };
 //FIXIT: Заглушка
