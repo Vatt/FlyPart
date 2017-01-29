@@ -1,8 +1,12 @@
 #include "fpCommonHeap.h"
 #include <new>
 
-const static uint8 LENGTH_TABLE = 8;
-const static uint32 POOL_SIZES[8] = { 16,/*24,*/32,64,128,256,512,1024,2048 };
+const static uint8 LENGTH_TABLE = 45;
+const static uint32 POOL_SIZES[45] = { 16, 32, 48, 64, 80, 96, 112, 128, 160, 192, 224, 256, 
+									   288, 320, 384, 448, 496, 560, 640, 704, 768,896, 1008,
+									   1168, 1360, 1632, 2032, 2336, 2720, 3264, 4080, 4368, 
+									   4672, 5040, 5456, 5952, 6544, 7280, 8176, 9360, 10912, 
+									   13104, 16368, 21840, 32752 };
 //FIXIT: Заглушка
 const static SIZE_T DefaultAlign = 16;
 //FIXIT: Заглушка
@@ -13,6 +17,8 @@ FORCEINLINE static SIZE_T ALIGN(SIZE_T size)
 }
 fpCommonHeap::PoolList::PoolList(uint32 block_size, uint32 table_index)
 {
+	static_assert(sizeof(PoolHeader) == 16, "PoolHeader size should be equal to 16");
+
     this->TableIndex = table_index;
     this->BlockSize = block_size;
 	this->BlocksNumPerPool = this->PoolDataSizeCalc() / this->BlockSize;
@@ -56,11 +62,11 @@ FORCEINLINE void fpCommonHeap::PoolList::ExtendPoolsCount(uint32 num)
 }
 FORCEINLINE SIZE_T fpCommonHeap::PoolList::PoolSizeCalc()
 {
-	return (fpMemory::Stats.PageSize * PAGES_IN_POOL) + sizeof(PoolHeader);
+	return (fpMemory::Stats.PageSize * PAGES_IN_POOL);
 }
 FORCEINLINE SIZE_T fpCommonHeap::PoolList::PoolDataSizeCalc()
 {
-	return (fpMemory::Stats.PageSize * PAGES_IN_POOL);
+	return this->PoolSizeCalc() - sizeof(PoolHeader);
 }
 FORCEINLINE void* fpCommonHeap::PoolList::GetPoolRawData(PoolHeader *pool)const
 {
@@ -69,19 +75,23 @@ FORCEINLINE void* fpCommonHeap::PoolList::GetPoolRawData(PoolHeader *pool)const
 FORCEINLINE void fpCommonHeap::PoolList::MapThePoolOfFreeBlocks(PoolHeader* pool)
 {
 	void* raw = this->GetPoolRawData(pool);
-	SIZE_T size_alloc = PoolSizeCalc();
-	SIZE_T pool_size = size_alloc - sizeof(PoolHeader);
+	SIZE_T pool_size  = PoolDataSizeCalc();
 	FreeMemory* free_ptr = new(raw)FreeMemory;
-	SIZE_T limit = (UINTPTR)((UINTPTR)pool + size_alloc);
-	UINTPTR offset_ = 0;
-	for (UINTPTR offset = (UINTPTR)free_ptr + pool->BlockSize;
-		offset < limit;
-		offset = offset + pool->BlockSize)
-	{	
-		FreeMemory* ptr = new ((void*)offset)FreeMemory;
-		FreeMemory* prev = (FreeMemory*)((UINTPTR)ptr - pool->BlockSize);
+	SIZE_T limit = (UINTPTR)((UINTPTR)pool + PoolDataSizeCalc());
+	//for (UINTPTR offset = (UINTPTR)free_ptr + this->BlockSize;
+	//	offset < limit;
+	//	offset = offset + this->BlockSize)
+	//{
+	//	FreeMemory* ptr = new ((void*)offset)FreeMemory;
+	//	FreeMemory* prev = (FreeMemory*)((UINTPTR)ptr - this->BlockSize);
+	//	prev->next = ptr;
+	//}
+
+	for (UINTPTR index = 1; index < this->BlocksNumPerPool; index++)
+	{
+		FreeMemory* ptr = new ((void*)((UINTPTR)raw+(UINTPTR)(index*this->BlockSize)))FreeMemory;
+		FreeMemory* prev = (FreeMemory*)((UINTPTR)ptr - this->BlockSize);
 		prev->next = ptr;
-		offset_ = offset;
 	}
 	pool->FreeMem = free_ptr;
 }
@@ -89,14 +99,11 @@ fpCommonHeap::PoolHeader* fpCommonHeap::PoolList::makeNewPool()
 {
 	PoolHeader* pool;
 	SIZE_T size_alloc = PoolSizeCalc();
-    SIZE_T pool_size = size_alloc - sizeof(PoolHeader);
-    uint32 blocks_count = pool_size / this->BlockSize;
 	void* memory = fpMemory::SystemAlloc(size_alloc);
 
-	/*первые 32 бита информация о самом пуле*/
+	/*первые 16 бита информация о самом пуле*/
 	pool = new(memory)PoolHeader();
     pool->Next = nullptr;
-	pool->BlockSize = this->BlockSize;
 	this->MapThePoolOfFreeBlocks(pool);
 	return pool;
 }
@@ -332,6 +339,10 @@ void* fpCommonHeap::CommonAllocator::Realloc(void *ptr, SIZE_T new_size)
     }
 	assert(TableIndex != NO_INIT_TABLE_INDEX);
 	assert(TableIndex != PERFECT_ALLOC_FREE_FAIL);
+	/*ВНИМАНИЕ! есть мнение что ListFreeMemory коряво указывает на свободный блок
+	* new_mem и ptr ссылаются на один и тотже адрес,
+	* ((fpCommonHeap*)(_heap))->PoolTable[16]-Front->FreeMem->Next уже  уебан, имеет занчение 0x0000000100000000
+	*/
 	void* new_mem = _heap->HeapAlloc(new_size);
 	/*TODO: MEMOVE расхерачивает последовательность свободных блоков в пуле назначения */
 	fpMemory::MemMove(new_mem, ptr, POOL_SIZES[TableIndex]);

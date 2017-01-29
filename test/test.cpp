@@ -33,7 +33,7 @@ int main(int argc, char **argv)
     fpCommonHeap* Heap = new fpCommonHeap;
     Heap->HeapInit();
     //system("PAUSE");
-    bool is_valid = Heap->ValidateHeap();\
+    bool is_valid = Heap->ValidateHeap();
     if (is_valid)
     {
         std::cout<<"Heap is OK"<<std::endl;
@@ -47,8 +47,19 @@ int main(int argc, char **argv)
 		new(test + i)Test12Bit();
 		(test + i)->SelfPrint();
 	}
+
 	//Allocator->Free(test, sizeof(Test12Bit) * 40);
-	/*реалокация убивает 6 листпул, фронтальный пул, FreeMem->next */
+	//is_valid = Heap->ValidateHeap();
+	//if (is_valid)
+	//{
+	//	std::cout << "Heap is OK" << std::endl;
+	//}
+	//else {
+	//	std::cout << "Heap is corrupted" << std::endl;
+	//}
+
+
+	//Реалоцация расхерачивает FreeMem пула назначения
 	test = (Test12Bit*)Allocator->Realloc(test,sizeof(Test12Bit) * 50);
 	for (uint32 i = 40;i < 50;i++)
 	{

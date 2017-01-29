@@ -5,12 +5,12 @@
 #include "../../GenericPlatform/fpPlatform.h"
 class fpCommonHeap : public fpHeapInterface
 {
-	enum { PAGES_IN_POOL = 1 }; //FIXIT: This is test value replace on 16
-	enum { START_POOL_COUNT = 2 }; //FIXIT: This is test value replace after
+	enum { PAGES_IN_POOL = 16 }; //FIXIT: This is test value replace on 16
+	enum { START_POOL_COUNT = 1 }; //FIXIT: This is test value replace after
 	struct FreeMemory
 	{
 		FreeMemory* next;
-/* Выравнивание до 8 бит на 32 битной платформе*/
+/* Выравнивание до 8 байт на 32 битной платформе*/
 #ifdef PLATFORM_32
 		uint32 _allign;
 #endif		
@@ -19,16 +19,11 @@ class fpCommonHeap : public fpHeapInterface
 	{
 		FreeMemory* FreeMem;
 		PoolHeader* Next;
-		uint32 BlockSize;
-//выравнивание до 32 бит
-#ifdef PLATFORM_64		
-		uint32 _padding_[3];
-#endif
-/*
+/* Выравнивание до 16 байт на 32  битной платформе*/
 #ifdef PLATFORM_32
-        uint32 align[4];
+        uint32 align[2];
 #endif
-*/
+
 	};
 
 	struct PoolList 
