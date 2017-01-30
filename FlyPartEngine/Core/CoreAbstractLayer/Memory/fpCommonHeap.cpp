@@ -284,7 +284,7 @@ fpAllocatorInterface *fpCommonHeap::MakeDefaultAllocator() {
 fpCommonHeap::CommonAllocator::CommonAllocator(fpCommonHeap* heap)
         :fpAllocatorInterface((fpHeapInterface*) heap),TableIndex(NO_INIT_TABLE_INDEX)
 {}
-void* fpCommonHeap::CommonAllocator::Allocate(SIZE_T size)
+FORCEINLINE void* fpCommonHeap::CommonAllocator::Allocate(SIZE_T size)
 {
 //    assert(TableIndex==NO_INIT_TABLE_INDEX);
     if (TableIndex>=0)
@@ -314,7 +314,7 @@ void* fpCommonHeap::CommonAllocator::Allocate(SIZE_T size)
 
 	}
 }
-void fpCommonHeap::CommonAllocator::Free(void *ptr, SIZE_T size)
+FORCEINLINE void fpCommonHeap::CommonAllocator::Free(void *ptr, SIZE_T size)
 {
     assert(TableIndex!=NO_INIT_TABLE_INDEX);
     if (TableIndex > 0)
@@ -326,7 +326,7 @@ void fpCommonHeap::CommonAllocator::Free(void *ptr, SIZE_T size)
     }
 	TableIndex = NO_INIT_TABLE_INDEX;
 }
-void* fpCommonHeap::CommonAllocator::Realloc(void *ptr, SIZE_T new_size)
+FORCEINLINE void* fpCommonHeap::CommonAllocator::Realloc(void *ptr, SIZE_T new_size)
 {
     if (new_size==0)
     {

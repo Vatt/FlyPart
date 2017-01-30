@@ -74,9 +74,9 @@ class fpCommonHeap : public fpHeapInterface
         int16 	TableIndex;
 	public:
 		CommonAllocator(fpCommonHeap* heap);
-		virtual void* Allocate(SIZE_T size)override;
-		virtual void Free(void *ptr, SIZE_T size)override;
-		virtual void* Realloc(void* ptr, SIZE_T size)override;
+		FORCEINLINE virtual void* Allocate(SIZE_T size)override;
+		FORCEINLINE virtual void Free(void *ptr, SIZE_T size)override;
+		FORCEINLINE virtual void* Realloc(void* ptr, SIZE_T size)override;
 		virtual ~CommonAllocator();
 	};
 
