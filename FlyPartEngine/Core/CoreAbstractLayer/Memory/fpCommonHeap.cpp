@@ -78,14 +78,6 @@ FORCEINLINE void fpCommonHeap::PoolList::MapThePoolOfFreeBlocks(PoolHeader* pool
 	SIZE_T pool_size  = PoolDataSizeCalc();
 	FreeMemory* free_ptr = new(raw)FreeMemory;
 	SIZE_T limit = (UINTPTR)((UINTPTR)pool + PoolDataSizeCalc());
-	//for (UINTPTR offset = (UINTPTR)free_ptr + this->BlockSize;
-	//	offset < limit;
-	//	offset = offset + this->BlockSize)
-	//{
-	//	FreeMemory* ptr = new ((void*)offset)FreeMemory;
-	//	FreeMemory* prev = (FreeMemory*)((UINTPTR)ptr - this->BlockSize);
-	//	prev->next = ptr;
-	//}
 
 	for (UINTPTR index = 1; index < this->BlocksNumPerPool; index++)
 	{
