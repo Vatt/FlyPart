@@ -55,8 +55,8 @@ int main(int argc, char **argv)
 		((Test12Bit*)test + i)->SelfPrint();
 	}
 
-	//Allocator->Free(test, sizeof(Test12Bit) * 40);
-	//is_valid = Heap->ValidateHeap();
+	Allocator->Free(test, sizeof(Test12Bit) * 40);
+	is_valid = Heap->ValidateHeap();
 	//if (is_valid)
 	//{
 	//	std::cout << "Heap is OK" << std::endl;

@@ -5,7 +5,7 @@
 #include "../../GenericPlatform/fpPlatform.h"
 class fpCommonHeap : public fpHeapInterface
 {
-	enum { PAGES_IN_POOL = 16 }; //FIXIT: This is test value replace on 16
+	enum { PAGES_IN_POOL = 16 };
 	enum { START_POOL_COUNT = 1 }; //FIXIT: This is test value replace after
 	struct FreeMemory
 	{
@@ -28,9 +28,15 @@ class fpCommonHeap : public fpHeapInterface
 
 	struct PoolList 
 	{
-		/*
-		* Global pointer of free memory blocks in this list
-		*/
+
+        struct ListHashNode{
+            UINTPTR PoolKey;
+            PoolHeader* PoolPtr;
+        };
+      //  ListHashNode* HashTable[];
+        /*
+        * Global pointer of free memory blocks in this list
+        */
 		FreeMemory* ListFreeMemory;
         PoolHeader*  Front;
         uint32 TableIndex;
@@ -38,6 +44,9 @@ class fpCommonHeap : public fpHeapInterface
 		uint32 PoolCount;
         uint32 BlocksNumPerPool;
 		uint32 ListFreeBlocksCount;
+
+        uint32 Lenght;
+        uint32 RealHashTableSize;
 		PoolList() {};
         PoolList(uint32 block_size, uint32 table_index);
 		PoolHeader* makeNewPool();

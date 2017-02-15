@@ -25,6 +25,7 @@ fpCommonHeap::PoolList::PoolList(uint32 block_size, uint32 table_index)
 	this->Front = nullptr;
 	this->ListFreeBlocksCount = 0;
 	this->PoolCount = 0;
+    //this->
     for (uint32 index = 0; index < START_POOL_COUNT;index++)
     {
         if (!this->Front)
@@ -122,12 +123,25 @@ FORCEINLINE void* fpCommonHeap::PoolList::PoolAllocate()
     this->ListFreeBlocksCount--;
     return free_block;
 }
-FORCEINLINE void fpCommonHeap::PoolList::PoolFree(void *inPtr)
+FORCEINLINE void fpCommonHeap::PoolList::PoolFree(void* inPtr)
 {
     FreeMemory* temp = this->ListFreeMemory;
     this->ListFreeMemory = static_cast<FreeMemory*>(inPtr);
     this->ListFreeMemory->next = temp;
     this->ListFreeBlocksCount++;
+
+    PoolHeader* iterator = this->Front;
+    while(iterator!=nullptr)
+    {
+        if((UINTPTR)iterator>>17==(UINTPTR)inPtr>>17)
+        {
+            FreeMemory* temp = static_cast<FreeMemory*>(inPtr);
+            temp->next = iterator->FreeMem;
+            iterator->FreeMem = temp;
+			return;
+        }
+		iterator = iterator->Next;
+    }
 }
 
 FORCEINLINE uint32 fpCommonHeap::PoolList::CalcRealNumFreeBlocks() const
