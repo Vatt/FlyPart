@@ -29,11 +29,6 @@ class fpCommonHeap : public fpHeapInterface
 	struct PoolList 
 	{
 
-        struct ListHashNode{
-            UINTPTR PoolKey;
-            PoolHeader* PoolPtr;
-        };
-      //  ListHashNode* HashTable[];
         /*
         * Global pointer of free memory blocks in this list
         */

@@ -3,6 +3,8 @@
 template <typename Type>
 class fpArray
 {
-    
+	void* data;
+public:
+
 };
 #endif //FLYPARTENGINE_FPARRAY_H

@@ -110,8 +110,10 @@ FORCEINLINE void* fpCommonHeap::PoolList::PoolAllocate()
         do{
             if (iterator->Next&&iterator->Next->FreeMem!=nullptr)
             {
-                this->ListFreeMemory = iterator->FreeMem->next;
+                this->ListFreeMemory = iterator->FreeMem->next;				
                 free_block = iterator->FreeMem;
+				//TODO: возможно тут проблема
+				iterator->FreeMem = iterator->FreeMem->next;
                 return free_block;
             }
             iterator = iterator->Next;
@@ -146,7 +148,6 @@ FORCEINLINE void fpCommonHeap::PoolList::PoolFree(void* inPtr)
 
 FORCEINLINE uint32 fpCommonHeap::PoolList::CalcRealNumFreeBlocks() const
 {
-	//FIXIT: подумать над вот строкой ниже
     uint32 count = 0;
     PoolHeader* pool_iterator = this->Front;
 	while (pool_iterator != nullptr)
@@ -288,7 +289,8 @@ fpAllocatorInterface *fpCommonHeap::MakeDefaultAllocator() {
 }
 
 fpCommonHeap::CommonAllocator::CommonAllocator(fpCommonHeap* heap)
-        :fpAllocatorInterface((fpHeapInterface*) heap),TableIndex(NO_INIT_TABLE_INDEX)
+        :fpAllocatorInterface((fpHeapInterface*) heap),
+	     TableIndex(NO_INIT_TABLE_INDEX)
 {}
 FORCEINLINE void* fpCommonHeap::CommonAllocator::Allocate(SIZE_T size)
 {
