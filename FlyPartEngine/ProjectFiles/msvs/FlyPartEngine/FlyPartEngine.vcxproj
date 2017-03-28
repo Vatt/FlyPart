@@ -21,7 +21,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{5AD79331-65CC-4CB3-8443-514501034F31}</ProjectGuid>
     <RootNamespace>fpSystem</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.10586.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.14393.0</WindowsTargetPlatformVersion>
     <ProjectName>FlyPartEngine</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -45,9 +45,9 @@
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
@@ -80,6 +80,9 @@
     <IncludePath>D:\dev\FlyPart\FlyPartEngine\include;$(IncludePath)</IncludePath>
     <LibraryPath>D:\dev\FlyPart\FlyPartEngine\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>..\..\..\..\Build\FlyPartRuntime\$(Platform)\$(Configuration)\</OutDir>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -97,7 +100,7 @@
       <SDLCheck>false</SDLCheck>
       <EnablePREfast>false</EnablePREfast>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
-      <OpenMPSupport>true</OpenMPSupport>
+      <OpenMPSupport>false</OpenMPSupport>
       <EnforceTypeConversionRules>true</EnforceTypeConversionRules>
       <LanguageStandard>stdcpp14</LanguageStandard>
     </ClCompile>
@@ -126,6 +129,8 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <PreprocessorDefinitions>_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -151,7 +156,6 @@
     <ClInclude Include="..\..\..\Core\GenericPlatform\Memory\fpPlatformMemory.h" />
     <ClInclude Include="..\..\..\Core\GenericPlatform\typedefs.h" />
     <ClInclude Include="..\..\..\Core\GenericPlatform\Window\fpWindow.h" />
-    <ClInclude Include="..\..\..\Core\GenericPlatform\Window\fpWindowSystem.h" />
     <ClInclude Include="..\..\..\Core\Windows\fpWindowsAtomics.h" />
     <ClInclude Include="..\..\..\Core\Windows\fpWindowsMemory.h" />
     <ClInclude Include="..\..\..\FlyPart.h" />
@@ -173,7 +177,6 @@
     <ClCompile Include="..\..\..\Core\GenericPlatform\Input\fpKeyBoard.cpp" />
     <ClCompile Include="..\..\..\Core\GenericPlatform\Memory\fpMemorySystem.cpp" />
     <ClCompile Include="..\..\..\Core\GenericPlatform\Window\fpWindow.cpp" />
-    <ClCompile Include="..\..\..\Core\GenericPlatform\Window\fpWindowSystem.cpp" />
     <ClCompile Include="..\..\..\Core\Windows\fpWindowsMemory.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

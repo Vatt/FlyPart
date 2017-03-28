@@ -26,9 +26,6 @@
     <ClInclude Include="..\..\..\Core\GenericPlatform\Window\fpWindow.h">
       <Filter>Core\GenericPlatform\Window</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Core\GenericPlatform\Window\fpWindowSystem.h">
-      <Filter>Core\GenericPlatform\Window</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Core\GenericPlatform\Memory\fpPlatformMemory.h">
       <Filter>Core\GenericPlatform\Memory</Filter>
     </ClInclude>
@@ -136,9 +133,6 @@
       <Filter>Core\GenericPlatform\Input</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Core\GenericPlatform\Window\fpWindow.cpp">
-      <Filter>Core\GenericPlatform\Window</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Core\GenericPlatform\Window\fpWindowSystem.cpp">
       <Filter>Core\GenericPlatform\Window</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Core\GenericPlatform\Memory\fpMemorySystem.cpp">

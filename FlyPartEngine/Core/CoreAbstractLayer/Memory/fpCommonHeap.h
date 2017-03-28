@@ -5,72 +5,18 @@
 #include "../../GenericPlatform/fpPlatform.h"
 class fpCommonHeap : public fpHeapInterface
 {
-	enum { PAGES_IN_POOL = 16 };
-	enum { START_POOL_COUNT = 1 }; //FIXIT: This is test value replace after
-	struct FreeMemory
-	{
-		FreeMemory* next;
-/* Выравнивание до 8 байт на 32 битной платформе*/
-#ifdef PLATFORM_32
-		uint32 _allign;
-#endif		
-	};
-	struct PoolHeader
-	{
-		FreeMemory* FreeMem;
-		PoolHeader* Next;
-/* Выравнивание до 16 байт на 32  битной платформе*/
-#ifdef PLATFORM_32
-        uint32 align[2];
-#endif
-
-	};
-
-	struct PoolList 
-	{
-
-        /*
-        * Global pointer of free memory blocks in this list
-        */
-		FreeMemory* ListFreeMemory;
-        PoolHeader*  Front;
-        uint32 TableIndex;
-		uint32 BlockSize;
-		uint32 PoolCount;
-        uint32 BlocksNumPerPool;
-		uint32 ListFreeBlocksCount;
-
-        uint32 Lenght;
-        uint32 RealHashTableSize;
-		PoolList() {};
-        PoolList(uint32 block_size, uint32 table_index);
-		PoolHeader* makeNewPool();
-		FORCEINLINE SIZE_T PoolSizeCalc();
-		FORCEINLINE SIZE_T PoolDataSizeCalc();
-		FORCEINLINE void  MapThePoolOfFreeBlocks(PoolHeader* pool);
-        FORCEINLINE void  LinkPoolToFront(PoolHeader* target);
-		FORCEINLINE void* GetPoolRawData(PoolHeader *pool)const;
-		FORCEINLINE void* PoolAllocate();
-		FORCEINLINE void  PoolFree(void *inPtr);
-        FORCEINLINE void  ExtendPoolsCount(uint32 num);		
-		FORCEINLINE void  CleanupList();
-		FORCEINLINE void  CleanupPool(PoolHeader* pool);
-		FORCEINLINE void  ListDestroy();
-		FORCEINLINE void  PoolDestroy(PoolHeader* pool);
-        /*
-         * This method only for validate list;
-         * */
-        FORCEINLINE uint32 CalcRealNumFreeBlocks()const;
-        /*
-         * This method only for validate list;
-         * */        
-        FORCEINLINE bool  ValidateList()const;
-        
-
-    };
+	enum { PAGES_IN_POOL = 16,
+		   START_POOL_COUNT = 3, //FIXIT: This is test value replace after
+		   EXTEND_NUMBER = 3,
+		   
+	}; 
+	struct FreeMemory;
+	struct PoolHeader;
+	class PoolList;
 
 	class CommonAllocator:public fpAllocatorInterface
 	{
+		struct ListHashBucket;
 		enum {
 				NO_INIT_TABLE_INDEX = -1,
 				PERFECT_ALLOC_FREE_FAIL = -2
@@ -104,7 +50,7 @@ private:
     fpCommonHeap& operator=(const fpCommonHeap&);
     fpCommonHeap& operator=(fpCommonHeap&&);
 private:
-	
+	uint32 MaxHashBuckets;
 	PoolList* PoolTable[9];
 
 };
