@@ -2,7 +2,7 @@
 #define _FP_WINDOW_INCLUDE_
 
 
-		class fpWindow
+		class fpWindowInterface
 		{
 		private:
 			static unsigned int _wndCount;
@@ -20,8 +20,8 @@
 
 
 		public:
-			fpWindow();
-			virtual ~fpWindow();
+			fpWindowInterface();
+			virtual ~fpWindowInterface();
 			//fpWindow(const char* name, unsigned int x, unsigned int y, unsigned int width, unsigned int height, bool fullscreen);
 			virtual unsigned int getId() const { return _id; }
 			virtual void createWindow(const char* name, unsigned int x, unsigned int y, unsigned int width, unsigned int height, bool fullscreen) = 0;

@@ -25,12 +25,14 @@ void* fpWindowsPlatformMemory::SystemAlloc(SIZE_T size)
     fpPlatformMemory::Stats.IncrementSystemAllocCallCounter();
 	void* ptr = VirtualAlloc(NULL, size, MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE);
 	memset(ptr, 0, size); //FIXIT: implement function
+	fpPlatformMemory::Stats.UsedMemory += size;
 	return ptr;
 }
 void fpWindowsPlatformMemory::SystemFree(void* ptr,SIZE_T size)
 {
 	fpPlatformMemory::Stats.IncrementSystemFreeCallCounter();
 	VirtualFree(ptr,0, MEM_RELEASE );
+	fpPlatformMemory::Stats.UsedMemory -= size;
 }
 void fpWindowsPlatformMemory::UpdateMemoryStats()
 {

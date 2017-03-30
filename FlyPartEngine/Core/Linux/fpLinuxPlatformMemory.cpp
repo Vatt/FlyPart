@@ -13,13 +13,16 @@ fpPlatformMemory::MemoryStats fpPlatformMemory::Stats = MemoryStats(sysconf(_SC_
 void* fpLinuxPlatformMemory::SystemAlloc(size_t size)
 {
 
-    Stats.IncrementSystemAllocCallCounter();
-	return valloc(size);
+    Stats.IncrementSystemAllocCallCounter();	
+	void* ptr =  valloc(size);
+	fpPlatformMemory::Stats.UsedMemory += size;
+	return ptr;
 }
 void fpLinuxPlatformMemory::SystemFree(void *ptr, SIZE_T size)
 {
     Stats.IncrementSystemFreeCallCounter();
 	free(ptr);
+	fpPlatformMemory::Stats.UsedMemory -= size;
 }
 void fpLinuxPlatformMemory::UpdateMemoryStats()
 {

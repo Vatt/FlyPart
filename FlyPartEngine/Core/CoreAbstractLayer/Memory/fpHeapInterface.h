@@ -4,8 +4,9 @@
 #include "../../GenericPlatform/fpPlatform.h"
 #include "fpAllocator.h"
 
-struct fpHeapInterface
+class fpHeapInterface
 {
+public:
 	virtual void  HeapInit() = 0;
 	
 	virtual void* HeapAlloc(SIZE_T size) = 0;

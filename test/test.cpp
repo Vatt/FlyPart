@@ -41,36 +41,28 @@ int main(int argc, char **argv)
         std::cout<<"Heap is corrupted"<<std::endl;
     }
 	fpAllocatorInterface* Allocator = Heap->MakeDefaultAllocator();
-	/*
-	*	ВОт тут после выделения происходит непонятки, дальше в цикле адреса в пуле бьются
-		из чег оследует что выделенияе или выдача блока кривая
-		есть мнение что алокация верная, но нужно также менять Pool->FreeMem уцказатель также как и 
-		ListPoolFreeMemory,ListPoolFreeMemory адреса верные, Pool->FreeMem адреса битые
-		Нужно также сместить указатель на локальные блоки в пуле(Pool->FreeMem) так же как и ListPoolFreeMemory
-	*/
+
 	Test12Bit* test = (Test12Bit*)Allocator->Allocate(sizeof(Test12Bit) * 40);
+	is_valid = Heap->ValidateHeap();
+	
 	for (UINTPTR i = 0;i < 40;i++)
 	{
 		new((void*)((Test12Bit*)test + i))Test12Bit();
 		((Test12Bit*)test + i)->SelfPrint();
-	}
-
-	Allocator->Free(test, sizeof(Test12Bit) * 40);
+	}	
 	is_valid = Heap->ValidateHeap();
-	//if (is_valid)
-	//{
-	//	std::cout << "Heap is OK" << std::endl;
-	//}
-	//else {
-	//	std::cout << "Heap is corrupted" << std::endl;
-	//}
-
-
+	if (is_valid)
+	{
+		std::cout << "Heap is OK" << std::endl;
+	}
+	else {
+		std::cout << "Heap is corrupted" << std::endl;
+	}
 	
 	test = (Test12Bit*)Allocator->Realloc(test,sizeof(Test12Bit) * 50);
 	for (uint32 i = 40;i < 50;i++)
 	{
-		((Test12Bit*)test + i)->SelfPrint();
+		new((void*)((Test12Bit*)test + i))Test12Bit();
 	}
 	for (uint32 i = 0;i < 50;i++)
 	{
@@ -85,6 +77,18 @@ int main(int argc, char **argv)
 	else {
 		std::cout << "Heap is corrupted" << std::endl;
 	}
+	Allocator->Free(test, sizeof(Test12Bit) * 40);
+
+	is_valid = Heap->ValidateHeap();
+	if (is_valid)
+	{
+		std::cout << "Heap is OK" << std::endl;
+	}
+	else {
+		std::cout << "Heap is corrupted" << std::endl;
+	}
+	Heap->HeapDestroy();
+	delete Heap;
     return 0;
 }
 
