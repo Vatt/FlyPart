@@ -2,6 +2,7 @@
 #include "../../fpCommon/CommonHelperFunctions.h"
 #include <new>
 
+const static SIZE_T PAGE_SIZE = 4096;
 const static uint8 LENGTH_TABLE = 45;
 const static uint8 HALF_LENGTH_TABLE = LENGTH_TABLE / 2;
 const static uint32 POOL_SIZES[45] = { 16, 32, 48, 64, 80, 96, 112, 128, 160, 192, 224, 256, 
@@ -53,7 +54,7 @@ class fpCommonHeap::PoolList
 public:
 	static_assert(sizeof(PoolHeader) == 16, "PoolHeader size should be equal to 16");
 	static_assert(sizeof(FreeMemory) <= 16, "FreeMemory size should be no more than 16");
-	static_assert(POOL_SIZE % 16 == 0, "Enum value POOL_SIZE % 16 != 0");
+	static_assert(POOL_SIZE % PAGE_SIZE == 0, "Enum value POOL_SIZE % PAGE_SIZE(4096) != 0");
 	struct TempPoolData {
 		PoolHeader* header;
 		FreeMemory* first;
@@ -140,7 +141,6 @@ public:
 
 fpCommonHeap::PoolList::PoolList(uint32 block_size, uint32 table_index)
 {
-
     this->TableIndex = table_index;
     this->BlockSize = block_size;
 	this->BlocksNumPerPool = this->PoolDataSizeCalc() / this->BlockSize;
@@ -310,7 +310,7 @@ void* fpCommonHeap::HeapAlloc(SIZE_T size)
     {
         if (aligned<=POOL_SIZES[i])
         {
-			void* ptr = PoolTable[i]->PoolAllocate();
+			void* ptr = PoolTable[i].PoolAllocate();
 			return ptr;
 		}
     }
@@ -319,7 +319,7 @@ void* fpCommonHeap::HeapAlloc(SIZE_T size)
 }
 FORCEINLINE void fpCommonHeap::HeapFreeFast(uint32 inTableIndex, void* inPtr)
 {
-	PoolTable[inTableIndex]->PoolFree(inPtr);
+	PoolTable[inTableIndex].PoolFree(inPtr);
 }
 FORCEINLINE fpCommonHeap::PoolHeader* fpCommonHeap::GetPoolHeaderFromPtr(void* inPtr)
 {
@@ -334,24 +334,27 @@ void fpCommonHeap::HeapCleanup()
 {
 	for (uint8 i = 0; i < LENGTH_TABLE;i++)
 	{
-		this->PoolTable[i]->CleanupList();
+		this->PoolTable[i].CleanupList();
 	}
 }
 
 void* fpCommonHeap::HeapRealloc(void * target, SIZE_T size)
 {
-	return nullptr;
+	//FIXIT: FIX this hack
+	return MakeAllocator()->Realloc(target,size);
 }
 void fpCommonHeap::HeapDestroy()
 {
+	if (this->PoolTable == nullptr) { return; }
 	for (uint8 i = 0; i < LENGTH_TABLE; i++)
 	{
-		this->PoolTable[i]->ListDestroy();
+		this->PoolTable[i].ListDestroy();
 		/*delete this->PoolTable[i];
 		this->PoolTable[i] = nullptr;
 		*/
 	}
 	delete[] this->PoolTable;
+	this->PoolTable = nullptr;
 }
 
 
@@ -359,7 +362,7 @@ bool fpCommonHeap::ValidateHeap()
 {
 	for (uint16 i = 0;i<LENGTH_TABLE;i++)
 	{
-		if (!PoolTable[i]->ValidateList())
+		if (!PoolTable[i].ValidateList())
 		{
 			return false;
 		}
@@ -389,7 +392,7 @@ FORCEINLINE void* fpCommonHeap::CommonAllocator::Allocate(SIZE_T size)
 FORCEINLINE void fpCommonHeap::CommonAllocator::Free(void *inPtr, SIZE_T inSize)
 {
 	uint32 TableIndex = static_cast<fpCommonHeap*>(HeapPtr)->GetPoolHeaderFromPtr(inPtr)->TableIndex;
-	static_cast<fpCommonHeap*>(HeapPtr)->PoolTable[TableIndex]->PoolFree(inPtr);
+	static_cast<fpCommonHeap*>(HeapPtr)->PoolTable[TableIndex].PoolFree(inPtr);
 }
 FORCEINLINE void* fpCommonHeap::CommonAllocator::Realloc(void *ptr, SIZE_T new_size)
 {	

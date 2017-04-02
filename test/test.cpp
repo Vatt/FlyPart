@@ -88,8 +88,7 @@ int main(int argc, char **argv)
 	else {
 		std::cout << "Heap is corrupted" << std::endl;
 	}
-	Heap->HeapDestroy();
-	delete Heap;
+	Heap->HeapDestroy();	
 	return 0;
 }
 
