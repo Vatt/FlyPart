@@ -35,12 +35,13 @@ int main(int argc, char **argv)
     Heap->HeapInit();
     //system("PAUSE");
     bool is_valid = Heap->ValidateHeap();
-    if (is_valid)
-    {
-        std::cout<<"Heap is OK"<<std::endl;
-    }else{
-        std::cout<<"Heap is corrupted"<<std::endl;
-    }
+	if (is_valid)
+	{
+		std::cout << "After heap init: heap is OK" << std::endl;
+	}
+	else {
+		std::cout << "After heap init: Heap is corrupted" << std::endl;
+	}
 	fpAllocatorInterface* Allocator = Heap->MakeAllocator();
 
 	Test12Bit* test = (Test12Bit*)Allocator->Allocate(sizeof(Test12Bit) * 40);
@@ -49,15 +50,15 @@ int main(int argc, char **argv)
 	for (UINTPTR i = 0;i < 40;i++)
 	{
 		new((void*)((Test12Bit*)test + i))Test12Bit();
-		((Test12Bit*)test + i)->SelfPrint();
+		//((Test12Bit*)test + i)->SelfPrint();
 	}	
 	is_valid = Heap->ValidateHeap();
 	if (is_valid)
 	{
-		std::cout << "Heap is OK" << std::endl;
+		std::cout << "After allocate memory: heap is OK" << std::endl;
 	}
 	else {
-		std::cout << "Heap is corrupted" << std::endl;
+		std::cout << "After allocate memory:heap is corrupted" << std::endl;
 	}
 	
 	test = (Test12Bit*)Allocator->Realloc(test,sizeof(Test12Bit) * 50);
@@ -65,28 +66,37 @@ int main(int argc, char **argv)
 	{
 		new((void*)((Test12Bit*)test + i))Test12Bit();
 	}
-	for (uint32 i = 0;i < 50;i++)
+	/*for (uint32 i = 0;i < 50;i++)
 	{
 		((Test12Bit*)test + i)->SelfPrint();
-	}
+	}*/
 	
 	is_valid = Heap->ValidateHeap();
 	if (is_valid)
 	{
-		std::cout << "Heap is OK" << std::endl;
+		std::cout << "After re allocate memory: heap is OK" << std::endl;
 	}
 	else {
-		std::cout << "Heap is corrupted" << std::endl;
+		std::cout <<  "After re allocate memory: heap is corrupted"  << std::endl;
 	}
 	Allocator->Free(test, sizeof(Test12Bit) * 50);
 
 	is_valid = Heap->ValidateHeap();
 	if (is_valid)
 	{
-		std::cout << "Heap is OK" << std::endl;
+		std::cout << "After heap free: heap is OK" << std::endl;
 	}
 	else {
-		std::cout << "Heap is corrupted" << std::endl;
+		std::cout << "After heap free: heap is corrupted" << std::endl;
+	}
+	Heap->HeapCleanup();
+	is_valid = Heap->ValidateHeap();
+	if (is_valid)
+	{
+		std::cout << "After heap cleanup: heap is OK" << std::endl;
+	}
+	else {
+		std::cout << "After heap cleanup: heap is corrupted" << std::endl;
 	}
 	Heap->HeapDestroy();	
 	return 0;

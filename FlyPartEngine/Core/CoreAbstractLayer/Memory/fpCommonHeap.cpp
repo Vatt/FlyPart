@@ -107,7 +107,7 @@ public:
 	FORCEINLINE void  PoolFree(void *inPtr);
 	FORCEINLINE void  ExtendPoolsCount();
 	FORCEINLINE void  CleanupList();
-	FORCEINLINE void  CleanupPool(PoolHeader* pool);
+	FORCEINLINE TempPoolData&&  CleanupPool(PoolHeader* pool);
 	FORCEINLINE void  ListDestroy();
 	FORCEINLINE void  PoolDestroy(PoolHeader* pool);
 	/*
@@ -254,18 +254,26 @@ FORCEINLINE bool fpCommonHeap::PoolList::ValidateList()const
 }
 FORCEINLINE void fpCommonHeap::PoolList::CleanupList()
 {
+	TempPoolData* temp_data = new TempPoolData[this->PoolCount];
 	PoolHeader* iterator = this->Front;
+	uint32 index = 0;
 	this->ListFreeBlocksCount = 0;
 	while (iterator != nullptr)
 	{
-		CleanupPool(iterator);
+		temp_data[index] = CleanupPool(iterator);
 		this->ListFreeBlocksCount += this->BlocksNumPerPool;
 		iterator = iterator->Next;
+		++index;
 	}
+	for (auto index = 1; index < this->PoolCount; index++)
+	{
+		*&(temp_data[index - 1].last->next) = temp_data[index].first;
+	}
+	delete[] temp_data;
 }
-FORCEINLINE void fpCommonHeap::PoolList::CleanupPool(PoolHeader* pool)
+FORCEINLINE fpCommonHeap::PoolList::TempPoolData&&  fpCommonHeap::PoolList::CleanupPool(PoolHeader* pool)
 {
-	this->MapThePoolOfFreeBlocks(pool);
+	return this->MapThePoolOfFreeBlocks(pool);
 }
 
 void fpCommonHeap::PoolList::ListDestroy()
@@ -282,7 +290,7 @@ void fpCommonHeap::PoolList::ListDestroy()
 
 void fpCommonHeap::PoolList::PoolDestroy(PoolHeader * pool)
 {
-    fpMemory::SystemFree((void *) pool, 0);
+    fpMemory::SystemFree((void *) pool, POOL_SIZE);
 }
 
 
@@ -342,9 +350,6 @@ void fpCommonHeap::HeapDestroy()
 	for (uint8 i = 0; i < LENGTH_TABLE; i++)
 	{
 		this->PoolTable[i].ListDestroy();
-		/*delete this->PoolTable[i];
-		this->PoolTable[i] = nullptr;
-		*/
 	}
 	delete[] this->PoolTable;
 	this->PoolTable = nullptr;
