@@ -122,19 +122,10 @@ public:
 
 	PoolList* operator=(PoolList* other)
 	{
-		/*
-		this->ListFreeMemory = other->ListFreeMemory;
-		this->Front = other->Front;
-		this->Last = other->Last;
-		this->TableIndex = other->TableIndex;
-		this->BlockSize = other->BlockSize;
-		this->PoolCount = other->PoolCount;
-		//this-> = other->;
-		*/
-		return (PoolList*)fpMemory::MemCopy(this, other, sizeof(PoolList));
+		auto pool_list = (PoolList*)fpMemory::MemCopy(this, other, sizeof(PoolList));
+		delete other;
+		return pool_list;
 	}
-
-
 };
 
 
@@ -145,6 +136,7 @@ fpCommonHeap::PoolList::PoolList(uint32 block_size, uint32 table_index)
     this->BlockSize = block_size;
 	this->BlocksNumPerPool = this->PoolDataSizeCalc() / this->BlockSize;
 	this->Front = nullptr;
+	this->Last = nullptr;
 	this->ListFreeBlocksCount = 0;
 	this->PoolCount = 0;
 	this->ExtendPoolsCount();
@@ -166,6 +158,7 @@ FORCEINLINE void fpCommonHeap::PoolList::ExtendPoolsCount()
 	if (this->Front == nullptr)
 	{
 		this->Front = data[0].header;
+		this->Last = data[EXTEND_NUMBER - 1].header;
 	}
 	else {
 		PoolHeader::LinkPoolAfter(this->Last, data[EXTEND_NUMBER -1].header);
