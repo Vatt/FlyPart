@@ -5,7 +5,7 @@
 
 #include <assert.h>
 #include "SmartPtrPrivate.h"
-#include "../Core/GenericPlatform/Memory/fpMemorySystem.h"
+
 using namespace fpTemplate;
 template <class ObjType, RefControllerMode Mode> class fpWeakPtr;
 

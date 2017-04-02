@@ -8,9 +8,9 @@ class fpHeapInterface;
 class fpAllocatorInterface
 {
 protected:
-    fpHeapInterface* _heap;
+    fpHeapInterface* HeapPtr;
 public:
-	fpAllocatorInterface(fpHeapInterface* heap) :_heap(heap)
+	fpAllocatorInterface(fpHeapInterface* heap) :HeapPtr(heap)
 	{}
 	virtual void* Allocate(SIZE_T size) = 0;
 	virtual void Free(void *ptr, SIZE_T size) = 0;

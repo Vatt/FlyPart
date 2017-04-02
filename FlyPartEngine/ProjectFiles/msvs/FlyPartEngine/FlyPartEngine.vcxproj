@@ -102,7 +102,7 @@
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
       <OpenMPSupport>false</OpenMPSupport>
       <EnforceTypeConversionRules>true</EnforceTypeConversionRules>
-      <LanguageStandard>stdcpp14</LanguageStandard>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -175,7 +175,6 @@
     <ClCompile Include="..\..\..\Core\GenericPlatform\Input\fpInputSystem.cpp" />
     <ClCompile Include="..\..\..\Core\GenericPlatform\Input\fpKeyBind.cpp" />
     <ClCompile Include="..\..\..\Core\GenericPlatform\Input\fpKeyBoard.cpp" />
-    <ClCompile Include="..\..\..\Core\GenericPlatform\Memory\fpMemorySystem.cpp" />
     <ClCompile Include="..\..\..\Core\GenericPlatform\Window\fpWindow.cpp" />
     <ClCompile Include="..\..\..\Core\Windows\fpWindowsMemory.cpp" />
   </ItemGroup>

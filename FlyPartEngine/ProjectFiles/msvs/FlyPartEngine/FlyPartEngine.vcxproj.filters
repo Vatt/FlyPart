@@ -135,9 +135,6 @@
     <ClCompile Include="..\..\..\Core\GenericPlatform\Window\fpWindow.cpp">
       <Filter>Core\GenericPlatform\Window</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Core\GenericPlatform\Memory\fpMemorySystem.cpp">
-      <Filter>Core\GenericPlatform\Memory</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\Core\Windows\fpWindowsMemory.cpp">
       <Filter>Core\Windows</Filter>
     </ClCompile>

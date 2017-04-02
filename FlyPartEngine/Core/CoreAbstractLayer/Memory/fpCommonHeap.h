@@ -6,8 +6,8 @@
 class fpCommonHeap : public fpHeapInterface
 {
 	enum { PAGES_IN_POOL = 16,
-		   START_POOL_COUNT = 3, //FIXIT: This is test value replace after
-		   EXTEND_NUMBER = 3,
+		   START_POOL_COUNT = 1, //FIXIT: This is test value replace after
+		   EXTEND_NUMBER = 1,
 		   
 	}; 
 	struct FreeMemory;
@@ -28,6 +28,14 @@ class fpCommonHeap : public fpHeapInterface
 		FORCEINLINE virtual void Free(void *ptr, SIZE_T size)override;
 		FORCEINLINE virtual void* Realloc(void* ptr, SIZE_T size)override;
 		virtual ~CommonAllocator();
+	private:
+		FORCEINLINE void initBuckets();
+		FORCEINLINE void insertNullBucket(uint8 key);
+		FORCEINLINE void insertBucket(PoolList* inList, void* inPtr);
+		FORCEINLINE ListHashBucket* findBucket(void* inPtr);
+		
+	private:
+		ListHashBucket* Buckets;
 	};
 
 public:
@@ -41,7 +49,7 @@ public:
 	virtual void  HeapDestroy()override;
 	virtual bool  ValidateHeap()override;
 	
-	virtual fpAllocatorInterface* MakeDefaultAllocator();
+	virtual fpAllocatorInterface* MakeAllocator();
 	fpCommonHeap();
 	virtual ~fpCommonHeap();
 private:
@@ -50,8 +58,7 @@ private:
     fpCommonHeap& operator=(const fpCommonHeap&);
     fpCommonHeap& operator=(fpCommonHeap&&);
 private:
-	uint32 MaxHashBuckets;
-	PoolList* PoolTable[9];
+	PoolList* PoolTable[45];
 
 };
 

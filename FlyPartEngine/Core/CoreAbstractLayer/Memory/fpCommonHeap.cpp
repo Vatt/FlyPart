@@ -3,6 +3,7 @@
 #include <new>
 
 const static uint8 LENGTH_TABLE = 45;
+const static uint8 HALF_LENGTH_TABLE = LENGTH_TABLE / 2;
 const static uint32 POOL_SIZES[45] = { 16, 32, 48, 64, 80, 96, 112, 128, 160, 192, 224, 256, 
 									   288, 320, 384, 448, 496, 560, 640, 704, 768,896, 1008,
 									   1168, 1360, 1632, 2032, 2336, 2720, 3264, 4080, 4368, 
@@ -222,6 +223,7 @@ FORCEINLINE void* fpCommonHeap::PoolList::PoolAllocate()
 FORCEINLINE void fpCommonHeap::PoolList::PoolFree(void* inPtr)
 {
     FreeMemory* temp = this->ListFreeMemory;
+	PoolHeader*  test = (PoolHeader*)(((int64)inPtr) & ~(65536 - 1));
     this->ListFreeMemory = static_cast<FreeMemory*>(inPtr);
     this->ListFreeMemory->next = temp;
     this->ListFreeBlocksCount++;
@@ -299,17 +301,14 @@ void fpCommonHeap::HeapInit()
 	}
 }
 
-void * fpCommonHeap::HeapAlloc(SIZE_T size)
+void* fpCommonHeap::HeapAlloc(SIZE_T size)
 {
     SIZE_T aligned = ALIGN(size);
     for(uint8 i = 0;i<LENGTH_TABLE;i++)
     {
-        if (aligned>=POOL_SIZES[i])
+        if (aligned<=POOL_SIZES[i])
         {
-            
-		}
-		else {
-			void* ptr =  PoolTable[i]->PoolAllocate();
+			void* ptr = PoolTable[i]->PoolAllocate();
 			return ptr;
 		}
     }
@@ -372,26 +371,51 @@ fpCommonHeap::~fpCommonHeap()
 	this->HeapDestroy();
 }
 
-fpAllocatorInterface *fpCommonHeap::MakeDefaultAllocator() {
+fpAllocatorInterface *fpCommonHeap::MakeAllocator() {
     return  new CommonAllocator(this);
 }
 struct fpCommonHeap::CommonAllocator::ListHashBucket {
-	UINTPTR Index;
+	uint8 Key;
+	void* Ptr;
+	PoolList* List;
 	ListHashBucket* Next;
 	ListHashBucket* Prev;
-	PoolList* List;
+	ListHashBucket()
+		:Key(0), Next(nullptr),
+		Prev(nullptr), List(nullptr),
+		Ptr(nullptr)
+	{}
+	ListHashBucket(uint8 key) :Key(key),
+		Next(nullptr),Prev(nullptr),
+		List(nullptr),Ptr(nullptr)
+	{}
 };
+void fpCommonHeap::CommonAllocator::initBuckets()
+{
+	Buckets = new ListHashBucket[HALF_LENGTH_TABLE];//(ListHashBucket*)malloc(sizeof(ListHashBucket)*HALF_LENGTH_TABLE);
+	for (auto index = 0; index < 45; index++)
+	{
+		
+	}
+}
+void fpCommonHeap::CommonAllocator::insertNullBucket(uint8 key)
+{
+	uint8 hash = key% HALF_LENGTH_TABLE;
+
+}
 fpCommonHeap::CommonAllocator::CommonAllocator(fpCommonHeap* heap)
-        :fpAllocatorInterface((fpHeapInterface*) heap),
-	     TableIndex(NO_INIT_TABLE_INDEX)
-{}
+	:fpAllocatorInterface((fpHeapInterface*)heap),
+	TableIndex(NO_INIT_TABLE_INDEX)
+{
+	initBuckets();
+}
 FORCEINLINE void* fpCommonHeap::CommonAllocator::Allocate(SIZE_T size)
 {
 //    assert(TableIndex==NO_INIT_TABLE_INDEX);
     if (TableIndex>=0)
     {
         TableIndex = PERFECT_ALLOC_FREE_FAIL;
-		return this->_heap->HeapAlloc(size);
+		return this->HeapPtr->HeapAlloc(size);
 	}
 	else {
 		if (this->TableIndex == NO_INIT_TABLE_INDEX)
@@ -399,18 +423,15 @@ FORCEINLINE void* fpCommonHeap::CommonAllocator::Allocate(SIZE_T size)
 			uint32 aligned = ALIGN(size);
 			for (uint8 i = 0;i<LENGTH_TABLE;i++)
 			{
-				if (aligned >= POOL_SIZES[i])
+				if (aligned <= POOL_SIZES[i])
 				{
-
-				}
-				else {
 					this->TableIndex = i;
-					return static_cast<fpCommonHeap*>(_heap)->PoolTable[this->TableIndex]->PoolAllocate();
+					return static_cast<fpCommonHeap*>(HeapPtr)->PoolTable[this->TableIndex]->PoolAllocate();
 				}
 			}
 		}
 		else {
-			return static_cast<fpCommonHeap*>(_heap)->PoolTable[this->TableIndex]->PoolAllocate();
+			return static_cast<fpCommonHeap*>(HeapPtr)->PoolTable[this->TableIndex]->PoolAllocate();
 		}
 
 	}
@@ -419,10 +440,10 @@ FORCEINLINE void fpCommonHeap::CommonAllocator::Free(void *ptr, SIZE_T size)
 {
     if (TableIndex > 0)
     {
-        fpCommonHeap* common_heap = static_cast<fpCommonHeap*>(_heap);
+        fpCommonHeap* common_heap = static_cast<fpCommonHeap*>(HeapPtr);
         common_heap->PoolTable[TableIndex]->PoolFree(ptr);
     }else{
-        _heap->HeapFree(ptr, size);
+        HeapPtr->HeapFree(ptr, size);
     }
 	TableIndex = NO_INIT_TABLE_INDEX;
 }
@@ -430,7 +451,7 @@ FORCEINLINE void* fpCommonHeap::CommonAllocator::Realloc(void *ptr, SIZE_T new_s
 {
     if (new_size==0)
     {
-        _heap->HeapFree(ptr, new_size);
+        HeapPtr->HeapFree(ptr, new_size);
         return nullptr;
     }
     if (ptr == nullptr)
@@ -439,7 +460,7 @@ FORCEINLINE void* fpCommonHeap::CommonAllocator::Realloc(void *ptr, SIZE_T new_s
     }
 	assert(TableIndex != NO_INIT_TABLE_INDEX);
 	assert(TableIndex != PERFECT_ALLOC_FREE_FAIL);
-	void* new_mem = _heap->HeapAlloc(new_size);
+	void* new_mem = HeapPtr->HeapAlloc(new_size);
 	fpMemory::MemMove(new_mem, ptr, POOL_SIZES[TableIndex]);
 	this->Free(ptr, POOL_SIZES[TableIndex]);
 	return new_mem;

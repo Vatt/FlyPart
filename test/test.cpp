@@ -3,6 +3,7 @@
 
 #include "../FlyPartEngine/FlyPart.h"
 #include "../FlyPartEngine/fpCommon/SmartPtrTest.h"
+#include "../FlyPartEngine/fpCommon/Containers/fpArray.h"
 #ifdef PLATFORM_LINUX
 #endif
 #ifdef PLATFORM_WINDOWS
@@ -40,7 +41,7 @@ int main(int argc, char **argv)
     }else{
         std::cout<<"Heap is corrupted"<<std::endl;
     }
-	fpAllocatorInterface* Allocator = Heap->MakeDefaultAllocator();
+	fpAllocatorInterface* Allocator = Heap->MakeAllocator();
 
 	Test12Bit* test = (Test12Bit*)Allocator->Allocate(sizeof(Test12Bit) * 40);
 	is_valid = Heap->ValidateHeap();
@@ -87,9 +88,8 @@ int main(int argc, char **argv)
 	else {
 		std::cout << "Heap is corrupted" << std::endl;
 	}
-	Heap->HeapDestroy();
-	delete Heap;
-    return 0;
+	//Heap->HeapDestroy();
+	return 0;
 }
 
 
