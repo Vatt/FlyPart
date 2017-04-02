@@ -50,7 +50,7 @@ private:
     fpCommonHeap& operator=(const fpCommonHeap&);
     fpCommonHeap& operator=(fpCommonHeap&&);
 private:
-	PoolList* PoolTable[45];
+	PoolList* PoolTable;
 
 };
 

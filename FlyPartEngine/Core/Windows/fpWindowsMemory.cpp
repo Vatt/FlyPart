@@ -53,3 +53,8 @@ void fpWindowsPlatformMemory::MemSwap(void* ptr1, void* ptr2, size_t size)
 {
 	std::swap(ptr1, ptr2); //TODO: ��������, �������� �������� �� 4 8 16 32 64 �������� � ��� ��������� ��� ������
 }
+
+void* fpWindowsPlatformMemory::MemCopy(void * dest, const void * src, SIZE_T size)
+{
+	return memcpy(dest, src, size);
+}

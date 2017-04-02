@@ -32,32 +32,15 @@ struct fpCommonHeap::PoolHeader
 {
 	SIZE_T TableIndex;
 	PoolHeader* Next;
-	PoolHeader* Prev;
 	static void LinkPoolAfter(PoolHeader* after,PoolHeader* target)
 	{
 		//TODO: следующий может быть нулевым указателем
 		PoolHeader* temp_next = after->Next;
 		if (temp_next != nullptr)
 		{
-			temp_next->Prev = target;
 			target->Next = temp_next;
-		}		
-		
-		after->Next = target;
-		target->Prev = after;		
-	}
-	static void LinkPoolBefore(PoolHeader* before, PoolHeader* target)
-	{
-		//TODO: предыдущий может быть нулевым указателем
-		PoolHeader* temp_prev = before->Prev;
-		if (temp_prev != nullptr)
-		{
-			temp_prev->Next = target;
-			target->Prev = temp_prev;
 		}
-		target->Next = before;		
-		before->Prev = target;
-		
+		after->Next = target;	
 	}
 #ifdef PLATFORM_32
 	/* Выравнивание до 16 байт на 32  битной платформе*/
@@ -68,7 +51,7 @@ struct fpCommonHeap::PoolHeader
 class fpCommonHeap::PoolList
 {
 public:
-	//static_assert(sizeof(PoolHeader) == 16, "PoolHeader size should be equal to 16");
+	static_assert(sizeof(PoolHeader) == 16, "PoolHeader size should be equal to 16");
 	static_assert(sizeof(FreeMemory) <= 16, "FreeMemory size should be no more than 16");
 	static_assert(POOL_SIZE % 16 == 0, "Enum value POOL_SIZE % 16 != 0");
 	struct TempPoolData {
@@ -80,6 +63,26 @@ public:
 		FORCEINLINE TempPoolData(PoolHeader* _header,FreeMemory* _first, FreeMemory* _last)
 			:header(_header),first(_first), last(_last)
 		{}
+		TempPoolData(TempPoolData&& other)
+			:header(other.header), first(other.first), last(other.last)
+		{
+			other.header = nullptr;
+			other.first = nullptr;
+			other.last = nullptr; 
+		}
+		TempPoolData& operator= (TempPoolData&& other)
+		{
+			if (this != &other)
+			{
+				this->header = other.header;
+				this->first = other.first;
+				this->last = other.last;
+				other.header = nullptr;
+				other.first = nullptr;
+				other.last = nullptr;
+			}
+			return *this;
+		}
 	};
 
 	/*
@@ -95,9 +98,9 @@ public:
 	uint32 ListFreeBlocksCount;
 	PoolList() {};
 	PoolList(uint32 block_size, uint32 table_index);
-	const TempPoolData&& makeNewPool();
+	TempPoolData&& makeNewPool();
 	FORCEINLINE SIZE_T PoolDataSizeCalc();
-	FORCEINLINE const TempPoolData&&  MapThePoolOfFreeBlocks(PoolHeader* pool);
+	FORCEINLINE TempPoolData&&  MapThePoolOfFreeBlocks(PoolHeader* pool);
 	FORCEINLINE void* GetPoolRawData(PoolHeader *pool)const;
 	FORCEINLINE void* PoolAllocate();
 	FORCEINLINE void  PoolFree(void *inPtr);
@@ -116,6 +119,20 @@ public:
 	* */
 	FORCEINLINE bool  ValidateList()const;
 
+	PoolList* operator=(PoolList* other)
+	{
+		/*
+		this->ListFreeMemory = other->ListFreeMemory;
+		this->Front = other->Front;
+		this->Last = other->Last;
+		this->TableIndex = other->TableIndex;
+		this->BlockSize = other->BlockSize;
+		this->PoolCount = other->PoolCount;
+		//this-> = other->;
+		*/
+		return (PoolList*)fpMemory::MemCopy(this, other, sizeof(PoolList));
+	}
+
 
 };
 
@@ -130,18 +147,6 @@ fpCommonHeap::PoolList::PoolList(uint32 block_size, uint32 table_index)
 	this->Front = nullptr;
 	this->ListFreeBlocksCount = 0;
 	this->PoolCount = 0;
-	/*TempPoolData data[START_POOL_COUNT];
-	for (uint32 i = 0; i < START_POOL_COUNT; i++)
-	{
-		data[i] = fpTemplate::Move(makeNewPool());
-	}
-	for (uint32 i = 1; i < START_POOL_COUNT; i++)
-	{
-		*&(data[i-1].last->next) = data[i].first;
-		PoolHeader::LinkPoolAfter(data[i - 1].header, data[i].header);
-	}
-	this->ListFreeMemory = data[0].first;
-	this->Front = data[0].header;*/	
 	this->ExtendPoolsCount();
 }
 FORCEINLINE void fpCommonHeap::PoolList::ExtendPoolsCount()
@@ -163,8 +168,8 @@ FORCEINLINE void fpCommonHeap::PoolList::ExtendPoolsCount()
 		this->Front = data[0].header;
 	}
 	else {
-		PoolHeader::LinkPoolBefore(this->Front, data[EXTEND_NUMBER -1].header);
-		this->Front = data[0].header;
+		PoolHeader::LinkPoolAfter(this->Last, data[EXTEND_NUMBER -1].header);
+		this->Last = data[EXTEND_NUMBER - 1].header;
 	}	
 }
 FORCEINLINE SIZE_T fpCommonHeap::PoolList::PoolDataSizeCalc()
@@ -175,7 +180,7 @@ FORCEINLINE void* fpCommonHeap::PoolList::GetPoolRawData(PoolHeader *pool)const
 {
 	return (void*)((UINTPTR)pool + (UINTPTR)sizeof(PoolHeader));
 }
-FORCEINLINE const fpCommonHeap::PoolList::TempPoolData&& fpCommonHeap::PoolList::MapThePoolOfFreeBlocks(PoolHeader* pool)
+FORCEINLINE fpCommonHeap::PoolList::TempPoolData&& fpCommonHeap::PoolList::MapThePoolOfFreeBlocks(PoolHeader* pool)
 {
 	void* raw = this->GetPoolRawData(pool);
 	SIZE_T pool_size  = PoolDataSizeCalc();
@@ -188,9 +193,9 @@ FORCEINLINE const fpCommonHeap::PoolList::TempPoolData&& fpCommonHeap::PoolList:
 		prev->next = ptr;
 	}
 	FreeMemory* last_ptr = (FreeMemory*)((UINTPTR)free_ptr + (this->BlocksNumPerPool-1)*this->BlockSize);
-	return TempPoolData(pool,free_ptr,last_ptr);
+	return  fpTemplate::Move(TempPoolData(pool,free_ptr,last_ptr));
 }
-const fpCommonHeap::PoolList::TempPoolData&& fpCommonHeap::PoolList::makeNewPool()
+fpCommonHeap::PoolList::TempPoolData&& fpCommonHeap::PoolList::makeNewPool()
 {
 	PoolHeader* pool;
 	void* memory = fpMemory::SystemAlloc(POOL_SIZE);
@@ -198,7 +203,6 @@ const fpCommonHeap::PoolList::TempPoolData&& fpCommonHeap::PoolList::makeNewPool
 	/*первые 16 бита информация о самом пуле*/
 	pool = new(memory)PoolHeader();
     pool->Next = nullptr;
-	pool->Prev = nullptr;
 	pool->TableIndex = this->TableIndex;
 	this->PoolCount++;
 	this->ListFreeBlocksCount += this->BlocksNumPerPool;
@@ -292,7 +296,7 @@ void fpCommonHeap::PoolList::PoolDestroy(PoolHeader * pool)
 
 void fpCommonHeap::HeapInit()
 {
-	//PoolTable = new PoolList[LENGTH_TABLE];
+	PoolTable = new PoolList[LENGTH_TABLE];
 	for (uint8 i = 0;i < LENGTH_TABLE;i++)
 	{
 		PoolTable[i] = new PoolList(POOL_SIZES[i], i);
@@ -343,7 +347,11 @@ void fpCommonHeap::HeapDestroy()
 	for (uint8 i = 0; i < LENGTH_TABLE; i++)
 	{
 		this->PoolTable[i]->ListDestroy();
+		/*delete this->PoolTable[i];
+		this->PoolTable[i] = nullptr;
+		*/
 	}
+	delete[] this->PoolTable;
 }
 
 

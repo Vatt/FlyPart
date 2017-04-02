@@ -24,7 +24,6 @@ namespace fpTemplate {
         return static_cast<typename RemoveReference<T>::Type&& >(Obj);
 	}
 
-
 };
 #endif // !_COMMON_HELPER_FUNCTIONS_
 
