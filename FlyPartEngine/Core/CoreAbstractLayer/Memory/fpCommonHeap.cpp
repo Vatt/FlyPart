@@ -30,8 +30,9 @@ struct fpCommonHeap::FreeMemory
 
 struct fpCommonHeap::PoolHeader
 {
-	PoolHeader* Prev;
+	SIZE_T TableIndex;
 	PoolHeader* Next;
+	PoolHeader* Prev;
 	static void LinkPoolAfter(PoolHeader* after,PoolHeader* target)
 	{
 		//TODO: следующий может быть нулевым указателем
@@ -67,6 +68,9 @@ struct fpCommonHeap::PoolHeader
 class fpCommonHeap::PoolList
 {
 public:
+	//static_assert(sizeof(PoolHeader) == 16, "PoolHeader size should be equal to 16");
+	static_assert(sizeof(FreeMemory) <= 16, "FreeMemory size should be no more than 16");
+	static_assert(POOL_SIZE % 16 == 0, "Enum value POOL_SIZE % 16 != 0");
 	struct TempPoolData {
 		PoolHeader* header;
 		FreeMemory* first;
@@ -82,7 +86,8 @@ public:
 	* Global pointer of free memory blocks in this list
 	*/
 	FreeMemory* ListFreeMemory;
-	PoolHeader*  Front;
+	PoolHeader* Front;
+	PoolHeader* Last;
 	uint32 TableIndex;
 	uint32 BlockSize;
 	uint32 PoolCount;
@@ -91,7 +96,6 @@ public:
 	PoolList() {};
 	PoolList(uint32 block_size, uint32 table_index);
 	const TempPoolData&& makeNewPool();
-	FORCEINLINE SIZE_T PoolSizeCalc();
 	FORCEINLINE SIZE_T PoolDataSizeCalc();
 	FORCEINLINE const TempPoolData&&  MapThePoolOfFreeBlocks(PoolHeader* pool);
 	FORCEINLINE void* GetPoolRawData(PoolHeader *pool)const;
@@ -119,8 +123,7 @@ public:
 
 fpCommonHeap::PoolList::PoolList(uint32 block_size, uint32 table_index)
 {
-	static_assert(sizeof(PoolHeader) == 16, "PoolHeader size should be equal to 16");
-	static_assert(sizeof(FreeMemory) <= 16, "FreeMemory size should be no more than 16");
+
     this->TableIndex = table_index;
     this->BlockSize = block_size;
 	this->BlocksNumPerPool = this->PoolDataSizeCalc() / this->BlockSize;
@@ -164,13 +167,9 @@ FORCEINLINE void fpCommonHeap::PoolList::ExtendPoolsCount()
 		this->Front = data[0].header;
 	}	
 }
-FORCEINLINE SIZE_T fpCommonHeap::PoolList::PoolSizeCalc()
-{
-	return (fpMemory::Stats.PageSize * PAGES_IN_POOL);
-}
 FORCEINLINE SIZE_T fpCommonHeap::PoolList::PoolDataSizeCalc()
 {
-	return this->PoolSizeCalc() - sizeof(PoolHeader);
+	return POOL_SIZE - sizeof(PoolHeader);
 }
 FORCEINLINE void* fpCommonHeap::PoolList::GetPoolRawData(PoolHeader *pool)const
 {
@@ -194,13 +193,13 @@ FORCEINLINE const fpCommonHeap::PoolList::TempPoolData&& fpCommonHeap::PoolList:
 const fpCommonHeap::PoolList::TempPoolData&& fpCommonHeap::PoolList::makeNewPool()
 {
 	PoolHeader* pool;
-	SIZE_T size_alloc = PoolSizeCalc();
-	void* memory = fpMemory::SystemAlloc(size_alloc);
+	void* memory = fpMemory::SystemAlloc(POOL_SIZE);
 
 	/*первые 16 бита информация о самом пуле*/
 	pool = new(memory)PoolHeader();
     pool->Next = nullptr;
 	pool->Prev = nullptr;
+	pool->TableIndex = this->TableIndex;
 	this->PoolCount++;
 	this->ListFreeBlocksCount += this->BlocksNumPerPool;
 	return this->MapThePoolOfFreeBlocks(pool);
@@ -223,7 +222,6 @@ FORCEINLINE void* fpCommonHeap::PoolList::PoolAllocate()
 FORCEINLINE void fpCommonHeap::PoolList::PoolFree(void* inPtr)
 {
     FreeMemory* temp = this->ListFreeMemory;
-	PoolHeader*  test = (PoolHeader*)(((int64)inPtr) & ~(65536 - 1));
     this->ListFreeMemory = static_cast<FreeMemory*>(inPtr);
     this->ListFreeMemory->next = temp;
     this->ListFreeBlocksCount++;
@@ -315,20 +313,17 @@ void* fpCommonHeap::HeapAlloc(SIZE_T size)
     //FIXIT: Заглушка
 	return nullptr;
 }
-
+FORCEINLINE void fpCommonHeap::HeapFreeFast(uint32 inTableIndex, void* inPtr)
+{
+	PoolTable[inTableIndex]->PoolFree(inPtr);
+}
+FORCEINLINE fpCommonHeap::PoolHeader* fpCommonHeap::GetPoolHeaderFromPtr(void* inPtr)
+{
+	return (PoolHeader*)(((int64)inPtr) & ~(POOL_SIZE - 1));
+}
 void fpCommonHeap::HeapFree(void * target, SIZE_T size)
 {
-    SIZE_T aligned = ALIGN(size);
-    for(uint8 i = 0;i<LENGTH_TABLE;i++)
-    {
-        if (aligned>=POOL_SIZES[i])
-        {           
-		}
-		else {
-			PoolTable[i]->PoolFree(target);
-			return;
-		}
-    }
+	HeapFreeFast(GetPoolHeaderFromPtr(target)->TableIndex, target);
 }
 
 void fpCommonHeap::HeapCleanup()
@@ -374,81 +369,23 @@ fpCommonHeap::~fpCommonHeap()
 fpAllocatorInterface *fpCommonHeap::MakeAllocator() {
     return  new CommonAllocator(this);
 }
-struct fpCommonHeap::CommonAllocator::ListHashBucket {
-	uint8 Key;
-	void* Ptr;
-	PoolList* List;
-	ListHashBucket* Next;
-	ListHashBucket* Prev;
-	ListHashBucket()
-		:Key(0), Next(nullptr),
-		Prev(nullptr), List(nullptr),
-		Ptr(nullptr)
-	{}
-	ListHashBucket(uint8 key) :Key(key),
-		Next(nullptr),Prev(nullptr),
-		List(nullptr),Ptr(nullptr)
-	{}
-};
-void fpCommonHeap::CommonAllocator::initBuckets()
-{
-	Buckets = new ListHashBucket[HALF_LENGTH_TABLE];//(ListHashBucket*)malloc(sizeof(ListHashBucket)*HALF_LENGTH_TABLE);
-	for (auto index = 0; index < 45; index++)
-	{
-		
-	}
-}
-void fpCommonHeap::CommonAllocator::insertNullBucket(uint8 key)
-{
-	uint8 hash = key% HALF_LENGTH_TABLE;
 
-}
 fpCommonHeap::CommonAllocator::CommonAllocator(fpCommonHeap* heap)
-	:fpAllocatorInterface((fpHeapInterface*)heap),
-	TableIndex(NO_INIT_TABLE_INDEX)
+	:fpAllocatorInterface((fpHeapInterface*)heap)
 {
-	initBuckets();
 }
 FORCEINLINE void* fpCommonHeap::CommonAllocator::Allocate(SIZE_T size)
 {
-//    assert(TableIndex==NO_INIT_TABLE_INDEX);
-    if (TableIndex>=0)
-    {
-        TableIndex = PERFECT_ALLOC_FREE_FAIL;
-		return this->HeapPtr->HeapAlloc(size);
-	}
-	else {
-		if (this->TableIndex == NO_INIT_TABLE_INDEX)
-		{
-			uint32 aligned = ALIGN(size);
-			for (uint8 i = 0;i<LENGTH_TABLE;i++)
-			{
-				if (aligned <= POOL_SIZES[i])
-				{
-					this->TableIndex = i;
-					return static_cast<fpCommonHeap*>(HeapPtr)->PoolTable[this->TableIndex]->PoolAllocate();
-				}
-			}
-		}
-		else {
-			return static_cast<fpCommonHeap*>(HeapPtr)->PoolTable[this->TableIndex]->PoolAllocate();
-		}
-
-	}
+	return this->HeapPtr->HeapAlloc(size);
 }
-FORCEINLINE void fpCommonHeap::CommonAllocator::Free(void *ptr, SIZE_T size)
+FORCEINLINE void fpCommonHeap::CommonAllocator::Free(void *inPtr, SIZE_T inSize)
 {
-    if (TableIndex > 0)
-    {
-        fpCommonHeap* common_heap = static_cast<fpCommonHeap*>(HeapPtr);
-        common_heap->PoolTable[TableIndex]->PoolFree(ptr);
-    }else{
-        HeapPtr->HeapFree(ptr, size);
-    }
-	TableIndex = NO_INIT_TABLE_INDEX;
+	uint32 TableIndex = static_cast<fpCommonHeap*>(HeapPtr)->GetPoolHeaderFromPtr(inPtr)->TableIndex;
+	static_cast<fpCommonHeap*>(HeapPtr)->PoolTable[TableIndex]->PoolFree(inPtr);
 }
 FORCEINLINE void* fpCommonHeap::CommonAllocator::Realloc(void *ptr, SIZE_T new_size)
-{
+{	
+	uint32 TableIndex = static_cast<fpCommonHeap*>(HeapPtr)->GetPoolHeaderFromPtr(ptr)->TableIndex;
     if (new_size==0)
     {
         HeapPtr->HeapFree(ptr, new_size);
@@ -458,8 +395,6 @@ FORCEINLINE void* fpCommonHeap::CommonAllocator::Realloc(void *ptr, SIZE_T new_s
     {
 		return this->Allocate(new_size);
     }
-	assert(TableIndex != NO_INIT_TABLE_INDEX);
-	assert(TableIndex != PERFECT_ALLOC_FREE_FAIL);
 	void* new_mem = HeapPtr->HeapAlloc(new_size);
 	fpMemory::MemMove(new_mem, ptr, POOL_SIZES[TableIndex]);
 	this->Free(ptr, POOL_SIZES[TableIndex]);

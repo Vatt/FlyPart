@@ -5,37 +5,26 @@
 #include "../../GenericPlatform/fpPlatform.h"
 class fpCommonHeap : public fpHeapInterface
 {
-	enum { PAGES_IN_POOL = 16,
-		   START_POOL_COUNT = 1, //FIXIT: This is test value replace after
-		   EXTEND_NUMBER = 1,
+	enum 
+	{	
+		POOL_SIZE = 65536,
+		START_POOL_COUNT = 2, //FIXIT: This is test value replace after
+		EXTEND_NUMBER = 2,
 		   
-	}; 
+	};
+
 	struct FreeMemory;
 	struct PoolHeader;
 	class PoolList;
 
 	class CommonAllocator:public fpAllocatorInterface
 	{
-		struct ListHashBucket;
-		enum {
-				NO_INIT_TABLE_INDEX = -1,
-				PERFECT_ALLOC_FREE_FAIL = -2
-		};
-        int16 	TableIndex;
 	public:
 		CommonAllocator(fpCommonHeap* heap);
 		FORCEINLINE virtual void* Allocate(SIZE_T size)override;
 		FORCEINLINE virtual void Free(void *ptr, SIZE_T size)override;
 		FORCEINLINE virtual void* Realloc(void* ptr, SIZE_T size)override;
 		virtual ~CommonAllocator();
-	private:
-		FORCEINLINE void initBuckets();
-		FORCEINLINE void insertNullBucket(uint8 key);
-		FORCEINLINE void insertBucket(PoolList* inList, void* inPtr);
-		FORCEINLINE ListHashBucket* findBucket(void* inPtr);
-		
-	private:
-		ListHashBucket* Buckets;
 	};
 
 public:
@@ -52,6 +41,9 @@ public:
 	virtual fpAllocatorInterface* MakeAllocator();
 	fpCommonHeap();
 	virtual ~fpCommonHeap();
+private:
+	FORCEINLINE void HeapFreeFast(uint32 inTableIndex, void* inPtr);
+	FORCEINLINE PoolHeader* GetPoolHeaderFromPtr(void* inPtr);
 private:
     fpCommonHeap(const fpCommonHeap&);
     fpCommonHeap(fpCommonHeap&&);

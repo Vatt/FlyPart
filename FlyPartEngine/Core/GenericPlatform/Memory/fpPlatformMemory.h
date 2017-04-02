@@ -6,7 +6,7 @@
 struct fpPlatformMemory
 {
     struct MemoryStats{
-        SIZE_T PageSize;
+        const SIZE_T PageSize;
         SIZE_T TotalPhysMemory;
         SIZE_T UsedMemory;
         SIZE_T AvailablePhysMemory;

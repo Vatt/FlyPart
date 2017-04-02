@@ -78,7 +78,7 @@ int main(int argc, char **argv)
 	else {
 		std::cout << "Heap is corrupted" << std::endl;
 	}
-	Allocator->Free(test, sizeof(Test12Bit) * 40);
+	Allocator->Free(test, sizeof(Test12Bit) * 50);
 
 	is_valid = Heap->ValidateHeap();
 	if (is_valid)
@@ -88,7 +88,7 @@ int main(int argc, char **argv)
 	else {
 		std::cout << "Heap is corrupted" << std::endl;
 	}
-	//Heap->HeapDestroy();
+	Heap->HeapDestroy();
 	return 0;
 }
 
