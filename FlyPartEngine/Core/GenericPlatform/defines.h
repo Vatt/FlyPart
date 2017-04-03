@@ -18,13 +18,14 @@
 #endif
 #if defined(__GNUC__)
 	#ifndef MINGW_COMPILER
+		#define DEBUG_BUILD
 		#define GCC_COMPILER
 		#if defined(_DEBUG)
 			#define DEBUG_BUILD
 		#elif defined(_RELEASE)//<- set in project configuration settings
 			#define RELEASE_BUILD
 		#else
-			static_assert(false,"Failed to detect build type");
+			//static_assert(false,"Failed to detect build type");
 		#endif
 	#endif
 #endif

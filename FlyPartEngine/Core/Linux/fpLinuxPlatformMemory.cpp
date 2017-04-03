@@ -52,3 +52,7 @@ void fpLinuxPlatformMemory::MemSwap(void* ptr1, void* ptr2, size_t size)
  	*/
 	std::swap(ptr1, ptr2);
 }
+void* fpLinuxPlatformMemory::MemCopy(void * dest, const void * src, SIZE_T size)
+{
+	return memcpy(dest, src, size);
+}
