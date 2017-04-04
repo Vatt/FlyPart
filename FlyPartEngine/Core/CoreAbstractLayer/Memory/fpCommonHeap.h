@@ -8,8 +8,8 @@ class fpCommonHeap : public fpHeapInterface
 	enum 
 	{	
 		POOL_SIZE = 65536,
-		START_POOL_COUNT = 2, //FIXIT: This is test value replace after
-		EXTEND_NUMBER = 2,
+		START_POOL_COUNT = 1, //FIXIT: This is test value replace after
+		EXTEND_NUMBER = 1,
 		   
 	};
 
