@@ -66,23 +66,23 @@ public:
 			}
 		}
 //REALLOC LOOP
-		//for (index = 0; index <= _circlesCount; index++)
-		//{
-		//	uint32 size = HeapTester::NextSize();
-		//	void* ptr = allocator->Realloc(_allocated[index].Ptr, size);
-		//	_allocated[index] = { ptr,size };
-		//	if (index%_validateStep == 0)
-		//	{
-		//		bool is_valid = _heap->ValidateHeap();
-		//		if (is_valid)
-		//		{
-		//			std::cout << "Heap is OK, on " << index << " iteration"<<"(REALOC LOOP)" << std::endl;
-		//		}
-		//		else {
-		//			std::cout << "Heap is corrupted, on " << index << " iteration" << "(REALOC LOOP)" << std::endl;
-		//		}
-		//	}
-		//}
+		for (index = 0; index <= _circlesCount; index++)
+		{
+			uint32 size = HeapTester::NextSize();
+			void* ptr = allocator->Realloc(_allocated[index].Ptr, size);
+			_allocated[index] = { ptr,size };
+			if (index%_validateStep == 0)
+			{
+				bool is_valid = _heap->ValidateHeap();
+				if (is_valid)
+				{
+					std::cout << "Heap is OK, on " << index << " iteration"<<"(REALLOC LOOP)" << std::endl;
+				}
+				else {
+					std::cout << "Heap is corrupted, on " << index << " iteration" << "(REALLOC LOOP)" << std::endl;
+				}
+			}
+		}
 //FREE LOOP
 		for (index= 0; index <= _circlesCount; index++)
 		{

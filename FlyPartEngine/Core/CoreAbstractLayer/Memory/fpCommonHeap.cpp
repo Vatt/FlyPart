@@ -1,7 +1,7 @@
 #include "fpCommonHeap.h"
 #include "../../../fpCommon/CommonHelperFunctions.h"
 #include <new>
-
+#include <intrin.h>
 const static SIZE_T PAGE_SIZE = 4096;
 const static uint8 LENGTH_TABLE = 45;
 const static uint8 HALF_LENGTH_TABLE = LENGTH_TABLE / 2;
@@ -395,6 +395,7 @@ FORCEINLINE void fpCommonHeap::CommonAllocator::Free(void *inPtr, SIZE_T inSize)
 FORCEINLINE void* fpCommonHeap::CommonAllocator::Realloc(void *ptr, SIZE_T new_size)
 {	
 	uint32 TableIndex = static_cast<fpCommonHeap*>(HeapPtr)->GetPoolHeaderFromPtr(ptr)->TableIndex;
+
     if (new_size==0)
     {
         HeapPtr->HeapFree(ptr, new_size);
@@ -405,7 +406,13 @@ FORCEINLINE void* fpCommonHeap::CommonAllocator::Realloc(void *ptr, SIZE_T new_s
 		return this->Allocate(new_size);
     }
 	void* new_mem = HeapPtr->HeapAlloc(new_size);
-	fpMemory::MemMove(new_mem, ptr, POOL_SIZES[TableIndex]);
+	if (POOL_SIZES[TableIndex] < new_size)
+	{
+		fpMemory::MemMove(new_mem, ptr, POOL_SIZES[TableIndex]);
+	}else{
+		fpMemory::MemMove(new_mem, ptr, new_size);
+	}
+	
 	this->Free(ptr, POOL_SIZES[TableIndex]);
 	return new_mem;
 }
