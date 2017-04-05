@@ -42,7 +42,7 @@
 	#elif defined(_RELEASE)//<- set in project configuration settings
 		#define RELEASE_BUILD
 	#else
-		static_assert(false,"Failed to detect build type");
+//		static_assert(false,"Failed to detect build type");
 	#endif
 
 #endif

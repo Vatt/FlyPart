@@ -398,10 +398,10 @@ FORCEINLINE void* fpCommonHeap::CommonAllocator::Realloc(void *ptr, SIZE_T new_s
 
     if (new_size==0)
     {
-        HeapPtr->HeapFree(ptr, new_size);
+        Free(ptr, POOL_SIZES[TableIndex]);
         return nullptr;
     }
-    if (ptr == nullptr)
+    if (ptr == nullptr || !ptr)
     {
 		return this->Allocate(new_size);
     }

@@ -3,7 +3,9 @@
 #pragma once
 #include "../FlyPartEngine/FlyPart.h"
 #include <random>
+#include <chrono>
 #include <iostream>
+
 class HeapTester
 {
 	struct AllocateInfo 
@@ -21,14 +23,13 @@ public:
 	static void InitTester(fpHeapInterface* inHeap,uint32 circles_count,uint32 validateStep, uint32 lowSize, uint32 highSize) 
 	{
 		_heap = inHeap;
-		_allocated = new AllocateInfo[circles_count];
 		_validateStep = validateStep;
 		_circlesCount = circles_count;
 		_lowSize = lowSize;
 		_highSize = highSize;
 		_heap->HeapInit();
 	}
-	static void ShutdownTester()
+	static void HeapStatisticsPrintAndKillHeap()
 	{
 		std::cout << "-----------------------------------------" << std::endl;
 		std::cout << "BEFORE destroy heap" << std::endl;
@@ -43,11 +44,42 @@ public:
 		std::cout << "-----------------------------------------" << std::endl;
 
 	}
-	static void RunTests()
+	static void DefaultHeapTest()
 	{
+		if (_allocated) 
+		{ 
+			//delete[] _allocated;
+			_allocated = new AllocateInfo[_circlesCount];
+		}
+		//_allocated = new AllocateInfo[_circlesCount];
+		uint32 index;
+		// ALLOCATE LOOP
+		for (index = 0; index <= _circlesCount; index++)
+		{
+			uint32 size = HeapTester::NextSize();
+			void* ptr = malloc(size);
+			_allocated[index] = { ptr,size };
+		}
+		//REALLOC LOOP
+		for (index = 0; index <= _circlesCount; index++)
+		{
+			uint32 size = HeapTester::NextSize();
+			void* ptr = realloc(_allocated[index].Ptr, size);
+			_allocated[index] = { ptr,size };
+		}
+		//FREE LOOP
+		for (index = 0; index <= _circlesCount; index++)
+		{
+			free(_allocated[index].Ptr);
+		}
+	}
+	static void CustomHeapTest()
+	{
+		if (_allocated) { delete[] _allocated; }
+		_allocated = new AllocateInfo[_circlesCount];
 		uint32 index;
 		fpAllocatorInterface* allocator = _heap->MakeAllocator();
-// ALLOCATE LOOP
+		// ALLOCATE LOOP
 		for (index = 0; index <= _circlesCount; index++)
 		{
 			uint32 size = HeapTester::NextSize();
@@ -58,14 +90,14 @@ public:
 				bool is_valid = _heap->ValidateHeap();
 				if (is_valid)
 				{
-					std::cout << "Heap is OK, on "<< index <<" iteration" <<"(ALLOCATE LOOP)" <<std::endl;
+					std::cout << "Heap is OK, on " << index << " iteration" << "(ALLOCATE LOOP)" << std::endl;
 				}
 				else {
 					std::cout << "Heap is corrupted, on " << index << " iteration" << "(ALLOCATE LOOP)" << std::endl;
 				}
 			}
 		}
-//REALLOC LOOP
+		//REALLOC LOOP
 		for (index = 0; index <= _circlesCount; index++)
 		{
 			uint32 size = HeapTester::NextSize();
@@ -76,15 +108,15 @@ public:
 				bool is_valid = _heap->ValidateHeap();
 				if (is_valid)
 				{
-					std::cout << "Heap is OK, on " << index << " iteration"<<"(REALLOC LOOP)" << std::endl;
+					std::cout << "Heap is OK, on " << index << " iteration" << "(REALLOC LOOP)" << std::endl;
 				}
 				else {
 					std::cout << "Heap is corrupted, on " << index << " iteration" << "(REALLOC LOOP)" << std::endl;
 				}
 			}
 		}
-//FREE LOOP
-		for (index= 0; index <= _circlesCount; index++)
+		//FREE LOOP
+		for (index = 0; index <= _circlesCount; index++)
 		{
 			allocator->Free(_allocated[index].Ptr, _allocated[index].Size);
 			if (index%_validateStep == 0)
@@ -98,7 +130,25 @@ public:
 					std::cout << "Heap is corrupted, on " << index << " iteration" << "(FREE LOOP)" << std::endl;
 				}
 			}
-		}	   
+		}
+	}
+	static void RunTests()
+	{
+		std::chrono::time_point<std::chrono::system_clock> custom_start, custom_end,default_start,default_end;
+		int custom_elapsed, default_elapsed;
+		custom_start = std::chrono::system_clock::now();
+		//CustomHeapTest();
+		custom_end = std::chrono::system_clock::now();
+		custom_elapsed = std::chrono::duration_cast<std::chrono::seconds>(custom_end - custom_start).count();
+		std::cout << "Custom heap test time: " << custom_elapsed << std::endl;
+		//HeapStatisticsPrintAndKillHeap();
+
+		default_start = std::chrono::system_clock::now();
+		DefaultHeapTest();
+		default_end = std::chrono::system_clock::now();
+		default_elapsed = std::chrono::duration_cast<std::chrono::seconds>(default_end - default_start).count();
+		std::cout << "default allocator time: " << default_elapsed << std::endl;
+		std::cout << "Difference default elapsed/custom elapsed: "<< (float)((float)default_elapsed/ (float)custom_elapsed) << std::endl;
 	}
 	~HeapTester();
 private:

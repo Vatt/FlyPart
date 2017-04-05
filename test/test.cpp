@@ -2,8 +2,8 @@
 //
 
 #include "../FlyPartEngine/FlyPart.h"
-#include "../FlyPartEngine/fpCommon/SmartPtrTest.h"
-#include "../FlyPartEngine/fpCommon/Containers/fpArray.h"
+//#include "../FlyPartEngine/fpCommon/SmartPtrTest.h"
+//#include "../FlyPartEngine/fpCommon/Containers/fpArray.h"
 #include "HeapTester.h"
 #ifdef PLATFORM_LINUX
 #endif
@@ -19,11 +19,10 @@
 
 int main(int argc, char **argv)
 {
-    SmartPtrTest::SmartPtrTestRun();
-    fpMemory::UpdateMemoryStats();
+    //SmartPtrTest::SmartPtrTestRun();
+    //fpMemory::UpdateMemoryStats();
 	HeapTester::InitTester(new fpCommonHeap, 65536*10,65536,1, 32752);
 	HeapTester::RunTests();
-	HeapTester::ShutdownTester();
 	system("PAUSE");
 	return 0;
 }
