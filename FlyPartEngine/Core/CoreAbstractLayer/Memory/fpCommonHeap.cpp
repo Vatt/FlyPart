@@ -73,15 +73,6 @@ public:
 			other.last = nullptr;
 			*/
 		}
-		TempPoolData(TempPoolData&& other)
-			:header(other.header), first(other.first), last(other.last)
-		{			
-			/*
-			other.header = nullptr;
-			other.first = nullptr;
-			other.last = nullptr; 			
-			*/
-		}
 		TempPoolData operator= (const TempPoolData& other)
 		{
 			if (this != &other)
@@ -95,22 +86,9 @@ public:
 				*/
 
 			}
-		}
-		TempPoolData& operator= (TempPoolData&& other)
-		{
-			if (this != &other)
-			{
-				this->header = other.header;
-				this->first = other.first;
-				this->last = other.last;
-				/*other.header = nullptr;
-				other.first = nullptr;
-				other.last = nullptr;
-				*/
-				
-			}
 			return *this;
 		}
+
 	};
 
 	/*
@@ -126,15 +104,15 @@ public:
 	uint32 ListFreeBlocksCount;
 	PoolList() {};
 	PoolList(uint32 block_size, uint32 table_index);
-	TempPoolData&& makeNewPool();
+	TempPoolData makeNewPool();
 	FORCEINLINE SIZE_T PoolDataSizeCalc();
-	FORCEINLINE TempPoolData&&  MapThePoolOfFreeBlocks(PoolHeader* pool);
+	FORCEINLINE TempPoolData  MapThePoolOfFreeBlocks(PoolHeader* pool);
 	FORCEINLINE void* GetPoolRawData(PoolHeader *pool)const;
 	FORCEINLINE void* PoolAllocate();
 	FORCEINLINE void  PoolFree(void *inPtr);
 	FORCEINLINE void  ExtendPoolsCount();
 	FORCEINLINE void  CleanupList();
-	FORCEINLINE TempPoolData&&  CleanupPool(PoolHeader* pool);
+	FORCEINLINE TempPoolData  CleanupPool(PoolHeader* pool);
 	FORCEINLINE void  ListDestroy();
 	FORCEINLINE void  PoolDestroy(PoolHeader* pool);
 	/*
@@ -175,10 +153,6 @@ FORCEINLINE void fpCommonHeap::PoolList::ExtendPoolsCount()
 	for (uint32 i = 0; i < EXTEND_NUMBER; i++)
 	{
 		data[i] = makeNewPool();//fpTemplate::Move(makeNewPool());
-		if (this->TableIndex == 0) {
-			std::cout << "ExtendPoolsCount data[i].first: " << data[i].first << std::endl;
-			std::cout << "ExtendPoolsCount data[i].last: " << data[i].last << std::endl;
-		}
 	}
 	for (uint32 i = 1; i < EXTEND_NUMBER; i++)
 	{
@@ -186,8 +160,6 @@ FORCEINLINE void fpCommonHeap::PoolList::ExtendPoolsCount()
 		PoolHeader::LinkPoolAfter(data[i - 1].header, data[i].header);
 	}
 	this->ListFreeMemory = data[0].first;
-	if (this->TableIndex == 0) std::cout << "ExtendPoolsCount ListFreeMemory: " << this->ListFreeMemory << std::endl;
-
 	if (this->Front == nullptr)
 	{
 		this->Front = data[0].header;
@@ -206,7 +178,7 @@ FORCEINLINE void* fpCommonHeap::PoolList::GetPoolRawData(PoolHeader *pool)const
 {
 	return (void*)((UINTPTR)pool + (UINTPTR)sizeof(PoolHeader));
 }
-FORCEINLINE fpCommonHeap::PoolList::TempPoolData&& fpCommonHeap::PoolList::MapThePoolOfFreeBlocks(PoolHeader* pool)
+FORCEINLINE fpCommonHeap::PoolList::TempPoolData fpCommonHeap::PoolList::MapThePoolOfFreeBlocks(PoolHeader* pool)
 {
 	void* raw = this->GetPoolRawData(pool);
 	SIZE_T pool_size  = PoolDataSizeCalc();
@@ -215,32 +187,24 @@ FORCEINLINE fpCommonHeap::PoolList::TempPoolData&& fpCommonHeap::PoolList::MapTh
 	for (UINTPTR index = 1; index < this->BlocksNumPerPool; index++)
 	{
 		FreeMemory* ptr = new ((void*)((UINTPTR)raw+(UINTPTR)(index*this->BlockSize)))FreeMemory();
-		//if (this->TableIndex == 0) std::cout << "MapThePoolOfFreeBlocks: " << ptr << std::endl;
 		FreeMemory* prev = (FreeMemory*)((UINTPTR)ptr - this->BlockSize);
 		prev->next = ptr;
 	}
 	FreeMemory* last_ptr = (FreeMemory*)((UINTPTR)free_ptr + (this->BlocksNumPerPool-1)*this->BlockSize);
 	return  TempPoolData(pool, free_ptr, last_ptr);//fpTemplate::Move(TempPoolData(pool,free_ptr,last_ptr));
 }
-fpCommonHeap::PoolList::TempPoolData&& fpCommonHeap::PoolList::makeNewPool()
+fpCommonHeap::PoolList::TempPoolData fpCommonHeap::PoolList::makeNewPool()
 {
 	PoolHeader* pool;
 	void* memory = fpMemory::SystemAlloc(POOL_SIZE);
 
 	/*первые 16 бита информация о самом пуле*/
 	pool = new(memory)PoolHeader();
-	if (this->TableIndex == 0) {
-		std::cout << "makeNewPool pool: " << pool << std::endl;
-	}
     pool->Next = nullptr;
 	pool->TableIndex = this->TableIndex;
 	this->PoolCount++;
 	this->ListFreeBlocksCount += this->BlocksNumPerPool;
 	auto data = this->MapThePoolOfFreeBlocks(pool);
-	if (this->TableIndex == 0) {
-		std::cout << "makeNewPool data.first: " << data.first << std::endl;
-		std::cout << "makeNewPool data.last: " << data.last << std::endl;
-	}
 	return this->MapThePoolOfFreeBlocks(pool); // fpTemplate::Move(data);
 }
 
@@ -272,7 +236,6 @@ FORCEINLINE uint32 fpCommonHeap::PoolList::CalcRealNumFreeBlocks() const
 	FreeMemory* iterator = this->ListFreeMemory;
 	while (iterator != nullptr)
 	{
-		std::cout << "TableIndex: " << this->TableIndex << " CalcRealNumFreeBlocks: " << iterator << std::endl;
 		iterator = iterator->next;
 		count++;
 	}
@@ -314,7 +277,7 @@ FORCEINLINE void fpCommonHeap::PoolList::CleanupList()
 	}
 	delete[] temp_data;
 }
-FORCEINLINE fpCommonHeap::PoolList::TempPoolData&&  fpCommonHeap::PoolList::CleanupPool(PoolHeader* pool)
+FORCEINLINE fpCommonHeap::PoolList::TempPoolData  fpCommonHeap::PoolList::CleanupPool(PoolHeader* pool)
 {
 	return this->MapThePoolOfFreeBlocks(pool);
 }
@@ -393,8 +356,8 @@ void fpCommonHeap::HeapDestroy()
 	for (uint8 i = 0; i < LENGTH_TABLE; i++)
 	{
 		this->PoolTable[i]->ListDestroy();
+		delete this->PoolTable[i];
 	}
-	delete[] this->PoolTable;
 }
 
 

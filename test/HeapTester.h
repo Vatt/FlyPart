@@ -29,11 +29,8 @@ public:
 		_highSize = highSize;
 		_heap->HeapInit();
 		bool is_valid = _heap->ValidateHeap();
-		if (is_valid)
+		if (!is_valid)
 		{
-			std::cout << "Heap is OK" << std::endl;
-		}
-		else {
 			std::cout << "Heap is corrupted" << std::endl;
 		}
 		
@@ -99,11 +96,8 @@ public:
 			if (index%_validateStep == 0)
 			{
 				bool is_valid = _heap->ValidateHeap();
-				if (is_valid)
+				if (!is_valid)
 				{
-					std::cout << "Heap is OK, on " << index << " iteration" << "(ALLOCATE LOOP)" << std::endl;
-				}
-				else {
 					std::cout << "Heap is corrupted, on " << index << " iteration" << "(ALLOCATE LOOP)" << std::endl;
 				}
 			}
@@ -117,11 +111,8 @@ public:
 			if (index%_validateStep == 0)
 			{
 				bool is_valid = _heap->ValidateHeap();
-				if (is_valid)
+				if (!is_valid)
 				{
-					std::cout << "Heap is OK, on " << index << " iteration" << "(REALLOC LOOP)" << std::endl;
-				}
-				else {
 					std::cout << "Heap is corrupted, on " << index << " iteration" << "(REALLOC LOOP)" << std::endl;
 				}
 			}
@@ -133,11 +124,8 @@ public:
 			if (index%_validateStep == 0)
 			{
 				bool is_valid = _heap->ValidateHeap();
-				if (is_valid)
+				if (!is_valid)
 				{
-					std::cout << "Heap is OK, on " << index << " iteration" << "(FREE LOOP)" << std::endl;
-				}
-				else {
 					std::cout << "Heap is corrupted, on " << index << " iteration" << "(FREE LOOP)" << std::endl;
 				}
 			}
@@ -148,11 +136,11 @@ public:
 		std::chrono::time_point<std::chrono::system_clock> custom_start, custom_end,default_start,default_end;
 		int custom_elapsed, default_elapsed;
 		custom_start = std::chrono::system_clock::now();
-		//CustomHeapTest();
+		CustomHeapTest();
 		custom_end = std::chrono::system_clock::now();
 		custom_elapsed = std::chrono::duration_cast<std::chrono::seconds>(custom_end - custom_start).count();
 		std::cout << "Custom heap test time: " << custom_elapsed << std::endl;
-		//HeapStatisticsPrintAndKillHeap();
+		HeapStatisticsPrintAndKillHeap();
 
 		default_start = std::chrono::system_clock::now();
 		DefaultHeapTest();
