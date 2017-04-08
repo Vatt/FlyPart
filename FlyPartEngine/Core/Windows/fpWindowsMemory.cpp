@@ -30,7 +30,7 @@ void* fpWindowsPlatformMemory::SystemAlloc(SIZE_T size)
 void fpWindowsPlatformMemory::SystemFree(void* ptr,SIZE_T size)
 {
 	fpPlatformMemory::Stats.IncrementSystemFreeCallCounter();
-	VirtualFree(ptr,0, MEM_RELEASE );
+	VirtualFree(ptr, 0, MEM_RELEASE);
 	fpPlatformMemory::Stats.UsedMemory -= size;
 }
 void fpWindowsPlatformMemory::UpdateMemoryStats()

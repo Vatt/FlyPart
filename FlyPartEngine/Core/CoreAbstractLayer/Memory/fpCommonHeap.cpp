@@ -1,7 +1,7 @@
 #include "fpCommonHeap.h"
 #include "../../../fpCommon/CommonHelperFunctions.h"
 #include <new>
-#include <intrin.h>
+#include <iostream>
 const static SIZE_T PAGE_SIZE = 4096;
 const static uint8 LENGTH_TABLE = 45;
 const static uint8 HALF_LENGTH_TABLE = LENGTH_TABLE / 2;
@@ -64,12 +64,37 @@ public:
 		FORCEINLINE TempPoolData(PoolHeader* _header,FreeMemory* _first, FreeMemory* _last)
 			:header(_header),first(_first), last(_last)
 		{}
-		TempPoolData(TempPoolData&& other)
+		TempPoolData(const TempPoolData& other)
 			:header(other.header), first(other.first), last(other.last)
 		{
+			/*
 			other.header = nullptr;
 			other.first = nullptr;
-			other.last = nullptr; 
+			other.last = nullptr;
+			*/
+		}
+		TempPoolData(TempPoolData&& other)
+			:header(other.header), first(other.first), last(other.last)
+		{			
+			/*
+			other.header = nullptr;
+			other.first = nullptr;
+			other.last = nullptr; 			
+			*/
+		}
+		TempPoolData operator= (const TempPoolData& other)
+		{
+			if (this != &other)
+			{
+				this->header = other.header;
+				this->first = other.first;
+				this->last = other.last;
+				/*other.header = nullptr;
+				other.first = nullptr;
+				other.last = nullptr;
+				*/
+
+			}
 		}
 		TempPoolData& operator= (TempPoolData&& other)
 		{
@@ -78,9 +103,11 @@ public:
 				this->header = other.header;
 				this->first = other.first;
 				this->last = other.last;
-				other.header = nullptr;
+				/*other.header = nullptr;
 				other.first = nullptr;
 				other.last = nullptr;
+				*/
+				
 			}
 			return *this;
 		}
@@ -147,7 +174,11 @@ FORCEINLINE void fpCommonHeap::PoolList::ExtendPoolsCount()
 	TempPoolData data[EXTEND_NUMBER];
 	for (uint32 i = 0; i < EXTEND_NUMBER; i++)
 	{
-		data[i] = fpTemplate::Move(makeNewPool());
+		data[i] = makeNewPool();//fpTemplate::Move(makeNewPool());
+		if (this->TableIndex == 0) {
+			std::cout << "ExtendPoolsCount data[i].first: " << data[i].first << std::endl;
+			std::cout << "ExtendPoolsCount data[i].last: " << data[i].last << std::endl;
+		}
 	}
 	for (uint32 i = 1; i < EXTEND_NUMBER; i++)
 	{
@@ -155,6 +186,8 @@ FORCEINLINE void fpCommonHeap::PoolList::ExtendPoolsCount()
 		PoolHeader::LinkPoolAfter(data[i - 1].header, data[i].header);
 	}
 	this->ListFreeMemory = data[0].first;
+	if (this->TableIndex == 0) std::cout << "ExtendPoolsCount ListFreeMemory: " << this->ListFreeMemory << std::endl;
+
 	if (this->Front == nullptr)
 	{
 		this->Front = data[0].header;
@@ -182,11 +215,12 @@ FORCEINLINE fpCommonHeap::PoolList::TempPoolData&& fpCommonHeap::PoolList::MapTh
 	for (UINTPTR index = 1; index < this->BlocksNumPerPool; index++)
 	{
 		FreeMemory* ptr = new ((void*)((UINTPTR)raw+(UINTPTR)(index*this->BlockSize)))FreeMemory();
+		//if (this->TableIndex == 0) std::cout << "MapThePoolOfFreeBlocks: " << ptr << std::endl;
 		FreeMemory* prev = (FreeMemory*)((UINTPTR)ptr - this->BlockSize);
 		prev->next = ptr;
 	}
 	FreeMemory* last_ptr = (FreeMemory*)((UINTPTR)free_ptr + (this->BlocksNumPerPool-1)*this->BlockSize);
-	return  fpTemplate::Move(TempPoolData(pool,free_ptr,last_ptr));
+	return  TempPoolData(pool, free_ptr, last_ptr);//fpTemplate::Move(TempPoolData(pool,free_ptr,last_ptr));
 }
 fpCommonHeap::PoolList::TempPoolData&& fpCommonHeap::PoolList::makeNewPool()
 {
@@ -195,11 +229,19 @@ fpCommonHeap::PoolList::TempPoolData&& fpCommonHeap::PoolList::makeNewPool()
 
 	/*первые 16 бита информация о самом пуле*/
 	pool = new(memory)PoolHeader();
+	if (this->TableIndex == 0) {
+		std::cout << "makeNewPool pool: " << pool << std::endl;
+	}
     pool->Next = nullptr;
 	pool->TableIndex = this->TableIndex;
 	this->PoolCount++;
 	this->ListFreeBlocksCount += this->BlocksNumPerPool;
-	return this->MapThePoolOfFreeBlocks(pool);
+	auto data = this->MapThePoolOfFreeBlocks(pool);
+	if (this->TableIndex == 0) {
+		std::cout << "makeNewPool data.first: " << data.first << std::endl;
+		std::cout << "makeNewPool data.last: " << data.last << std::endl;
+	}
+	return this->MapThePoolOfFreeBlocks(pool); // fpTemplate::Move(data);
 }
 
 FORCEINLINE void* fpCommonHeap::PoolList::PoolAllocate()
@@ -230,6 +272,7 @@ FORCEINLINE uint32 fpCommonHeap::PoolList::CalcRealNumFreeBlocks() const
 	FreeMemory* iterator = this->ListFreeMemory;
 	while (iterator != nullptr)
 	{
+		std::cout << "TableIndex: " << this->TableIndex << " CalcRealNumFreeBlocks: " << iterator << std::endl;
 		iterator = iterator->next;
 		count++;
 	}
@@ -297,7 +340,7 @@ void fpCommonHeap::PoolList::PoolDestroy(PoolHeader * pool)
 
 void fpCommonHeap::HeapInit()
 {
-	PoolTable = new PoolList[LENGTH_TABLE];
+	//PoolTable = new PoolList[LENGTH_TABLE];
 	for (uint8 i = 0;i < LENGTH_TABLE;i++)
 	{
 		PoolTable[i] = new PoolList(POOL_SIZES[i], i);
@@ -311,7 +354,7 @@ void* fpCommonHeap::HeapAlloc(SIZE_T size)
     {
         if (aligned<=POOL_SIZES[i])
         {
-			void* ptr = PoolTable[i].PoolAllocate();
+			void* ptr = PoolTable[i]->PoolAllocate();
 			return ptr;
 		}
     }
@@ -320,7 +363,7 @@ void* fpCommonHeap::HeapAlloc(SIZE_T size)
 }
 FORCEINLINE void fpCommonHeap::HeapFreeFast(uint32 inTableIndex, void* inPtr)
 {
-	PoolTable[inTableIndex].PoolFree(inPtr);
+	PoolTable[inTableIndex]->PoolFree(inPtr);
 }
 FORCEINLINE fpCommonHeap::PoolHeader* fpCommonHeap::GetPoolHeaderFromPtr(void* inPtr)
 {
@@ -335,7 +378,7 @@ void fpCommonHeap::HeapCleanup()
 {
 	for (uint8 i = 0; i < LENGTH_TABLE;i++)
 	{
-		this->PoolTable[i].CleanupList();
+		this->PoolTable[i]->CleanupList();
 	}
 }
 
@@ -349,10 +392,9 @@ void fpCommonHeap::HeapDestroy()
 	if (this->PoolTable == nullptr) { return; }
 	for (uint8 i = 0; i < LENGTH_TABLE; i++)
 	{
-		this->PoolTable[i].ListDestroy();
+		this->PoolTable[i]->ListDestroy();
 	}
 	delete[] this->PoolTable;
-	this->PoolTable = nullptr;
 }
 
 
@@ -360,7 +402,7 @@ bool fpCommonHeap::ValidateHeap()
 {
 	for (uint16 i = 0;i<LENGTH_TABLE;i++)
 	{
-		if (!PoolTable[i].ValidateList())
+		if (!PoolTable[i]->ValidateList())
 		{
 			return false;
 		}
@@ -390,7 +432,7 @@ FORCEINLINE void* fpCommonHeap::CommonAllocator::Allocate(SIZE_T size)
 FORCEINLINE void fpCommonHeap::CommonAllocator::Free(void *inPtr, SIZE_T inSize)
 {
 	uint32 TableIndex = static_cast<fpCommonHeap*>(HeapPtr)->GetPoolHeaderFromPtr(inPtr)->TableIndex;
-	static_cast<fpCommonHeap*>(HeapPtr)->PoolTable[TableIndex].PoolFree(inPtr);
+	static_cast<fpCommonHeap*>(HeapPtr)->PoolTable[TableIndex]->PoolFree(inPtr);
 }
 FORCEINLINE void* fpCommonHeap::CommonAllocator::Realloc(void *ptr, SIZE_T new_size)
 {	

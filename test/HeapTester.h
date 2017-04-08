@@ -28,6 +28,15 @@ public:
 		_lowSize = lowSize;
 		_highSize = highSize;
 		_heap->HeapInit();
+		bool is_valid = _heap->ValidateHeap();
+		if (is_valid)
+		{
+			std::cout << "Heap is OK" << std::endl;
+		}
+		else {
+			std::cout << "Heap is corrupted" << std::endl;
+		}
+		
 	}
 	static void HeapStatisticsPrintAndKillHeap()
 	{
@@ -48,10 +57,12 @@ public:
 	{
 		if (_allocated) 
 		{ 
-			//delete[] _allocated;
+			delete[] _allocated;
+			_allocated = new AllocateInfo[_circlesCount];
+		}else
+		{
 			_allocated = new AllocateInfo[_circlesCount];
 		}
-		//_allocated = new AllocateInfo[_circlesCount];
 		uint32 index;
 		// ALLOCATE LOOP
 		for (index = 0; index <= _circlesCount; index++)
