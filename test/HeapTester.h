@@ -18,7 +18,8 @@ class HeapTester
 	static uint32 _circlesCount;
 	static uint32 _lowSize;
 	static uint32 _highSize;
-	static AllocateInfo* _allocated;
+	static AllocateInfo* _allocatedDefault;
+	static AllocateInfo* _allocatedCustom;
 public:
 	static void InitTester(fpHeapInterface* inHeap,uint32 circles_count,uint32 validateStep, uint32 lowSize, uint32 highSize) 
 	{
@@ -52,39 +53,33 @@ public:
 	}
 	static void DefaultHeapTest()
 	{
-		if (_allocated) 
-		{ 
-			delete[] _allocated;
-			_allocated = new AllocateInfo[_circlesCount];
-		}else
-		{
-			_allocated = new AllocateInfo[_circlesCount];
-		}
+
+		_allocatedDefault = new AllocateInfo[_circlesCount];
 		uint32 index;
 		// ALLOCATE LOOP
 		for (index = 0; index <= _circlesCount; index++)
 		{
 			uint32 size = HeapTester::NextSize();
 			void* ptr = malloc(size);
-			_allocated[index] = { ptr,size };
+			_allocatedDefault[index] = { ptr,size };
 		}
 		//REALLOC LOOP
 		for (index = 0; index <= _circlesCount; index++)
 		{
 			uint32 size = HeapTester::NextSize();
-			void* ptr = realloc(_allocated[index].Ptr, size);
-			_allocated[index] = { ptr,size };
+			void* ptr = realloc(_allocatedDefault[index].Ptr, size);
+			_allocatedDefault[index].Ptr = ptr;
+			_allocatedDefault[index].Size = size;
 		}
 		//FREE LOOP
 		for (index = 0; index <= _circlesCount; index++)
 		{
-			free(_allocated[index].Ptr);
+			free(_allocatedDefault[index].Ptr);
 		}
 	}
 	static void CustomHeapTest()
 	{
-		if (_allocated) { delete[] _allocated; }
-		_allocated = new AllocateInfo[_circlesCount];
+		_allocatedCustom = new AllocateInfo[_circlesCount];
 		uint32 index;
 		fpAllocatorInterface* allocator = _heap->MakeAllocator();
 		// ALLOCATE LOOP
@@ -92,8 +87,8 @@ public:
 		{
 			uint32 size = HeapTester::NextSize();
 			void* ptr = allocator->Allocate(size);
-			_allocated[index] = { ptr,size };
-			if (index%_validateStep == 0)
+			_allocatedCustom[index] = { ptr,size };
+			if (_validateStep!= 0 && index%_validateStep == 0)
 			{
 				bool is_valid = _heap->ValidateHeap();
 				if (!is_valid)
@@ -106,9 +101,9 @@ public:
 		for (index = 0; index <= _circlesCount; index++)
 		{
 			uint32 size = HeapTester::NextSize();
-			void* ptr = allocator->Realloc(_allocated[index].Ptr, size);
-			_allocated[index] = { ptr,size };
-			if (index%_validateStep == 0)
+			void* ptr = allocator->Realloc(_allocatedCustom[index].Ptr, size);
+			_allocatedCustom[index] = { ptr,size };
+			if (_validateStep != 0 && index%_validateStep == 0)
 			{
 				bool is_valid = _heap->ValidateHeap();
 				if (!is_valid)
@@ -120,8 +115,8 @@ public:
 		//FREE LOOP
 		for (index = 0; index <= _circlesCount; index++)
 		{
-			allocator->Free(_allocated[index].Ptr, _allocated[index].Size);
-			if (index%_validateStep == 0)
+			allocator->Free(_allocatedCustom[index].Ptr, _allocatedCustom[index].Size);
+			if (_validateStep != 0 && index%_validateStep == 0)
 			{
 				bool is_valid = _heap->ValidateHeap();
 				if (!is_valid)

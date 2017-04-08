@@ -124,13 +124,6 @@ public:
 	* This method only for validate list;
 	* */
 	FORCEINLINE bool  ValidateList()const;
-
-	PoolList* operator=(PoolList* other)
-	{
-		auto pool_list = (PoolList*)fpMemory::MemCopy(this, other, sizeof(PoolList));
-		delete other;
-		return pool_list;
-	}
 };
 
 
