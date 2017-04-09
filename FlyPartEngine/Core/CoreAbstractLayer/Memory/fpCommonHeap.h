@@ -44,6 +44,7 @@ public:
 private:
 	FORCEINLINE void HeapFreeFast(uint32 inTableIndex, void* inPtr);
 	FORCEINLINE PoolHeader* GetPoolHeaderFromPtr(void* inPtr);
+	FORCEINLINE uint32 GetTableIndexFromSize(uint32 size);
 private:
     fpCommonHeap(const fpCommonHeap&);
     fpCommonHeap(fpCommonHeap&&);

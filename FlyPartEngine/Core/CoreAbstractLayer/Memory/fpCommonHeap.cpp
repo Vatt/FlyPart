@@ -310,16 +310,8 @@ void fpCommonHeap::HeapInit()
 
 void* fpCommonHeap::HeapAlloc(SIZE_T size)
 {
-    SIZE_T aligned = ALIGN(size);
-    for(uint8 i = 0;i<LENGTH_TABLE;i++)
-    {
-        if (aligned<=POOL_SIZES[i])
-        {
-			void* ptr = PoolTable[i]->PoolAllocate();
-			return ptr;
-		}
-    }
-	return nullptr;
+	uint32 index = GetTableIndexFromSize(size);
+	return PoolTable[index]->PoolAllocate();
 }
 FORCEINLINE void fpCommonHeap::HeapFreeFast(uint32 inTableIndex, void* inPtr)
 {
@@ -381,6 +373,18 @@ fpAllocatorInterface *fpCommonHeap::MakeAllocator() {
     return  new CommonAllocator(this);
 }
 
+FORCEINLINE uint32 fpCommonHeap::GetTableIndexFromSize(uint32 size) {
+	SIZE_T aligned = ALIGN(size);
+	for(uint8 i = 0;i<LENGTH_TABLE;i++)
+	{
+		if (aligned<=POOL_SIZES[i])
+		{
+			return i;
+		}
+	}
+	assert(true);
+}
+
 fpCommonHeap::CommonAllocator::CommonAllocator(fpCommonHeap* heap)
 	:fpAllocatorInterface((fpHeapInterface*)heap)
 {
@@ -397,6 +401,12 @@ FORCEINLINE void fpCommonHeap::CommonAllocator::Free(void *inPtr, SIZE_T inSize)
 FORCEINLINE void* fpCommonHeap::CommonAllocator::Realloc(void *ptr, SIZE_T new_size)
 {	
 	uint32 TableIndex = static_cast<fpCommonHeap*>(HeapPtr)->GetPoolHeaderFromPtr(ptr)->TableIndex;
+	uint32 NewTableIndex = static_cast<fpCommonHeap*>(HeapPtr)->GetTableIndexFromSize(new_size);
+
+	if (TableIndex==NewTableIndex)
+	{
+		return ptr;
+	}
     if (new_size==0)
     {
         Free(ptr, POOL_SIZES[TableIndex]);

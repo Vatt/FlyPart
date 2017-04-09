@@ -36,8 +36,8 @@
       <file leaf-file-name="test.cpp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/test.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="510">
-              <caret line="31" column="0" lean-forward="true" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
+            <state relative-caret-position="374">
+              <caret line="23" column="52" lean-forward="false" selection-start-line="23" selection-start-column="52" selection-end-line="23" selection-end-column="52" />
               <folding>
                 <element signature="e#301#394#0" expanded="true" />
               </folding>
@@ -48,8 +48,8 @@
       <file leaf-file-name="HeapTester.h" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/HeapTester.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="34">
-              <caret line="100" column="17" lean-forward="false" selection-start-line="100" selection-start-column="17" selection-end-line="100" selection-end-column="17" />
+            <state relative-caret-position="102">
+              <caret line="104" column="7" lean-forward="false" selection-start-line="104" selection-start-column="7" selection-end-line="104" selection-end-column="7" />
               <folding />
             </state>
           </provider>
@@ -74,9 +74,9 @@
         <option value="$PROJECT_DIR$/../FlyPartEngine/fpCommon/fpSharedPtr.h" />
         <option value="$PROJECT_DIR$/../FlyPartEngine/Core/Linux/fpLinuxPlatformMemory.cpp" />
         <option value="$PROJECT_DIR$/../FlyPartEngine/Core/CoreAbstractLayer/Memory/fpCommonHeap.h" />
-        <option value="$PROJECT_DIR$/HeapTester.h" />
         <option value="$PROJECT_DIR$/../FlyPartEngine/Core/CoreAbstractLayer/Memory/fpCommonHeap.cpp" />
         <option value="$PROJECT_DIR$/CMakeLists.txt" />
+        <option value="$PROJECT_DIR$/HeapTester.h" />
         <option value="$PROJECT_DIR$/test.cpp" />
       </list>
     </option>
@@ -376,12 +376,12 @@
       <workItem from="1487184499621" duration="592000" />
       <workItem from="1491746494757" duration="2103000" />
       <workItem from="1491748638464" duration="7056000" />
-      <workItem from="1491758009591" duration="14706000" />
+      <workItem from="1491758009591" duration="16583000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="30397000" />
+    <option name="totallyTimeSpent" value="32274000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -401,7 +401,7 @@
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="true" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33733624" sideWeight="0.49605057" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3286026" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3375932" sideWeight="0.50394946" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3286026" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3286026" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2497332" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3286026" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -471,7 +471,7 @@
         <state relative-caret-position="5610">
           <caret line="330" column="0" lean-forward="false" selection-start-line="330" selection-start-column="0" selection-end-line="330" selection-end-column="0" />
           <folding>
-            <marker date="1491775699569" expanded="true" signature="8861:9052" ph="/.../" />
+            <marker date="1491778149029" expanded="true" signature="8891:8895" ph="/.../" />
           </folding>
         </state>
       </provider>
@@ -491,7 +491,7 @@
         <state relative-caret-position="3960">
           <caret line="220" column="0" lean-forward="false" selection-start-line="220" selection-start-column="0" selection-end-line="220" selection-end-column="0" />
           <folding>
-            <marker date="1491775699569" expanded="true" signature="8861:9052" ph="/.../" />
+            <marker date="1491778149029" expanded="true" signature="8891:8895" ph="/.../" />
           </folding>
         </state>
       </provider>
@@ -543,7 +543,7 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <marker date="1491775699569" expanded="true" signature="8861:9052" ph="/.../" />
+            <marker date="1491778149029" expanded="true" signature="8891:8895" ph="/.../" />
           </folding>
         </state>
       </provider>
@@ -573,7 +573,7 @@
         <state relative-caret-position="3618">
           <caret line="201" column="0" lean-forward="false" selection-start-line="201" selection-start-column="0" selection-end-line="201" selection-end-column="0" />
           <folding>
-            <marker date="1491775699569" expanded="true" signature="8861:9052" ph="/.../" />
+            <marker date="1491778149029" expanded="true" signature="8891:8895" ph="/.../" />
           </folding>
         </state>
       </provider>
@@ -593,7 +593,7 @@
         <state relative-caret-position="3618">
           <caret line="201" column="0" lean-forward="false" selection-start-line="201" selection-start-column="0" selection-end-line="201" selection-end-column="0" />
           <folding>
-            <marker date="1491775699569" expanded="true" signature="8861:9052" ph="/.../" />
+            <marker date="1491778149029" expanded="true" signature="8891:8895" ph="/.../" />
           </folding>
         </state>
       </provider>
@@ -613,7 +613,7 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <marker date="1491775699569" expanded="true" signature="8861:9052" ph="/.../" />
+            <marker date="1491778149029" expanded="true" signature="8891:8895" ph="/.../" />
           </folding>
         </state>
       </provider>
@@ -787,7 +787,7 @@
         <state relative-caret-position="209">
           <caret line="320" column="5" lean-forward="false" selection-start-line="320" selection-start-column="5" selection-end-line="320" selection-end-column="5" />
           <folding>
-            <marker date="1491775699569" expanded="true" signature="8861:9052" ph="/.../" />
+            <marker date="1491778149029" expanded="true" signature="8891:8895" ph="/.../" />
           </folding>
         </state>
       </provider>
@@ -802,16 +802,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/HeapTester.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="100" column="17" lean-forward="false" selection-start-line="100" selection-start-column="17" selection-end-line="100" selection-end-column="17" />
+        <state relative-caret-position="102">
+          <caret line="104" column="7" lean-forward="false" selection-start-line="104" selection-start-column="7" selection-end-line="104" selection-end-column="7" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/test.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="31" column="0" lean-forward="true" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
+        <state relative-caret-position="374">
+          <caret line="23" column="52" lean-forward="false" selection-start-line="23" selection-start-column="52" selection-end-line="23" selection-end-column="52" />
           <folding>
             <element signature="e#301#394#0" expanded="true" />
           </folding>

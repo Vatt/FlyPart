@@ -102,7 +102,7 @@ public:
 			}
 		}
 		//REALLOC LOOP
-        for (index = 0; index <= _circlesCount; index++)
+       for (index = 0; index <= _circlesCount; index++)
 		{
 			uint32 size = HeapTester::NextSize();
 			void* ptr = allocator->Realloc(_allocatedCustom[index].Ptr, size);
