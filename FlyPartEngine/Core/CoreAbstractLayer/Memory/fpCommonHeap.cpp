@@ -1,5 +1,4 @@
 #include "fpCommonHeap.h"
-#include "../../../fpCommon/CommonHelperFunctions.h"
 #include <new>
 #include <iostream>
 const static SIZE_T PAGE_SIZE = 4096;
@@ -184,12 +183,12 @@ FORCEINLINE fpCommonHeap::PoolList::TempPoolData fpCommonHeap::PoolList::MapTheP
 		prev->next = ptr;
 	}
 	FreeMemory* last_ptr = (FreeMemory*)((UINTPTR)free_ptr + (this->BlocksNumPerPool-1)*this->BlockSize);
-	return  TempPoolData(pool, free_ptr, last_ptr);//fpTemplate::Move(TempPoolData(pool,free_ptr,last_ptr));
+	return  TempPoolData(pool, free_ptr, last_ptr);
 }
 fpCommonHeap::PoolList::TempPoolData fpCommonHeap::PoolList::makeNewPool()
 {
 	PoolHeader* pool;
-	void* memory = fpMemory::SystemAlloc(POOL_SIZE);
+	void* memory = fpMemory::SystemAlloc((UINTPTR)POOL_SIZE);
 
 	/*первые 16 бита информация о самом пуле*/
 	pool = new(memory)PoolHeader();
@@ -198,7 +197,14 @@ fpCommonHeap::PoolList::TempPoolData fpCommonHeap::PoolList::makeNewPool()
 	this->PoolCount++;
 	this->ListFreeBlocksCount += this->BlocksNumPerPool;
 	auto data = this->MapThePoolOfFreeBlocks(pool);
-	return this->MapThePoolOfFreeBlocks(pool); // fpTemplate::Move(data);
+    /*if (this->TableIndex == 0)
+    {
+        std::cout<<"makeNewPool data.header: \t"<<data.header<<std::endl;
+        std::cout<<"makeNewPool data.first: \t"<<data.first<<std::endl;
+        std::cout<<"makeNewPool data.last: \t\t"<<data.last<<std::endl;
+    }
+    */
+	return data;//this->MapThePoolOfFreeBlocks(pool);
 }
 
 FORCEINLINE void* fpCommonHeap::PoolList::PoolAllocate()
@@ -323,7 +329,7 @@ FORCEINLINE void fpCommonHeap::HeapFreeFast(uint32 inTableIndex, void* inPtr)
 }
 FORCEINLINE fpCommonHeap::PoolHeader* fpCommonHeap::GetPoolHeaderFromPtr(void* inPtr)
 {
-	return (PoolHeader*)(((int64)inPtr) & ~(POOL_SIZE - 1));
+	return (PoolHeader*)(((int64)inPtr) & ~((int64)POOL_SIZE - 1));
 }
 void fpCommonHeap::HeapFree(void * target, SIZE_T size)
 {

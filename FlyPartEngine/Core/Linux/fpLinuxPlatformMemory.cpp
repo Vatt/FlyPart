@@ -2,11 +2,11 @@
 #include <utility>
 #include <stdlib.h>
 #include <cstring>
-
-#include <malloc.h>
 #include <zconf.h>
 #include <sys/sysinfo.h>
-//#include <linux/sysinfo.h>
+#include <sys/mman.h>
+#include <mm_malloc.h>
+
 fpPlatformMemory::MemoryStats fpPlatformMemory::Stats = MemoryStats(sysconf(_SC_PHYS_PAGES)*sysconf(_SC_PAGE_SIZE),
                                                                     1024,sysconf(_SC_PAGE_SIZE));
 
@@ -14,14 +14,17 @@ void* fpLinuxPlatformMemory::SystemAlloc(size_t size)
 {
 
     Stats.IncrementSystemAllocCallCounter();	
-	void* ptr =  valloc(size);
-	fpPlatformMemory::Stats.OsMemory += size;
+	//void* ptr =  valloc(size);
+	//void* ptr = mmap(NULL,size,PROT_READ|PROT_WRITE,MAP_PRIVATE|MAP_ANONYMOUS,0,0);
+    void* ptr = _mm_malloc(size,size);
+    fpPlatformMemory::Stats.OsMemory += size;
 	return ptr;
 }
 void fpLinuxPlatformMemory::SystemFree(void *ptr, SIZE_T size)
 {
     Stats.IncrementSystemFreeCallCounter();
-	free(ptr);
+	//munmap(ptr, size);
+    _mm_free(ptr);
 	fpPlatformMemory::Stats.OsMemory -= size;
 }
 void fpLinuxPlatformMemory::UpdateMemoryStats()

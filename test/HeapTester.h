@@ -102,6 +102,9 @@ public:
 		{
 			uint32 size = HeapTester::NextSize();
 			void* ptr = allocator->Realloc(_allocatedCustom[index].Ptr, size);
+            if (ptr==nullptr||!ptr||size==0){
+                std::cout<<ptr<<std::endl;
+            }
 			_allocatedCustom[index] = { ptr,size };
 			if (_validateStep != 0 && index%_validateStep == 0)
 			{

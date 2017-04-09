@@ -2,8 +2,6 @@ project(FlyPartRuntime)
 cmake_minimum_required(VERSION 2.8)
 
 
-
-
 set(fpCommonDir "${CMAKE_CURRENT_SOURCE_DIR}/fpCommon")
 set(CoreDir "${CMAKE_CURRENT_SOURCE_DIR}/Core")
 set(GenericPlatformDir "${CoreDir}/GenericPlatform")
@@ -20,12 +18,13 @@ if (WIN32)
 endif()
 if (UNIX)
    set(CMAKE_CXX_COMPILER /usr/bin/g++)
-    file(GLOB_RECURSE CorePlatformImpl "${CoreDir}/Linux/*")
+   file(GLOB_RECURSE CorePlatformImpl "${CoreDir}/Linux/*")
 endif()
 
 set (CMAKE_BUILD_TYPE Debug)
 if ( CMAKE_COMPILER_IS_GNUCXX )
-    set(MY_CXX_FLAGS  "-Wall -std=c++11 -fmessage-length=0   -Wattributes -L/usr/local/lib -L/usr/lib")
+    #-m64 -mcmodel=large
+    set(MY_CXX_FLAGS  "-Wall -std=c++14 -fmessage-length=0  -Wattributes -L/usr/local/lib -L/usr/lib")
     set(CMAKE_CXX_FLAGS "-O0 ${MY_CXX_FLAGS}")
 endif ()
 
