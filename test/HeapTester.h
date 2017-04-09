@@ -63,6 +63,7 @@ public:
 			void* ptr = malloc(size);
 			_allocatedDefault[index] = { ptr,size };
 		}
+
 		//REALLOC LOOP
 		for (index = 0; index <= _circlesCount; index++)
 		{
@@ -71,11 +72,14 @@ public:
 			_allocatedDefault[index].Ptr = ptr;
 			_allocatedDefault[index].Size = size;
 		}
+
 		//FREE LOOP
-		for (index = 0; index <= _circlesCount; index++)
+
+        for (index = 0; index <= _circlesCount; index++)
 		{
 			free(_allocatedDefault[index].Ptr);
 		}
+
 	}
 	static void CustomHeapTest()
 	{
@@ -98,13 +102,10 @@ public:
 			}
 		}
 		//REALLOC LOOP
-		for (index = 0; index <= _circlesCount; index++)
+        for (index = 0; index <= _circlesCount; index++)
 		{
 			uint32 size = HeapTester::NextSize();
 			void* ptr = allocator->Realloc(_allocatedCustom[index].Ptr, size);
-            if (ptr==nullptr||!ptr||size==0){
-                std::cout<<ptr<<std::endl;
-            }
 			_allocatedCustom[index] = { ptr,size };
 			if (_validateStep != 0 && index%_validateStep == 0)
 			{
@@ -128,6 +129,7 @@ public:
 				}
 			}
 		}
+
 	}
 	static void RunTests()
 	{

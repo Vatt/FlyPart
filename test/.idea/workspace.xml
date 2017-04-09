@@ -33,21 +33,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="fpCommonHeap.h" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../FlyPartEngine/Core/CoreAbstractLayer/Memory/fpCommonHeap.h">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="11" column="24" lean-forward="false" selection-start-line="11" selection-start-column="24" selection-end-line="11" selection-end-column="24" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="test.cpp" pinned="false" current-in-tab="false">
+      <file leaf-file-name="test.cpp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/test.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="391">
-              <caret line="24" column="65" lean-forward="false" selection-start-line="24" selection-start-column="65" selection-end-line="24" selection-end-column="65" />
+            <state relative-caret-position="510">
+              <caret line="31" column="0" lean-forward="true" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
               <folding>
                 <element signature="e#301#394#0" expanded="true" />
               </folding>
@@ -55,33 +45,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="fpCommonHeap.cpp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../FlyPartEngine/Core/CoreAbstractLayer/Memory/fpCommonHeap.cpp">
+      <file leaf-file-name="HeapTester.h" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/HeapTester.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="493">
-              <caret line="272" column="41" lean-forward="false" selection-start-line="272" selection-start-column="41" selection-end-line="272" selection-end-column="41" />
+            <state relative-caret-position="34">
+              <caret line="100" column="17" lean-forward="false" selection-start-line="100" selection-start-column="17" selection-end-line="100" selection-end-column="17" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="HeapTester.h" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/HeapTester.h">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1344">
-              <caret line="136" column="8" lean-forward="false" selection-start-line="136" selection-start-column="8" selection-end-line="136" selection-end-column="8" />
-              <folding>
-                <element signature="e#2384#3957#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CMakeLists.txt" pinned="false" current-in-tab="true">
+      <file leaf-file-name="CMakeLists.txt" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="12" column="0" lean-forward="true" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
+            <state relative-caret-position="187">
+              <caret line="11" column="99" lean-forward="true" selection-start-line="11" selection-start-column="99" selection-end-line="11" selection-end-column="99" />
               <folding />
             </state>
           </provider>
@@ -95,11 +73,11 @@
         <option value="$PROJECT_DIR$/../FlyPartEngine/FlyPart.h" />
         <option value="$PROJECT_DIR$/../FlyPartEngine/fpCommon/fpSharedPtr.h" />
         <option value="$PROJECT_DIR$/../FlyPartEngine/Core/Linux/fpLinuxPlatformMemory.cpp" />
+        <option value="$PROJECT_DIR$/../FlyPartEngine/Core/CoreAbstractLayer/Memory/fpCommonHeap.h" />
         <option value="$PROJECT_DIR$/HeapTester.h" />
         <option value="$PROJECT_DIR$/../FlyPartEngine/Core/CoreAbstractLayer/Memory/fpCommonHeap.cpp" />
-        <option value="$PROJECT_DIR$/../FlyPartEngine/Core/CoreAbstractLayer/Memory/fpCommonHeap.h" />
-        <option value="$PROJECT_DIR$/test.cpp" />
         <option value="$PROJECT_DIR$/CMakeLists.txt" />
+        <option value="$PROJECT_DIR$/test.cpp" />
       </list>
     </option>
   </component>
@@ -398,12 +376,12 @@
       <workItem from="1487184499621" duration="592000" />
       <workItem from="1491746494757" duration="2103000" />
       <workItem from="1491748638464" duration="7056000" />
-      <workItem from="1491758009591" duration="9401000" />
+      <workItem from="1491758009591" duration="14706000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="25092000" />
+    <option name="totallyTimeSpent" value="30397000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -457,15 +435,15 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/test.cpp</url>
-          <line>24</line>
-          <option name="timeStamp" value="15" />
+          <url>file://$PROJECT_DIR$/HeapTester.h</url>
+          <line>30</line>
+          <option name="timeStamp" value="29" />
         </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="29" />
+      <option name="time" value="31" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -484,9 +462,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1751">
           <caret line="103" column="0" lean-forward="false" selection-start-line="103" selection-start-column="0" selection-end-line="103" selection-end-column="0" />
-          <folding>
-            <element signature="e#2384#3957#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -494,7 +470,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="5610">
           <caret line="330" column="0" lean-forward="false" selection-start-line="330" selection-start-column="0" selection-end-line="330" selection-end-column="0" />
-          <folding />
+          <folding>
+            <marker date="1491775699569" expanded="true" signature="8861:9052" ph="/.../" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -512,7 +490,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3960">
           <caret line="220" column="0" lean-forward="false" selection-start-line="220" selection-start-column="0" selection-end-line="220" selection-end-column="0" />
-          <folding />
+          <folding>
+            <marker date="1491775699569" expanded="true" signature="8861:9052" ph="/.../" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -528,6 +508,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="108">
           <caret line="6" column="0" lean-forward="false" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -535,9 +516,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1854">
           <caret line="103" column="0" lean-forward="false" selection-start-line="103" selection-start-column="0" selection-end-line="103" selection-end-column="0" />
-          <folding>
-            <element signature="e#2384#3957#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -563,7 +542,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <marker date="1491775699569" expanded="true" signature="8861:9052" ph="/.../" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -573,6 +554,26 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#301#394#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#301#394#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../FlyPartEngine/Core/CoreAbstractLayer/Memory/fpCommonHeap.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3618">
+          <caret line="201" column="0" lean-forward="false" selection-start-line="201" selection-start-column="0" selection-end-line="201" selection-end-column="0" />
+          <folding>
+            <marker date="1491775699569" expanded="true" signature="8861:9052" ph="/.../" />
           </folding>
         </state>
       </provider>
@@ -591,25 +592,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3618">
           <caret line="201" column="0" lean-forward="false" selection-start-line="201" selection-start-column="0" selection-end-line="201" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#301#394#0" expanded="true" />
+            <marker date="1491775699569" expanded="true" signature="8861:9052" ph="/.../" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../FlyPartEngine/Core/CoreAbstractLayer/Memory/fpCommonHeap.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3618">
-          <caret line="201" column="0" lean-forward="false" selection-start-line="201" selection-start-column="0" selection-end-line="201" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -627,7 +612,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <marker date="1491775699569" expanded="true" signature="8861:9052" ph="/.../" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -751,6 +738,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="108">
           <caret line="6" column="0" lean-forward="false" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -786,47 +774,47 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../FlyPartEngine/Core/CoreAbstractLayer/Memory/fpCommonHeap.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="493">
-          <caret line="272" column="41" lean-forward="false" selection-start-line="272" selection-start-column="41" selection-end-line="272" selection-end-column="41" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/HeapTester.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1344">
-          <caret line="136" column="8" lean-forward="false" selection-start-line="136" selection-start-column="8" selection-end-line="136" selection-end-column="8" />
-          <folding>
-            <element signature="e#2384#3957#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../FlyPartEngine/Core/CoreAbstractLayer/Memory/fpCommonHeap.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
+        <state relative-caret-position="5">
           <caret line="11" column="24" lean-forward="false" selection-start-line="11" selection-start-column="24" selection-end-line="11" selection-end-column="24" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/test.cpp">
+    <entry file="file://$PROJECT_DIR$/../FlyPartEngine/Core/CoreAbstractLayer/Memory/fpCommonHeap.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="24" column="65" lean-forward="false" selection-start-line="24" selection-start-column="65" selection-end-line="24" selection-end-column="65" />
+        <state relative-caret-position="209">
+          <caret line="320" column="5" lean-forward="false" selection-start-line="320" selection-start-column="5" selection-end-line="320" selection-end-column="5" />
           <folding>
-            <element signature="e#301#394#0" expanded="true" />
+            <marker date="1491775699569" expanded="true" signature="8861:9052" ph="/.../" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="0" lean-forward="true" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
+        <state relative-caret-position="187">
+          <caret line="11" column="99" lean-forward="true" selection-start-line="11" selection-start-column="99" selection-end-line="11" selection-end-column="99" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/HeapTester.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="100" column="17" lean-forward="false" selection-start-line="100" selection-start-column="17" selection-end-line="100" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="510">
+          <caret line="31" column="0" lean-forward="true" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
+          <folding>
+            <element signature="e#301#394#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

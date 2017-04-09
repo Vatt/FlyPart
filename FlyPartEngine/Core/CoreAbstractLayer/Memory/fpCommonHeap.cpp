@@ -3,8 +3,7 @@
 #include <iostream>
 const static SIZE_T PAGE_SIZE = 4096;
 const static uint8 LENGTH_TABLE = 45;
-const static uint8 HALF_LENGTH_TABLE = LENGTH_TABLE / 2;
-const static uint32 POOL_SIZES[45] = { 16, 32, 48, 64, 80, 96, 112, 128, 160, 192, 224, 256, 
+const static uint32 POOL_SIZES[45] = { 16, 32, 48, 64, 80, 96, 112, 128, 160, 192, 224, 256,
 									   288, 320, 384, 448, 496, 560, 640, 704, 768,896, 1008,
 									   1168, 1360, 1632, 2032, 2336, 2720, 3264, 4080, 4368, 
 									   4672, 5040, 5456, 5952, 6544, 7280, 8176, 9360, 10912, 
@@ -320,7 +319,6 @@ void* fpCommonHeap::HeapAlloc(SIZE_T size)
 			return ptr;
 		}
     }
-    //FIXIT: Заглушка
 	return nullptr;
 }
 FORCEINLINE void fpCommonHeap::HeapFreeFast(uint32 inTableIndex, void* inPtr)
@@ -399,7 +397,6 @@ FORCEINLINE void fpCommonHeap::CommonAllocator::Free(void *inPtr, SIZE_T inSize)
 FORCEINLINE void* fpCommonHeap::CommonAllocator::Realloc(void *ptr, SIZE_T new_size)
 {	
 	uint32 TableIndex = static_cast<fpCommonHeap*>(HeapPtr)->GetPoolHeaderFromPtr(ptr)->TableIndex;
-
     if (new_size==0)
     {
         Free(ptr, POOL_SIZES[TableIndex]);
@@ -410,13 +407,15 @@ FORCEINLINE void* fpCommonHeap::CommonAllocator::Realloc(void *ptr, SIZE_T new_s
 		return this->Allocate(new_size);
     }
 	void* new_mem = HeapPtr->HeapAlloc(new_size);
+
+    //TODO: ЗАМЕДЛЯЯЕТ РАБОТУ БОЛЬШЕ ЧЕМ В 2 РАЗА
 	if (POOL_SIZES[TableIndex] < new_size)
 	{
-		fpMemory::MemMove(new_mem, ptr, POOL_SIZES[TableIndex]);
+		fpMemory::MemCopy(new_mem, ptr, POOL_SIZES[TableIndex]);
 	}else{
-		fpMemory::MemMove(new_mem, ptr, new_size);
+		fpMemory::MemCopy(new_mem, ptr, new_size);
 	}
-	
+
 	this->Free(ptr, POOL_SIZES[TableIndex]);
 	return new_mem;
 }

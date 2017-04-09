@@ -39,14 +39,14 @@
       <file leaf-file-name="fpCommonHeap.h" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Core/CoreAbstractLayer/Memory/fpCommonHeap.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="442">
-              <caret line="27" column="6" lean-forward="false" selection-start-line="27" selection-start-column="6" selection-end-line="27" selection-end-column="6" />
+            <state relative-caret-position="425">
+              <caret line="32" column="24" lean-forward="false" selection-start-line="32" selection-start-column="24" selection-end-line="32" selection-end-column="24" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CMakeLists.txt" pinned="false" current-in-tab="true">
+      <file leaf-file-name="CMakeLists.txt" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="459">
@@ -56,11 +56,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="fpCommonHeap.cpp" pinned="false" current-in-tab="false">
+      <file leaf-file-name="fpCommonHeap.cpp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Core/CoreAbstractLayer/Memory/fpCommonHeap.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3162">
-              <caret line="188" column="1" lean-forward="false" selection-start-line="188" selection-start-column="1" selection-end-line="188" selection-end-column="1" />
+            <state relative-caret-position="328">
+              <caret line="398" column="28" lean-forward="false" selection-start-line="398" selection-start-column="28" selection-end-line="398" selection-end-column="28" />
               <folding>
                 <element signature="e#0#25#0" expanded="true" />
               </folding>
@@ -71,8 +71,8 @@
       <file leaf-file-name="fpLinuxPlatformMemory.cpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Core/Linux/fpLinuxPlatformMemory.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="24" column="23" lean-forward="false" selection-start-line="24" selection-start-column="23" selection-end-line="24" selection-end-column="23" />
+            <state relative-caret-position="447">
+              <caret line="40" column="11" lean-forward="false" selection-start-line="40" selection-start-column="11" selection-end-line="40" selection-end-column="11" />
               <folding>
                 <element signature="e#0#34#0" expanded="true" />
               </folding>
@@ -122,9 +122,9 @@
         <option value="$PROJECT_DIR$/Core/GenericPlatform/Memory/fpPlatformMemory.h" />
         <option value="$PROJECT_DIR$/Core/Linux/fpLinuxPlatformMemory.h" />
         <option value="$PROJECT_DIR$/Core/Linux/fpLinuxPlatformMemory.cpp" />
-        <option value="$PROJECT_DIR$/Core/CoreAbstractLayer/Memory/fpCommonHeap.cpp" />
         <option value="$PROJECT_DIR$/Core/CoreAbstractLayer/Memory/fpCommonHeap.h" />
         <option value="$PROJECT_DIR$/CMakeLists.txt" />
+        <option value="$PROJECT_DIR$/Core/CoreAbstractLayer/Memory/fpCommonHeap.cpp" />
       </list>
     </option>
   </component>
@@ -585,12 +585,12 @@
       <workItem from="1487164905333" duration="2848000" />
       <workItem from="1491746436038" duration="8505000" />
       <workItem from="1491757643517" duration="188000" />
-      <workItem from="1491757845958" duration="9637000" />
+      <workItem from="1491757845958" duration="16077000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="128619000" />
+    <option name="totallyTimeSpent" value="135059000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -809,39 +809,47 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Core/CoreAbstractLayer/Memory/fpCommonHeap.cpp">
+    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3162">
-          <caret line="188" column="1" lean-forward="false" selection-start-line="188" selection-start-column="1" selection-end-line="188" selection-end-column="1" />
-          <folding>
-            <element signature="e#0#25#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="459">
+          <caret line="27" column="28" lean-forward="false" selection-start-line="27" selection-start-column="28" selection-end-line="27" selection-end-column="28" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Core/CoreAbstractLayer/Memory/fpCommonHeap.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="442">
-          <caret line="27" column="6" lean-forward="false" selection-start-line="27" selection-start-column="6" selection-end-line="27" selection-end-column="6" />
+        <state relative-caret-position="425">
+          <caret line="32" column="24" lean-forward="false" selection-start-line="32" selection-start-column="24" selection-end-line="32" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/include/string.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="296">
+          <caret line="46" column="17" lean-forward="false" selection-start-line="46" selection-start-column="17" selection-end-line="46" selection-end-column="17" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Core/Linux/fpLinuxPlatformMemory.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="24" column="23" lean-forward="false" selection-start-line="24" selection-start-column="23" selection-end-line="24" selection-end-column="23" />
+        <state relative-caret-position="447">
+          <caret line="40" column="11" lean-forward="false" selection-start-line="40" selection-start-column="11" selection-end-line="40" selection-end-column="11" />
           <folding>
             <element signature="e#0#34#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
+    <entry file="file://$PROJECT_DIR$/Core/CoreAbstractLayer/Memory/fpCommonHeap.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="459">
-          <caret line="27" column="28" lean-forward="false" selection-start-line="27" selection-start-column="28" selection-end-line="27" selection-end-column="28" />
-          <folding />
+        <state relative-caret-position="328">
+          <caret line="398" column="28" lean-forward="false" selection-start-line="398" selection-start-column="28" selection-end-line="398" selection-end-column="28" />
+          <folding>
+            <element signature="e#0#25#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

@@ -21,8 +21,7 @@ int main(int argc, char **argv)
 {
     //SmartPtrTest::SmartPtrTestRun();
     //fpMemory::UpdateMemoryStats();
-    auto sz = sizeof(void*);
-	HeapTester::InitTester(new fpCommonHeap, 65536*8, 0, 1, 32752); //32752);
+	HeapTester::InitTester(new fpCommonHeap, 65536*6, 0, 1, 32752); //32752);
 	HeapTester::RunTests();
 	system("PAUSE");
 	return 0;
