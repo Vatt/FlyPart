@@ -40,12 +40,12 @@ public:
 	{
 		std::cout << "-----------------------------------------" << std::endl;
 		std::cout << "BEFORE destroy heap" << std::endl;
-		std::cout << "Memory used: " << fpMemory::Stats.UsedMemory / 1024 / 1024 << "MB" << std::endl;
+		std::cout << "Memory used: " << fpMemory::Stats.OsMemory / 1024 / 1024 << "MB" << std::endl;
 		std::cout << "OS alloc counter: " << fpMemory::Stats.AllocCallCounter << std::endl;
 		std::cout << "OS free counter: " << fpMemory::Stats.FreeCallCounter << std::endl;
 		_heap->HeapDestroy();
 		std::cout << "AFTER destroy heap" << std::endl;
-		std::cout << "Memory used: " << fpMemory::Stats.UsedMemory / 1024 / 1024 << "MB" << std::endl;
+		std::cout << "Memory used: " << fpMemory::Stats.OsMemory / 1024 / 1024 << "MB" << std::endl;
 		std::cout << "OS alloc counter: " << fpMemory::Stats.AllocCallCounter << std::endl;
 		std::cout << "OS free counter: " << fpMemory::Stats.FreeCallCounter << std::endl;
 		std::cout << "-----------------------------------------" << std::endl;
@@ -133,16 +133,16 @@ public:
 		custom_start = std::chrono::system_clock::now();
 		CustomHeapTest();
 		custom_end = std::chrono::system_clock::now();
-		custom_elapsed = std::chrono::duration_cast<std::chrono::seconds>(custom_end - custom_start).count();
-		std::cout << "Custom heap test time: " << custom_elapsed << std::endl;
+		custom_elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(custom_end - custom_start).count();
+		std::cout << "Custom heap test time(ms): " << custom_elapsed << std::endl;
 		HeapStatisticsPrintAndKillHeap();
 
 		default_start = std::chrono::system_clock::now();
 		DefaultHeapTest();
 		default_end = std::chrono::system_clock::now();
-		default_elapsed = std::chrono::duration_cast<std::chrono::seconds>(default_end - default_start).count();
+		default_elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(default_end - default_start).count();
 		std::cout << "default allocator time: " << default_elapsed << std::endl;
-		std::cout << "Difference default elapsed/custom elapsed: "<< (float)((float)default_elapsed/ (float)custom_elapsed) << std::endl;
+		std::cout << "Difference default elapsed/custom elapsed(ms): "<< (float)((float)default_elapsed/ (float)custom_elapsed) << std::endl;
 	}
 	~HeapTester();
 private:

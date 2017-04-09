@@ -145,7 +145,7 @@ FORCEINLINE void fpCommonHeap::PoolList::ExtendPoolsCount()
 	TempPoolData data[EXTEND_NUMBER];
 	for (uint32 i = 0; i < EXTEND_NUMBER; i++)
 	{
-		data[i] = makeNewPool();//fpTemplate::Move(makeNewPool());
+		data[i] = makeNewPool();
 	}
 	for (uint32 i = 1; i < EXTEND_NUMBER; i++)
 	{
@@ -159,7 +159,7 @@ FORCEINLINE void fpCommonHeap::PoolList::ExtendPoolsCount()
 		this->Last = data[EXTEND_NUMBER - 1].header;
 	}
 	else {
-		PoolHeader::LinkPoolAfter(this->Last, data[EXTEND_NUMBER -1].header);
+		PoolHeader::LinkPoolAfter(this->Last, data[0].header);
 		this->Last = data[EXTEND_NUMBER - 1].header;
 	}	
 }

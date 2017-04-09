@@ -8,7 +8,7 @@ struct fpPlatformMemory
     struct MemoryStats{
         const SIZE_T PageSize;
         SIZE_T TotalPhysMemory;
-        SIZE_T UsedMemory;
+        SIZE_T OsMemory;
         SIZE_T AvailablePhysMemory;
         SIZE_T MemoryLimit;
         MemoryStats(SIZE_T totalPhysMem,SIZE_T memLimit, uint32 pageSize)
@@ -16,7 +16,7 @@ struct fpPlatformMemory
         {
             AllocCallCounter=0;
             FreeCallCounter=0;
-            UsedMemory=0;
+            OsMemory=0;
         }
 
 
