@@ -28,12 +28,7 @@ public:
 		_circlesCount = circles_count;
 		_lowSize = lowSize;
 		_highSize = highSize;
-		_heap->HeapInit();
-		bool is_valid = _heap->ValidateHeap();
-		if (!is_valid)
-		{
-			std::cout << "Heap is corrupted" << std::endl;
-		}
+
 		
 	}
 	static void HeapStatisticsPrintAndKillHeap()
@@ -102,7 +97,8 @@ public:
 			}
 		}
 		//REALLOC LOOP
-       for (index = 0; index <= _circlesCount; index++)
+
+        for (index = 0; index <= _circlesCount; index++)
 		{
 			uint32 size = HeapTester::NextSize();
 			void* ptr = allocator->Realloc(_allocatedCustom[index].Ptr, size);
@@ -116,6 +112,7 @@ public:
 				}
 			}
 		}
+
 		//FREE LOOP
 		for (index = 0; index <= _circlesCount; index++)
 		{
@@ -133,8 +130,23 @@ public:
 	}
 	static void RunTests()
 	{
-		std::chrono::time_point<std::chrono::system_clock> custom_start, custom_end,default_start,default_end;
-		int custom_elapsed, default_elapsed;
+        std::chrono::time_point<std::chrono::system_clock> custom_start, custom_end,default_start,default_end;
+        int custom_elapsed, default_elapsed;
+
+
+        default_start = std::chrono::system_clock::now();
+        DefaultHeapTest();
+        default_end = std::chrono::system_clock::now();
+        default_elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(default_end - default_start).count();
+        std::cout << "default allocator time: " << default_elapsed << std::endl;
+
+
+        _heap->HeapInit();
+        bool is_valid = _heap->ValidateHeap();
+        if (!is_valid)
+        {
+            std::cout << "Heap is corrupted" << std::endl;
+        }
 		custom_start = std::chrono::system_clock::now();
 		CustomHeapTest();
 		custom_end = std::chrono::system_clock::now();
@@ -142,12 +154,15 @@ public:
 		std::cout << "Custom heap test time(ms): " << custom_elapsed << std::endl;
 		HeapStatisticsPrintAndKillHeap();
 
-		default_start = std::chrono::system_clock::now();
-		DefaultHeapTest();
-		default_end = std::chrono::system_clock::now();
-		default_elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(default_end - default_start).count();
-		std::cout << "default allocator time: " << default_elapsed << std::endl;
-		std::cout << "Difference default elapsed/custom elapsed(ms): "<< (float)((float)default_elapsed/ (float)custom_elapsed) << std::endl;
+
+
+
+        std::cout << "Difference default elapsed/custom elapsed(ms): "<< (float)((float)default_elapsed/ (float)custom_elapsed) << std::endl;
+
+
+
+
+
 	}
 	~HeapTester();
 private:

@@ -418,7 +418,6 @@ FORCEINLINE void* fpCommonHeap::CommonAllocator::Realloc(void *ptr, SIZE_T new_s
     }
 	void* new_mem = HeapPtr->HeapAlloc(new_size);
 
-    //TODO: ЗАМЕДЛЯЯЕТ РАБОТУ БОЛЬШЕ ЧЕМ В 2 РАЗА
 	if (POOL_SIZES[TableIndex] < new_size)
 	{
 		fpMemory::MemCopy(new_mem, ptr, POOL_SIZES[TableIndex]);
