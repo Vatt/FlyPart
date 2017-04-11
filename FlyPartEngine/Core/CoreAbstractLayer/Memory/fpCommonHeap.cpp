@@ -187,7 +187,7 @@ FORCEINLINE fpCommonHeap::PoolList::TempPoolData fpCommonHeap::PoolList::MapTheP
 fpCommonHeap::PoolList::TempPoolData fpCommonHeap::PoolList::makeNewPool()
 {
 	PoolHeader* pool;
-	void* memory = fpMemory::SystemAlloc((UINTPTR)POOL_SIZE);
+	void* memory = fpPlatformMemory::SystemAlloc((UINTPTR)POOL_SIZE);
 
 	/*первые 16 бита информация о самом пуле*/
 	pool = new(memory)PoolHeader();
@@ -196,13 +196,6 @@ fpCommonHeap::PoolList::TempPoolData fpCommonHeap::PoolList::makeNewPool()
 	this->PoolCount++;
 	this->ListFreeBlocksCount += this->BlocksNumPerPool;
 	auto data = this->MapThePoolOfFreeBlocks(pool);
-    /*if (this->TableIndex == 0)
-    {
-        std::cout<<"makeNewPool data.header: \t"<<data.header<<std::endl;
-        std::cout<<"makeNewPool data.first: \t"<<data.first<<std::endl;
-        std::cout<<"makeNewPool data.last: \t\t"<<data.last<<std::endl;
-    }
-    */
 	return data;//this->MapThePoolOfFreeBlocks(pool);
 }
 
@@ -213,7 +206,7 @@ FORCEINLINE void* fpCommonHeap::PoolList::PoolAllocate()
 	/*TODO: тут возвожно не инициализированый указатель будет считаться валидным */
     if (!this->ListFreeMemory)
     {
-        ExtendPoolsCount();//static_cast<uint32>(this->PoolCount*1.3)
+        ExtendPoolsCount();
     }
     free_block = this->ListFreeMemory;
     this->ListFreeMemory = this->ListFreeMemory->next;
@@ -294,7 +287,7 @@ void fpCommonHeap::PoolList::ListDestroy()
 
 void fpCommonHeap::PoolList::PoolDestroy(PoolHeader * pool)
 {
-    fpMemory::SystemFree((void *) pool, POOL_SIZE);
+    fpPlatformMemory::SystemFree((void *) pool, POOL_SIZE);
 }
 
 
@@ -369,7 +362,7 @@ fpCommonHeap::~fpCommonHeap()
 	this->HeapDestroy();
 }
 
-fpAllocatorInterface *fpCommonHeap::MakeAllocator() {
+FORCEINLINE fpAllocatorInterface *fpCommonHeap::MakeAllocator() {
     return  new CommonAllocator(this);
 }
 
@@ -382,7 +375,7 @@ FORCEINLINE uint32 fpCommonHeap::GetTableIndexFromSize(uint32 size) {
 			return i;
 		}
 	}
-	assert(true);
+	assert(false);
 }
 
 fpCommonHeap::CommonAllocator::CommonAllocator(fpCommonHeap* heap)
@@ -420,9 +413,9 @@ FORCEINLINE void* fpCommonHeap::CommonAllocator::Realloc(void *ptr, SIZE_T new_s
 
 	if (POOL_SIZES[TableIndex] < new_size)
 	{
-		fpMemory::MemCopy(new_mem, ptr, POOL_SIZES[TableIndex]);
+		fpPlatformMemory::MemCopy(new_mem, ptr, POOL_SIZES[TableIndex]);
 	}else{
-		fpMemory::MemCopy(new_mem, ptr, new_size);
+		fpPlatformMemory::MemCopy(new_mem, ptr, new_size);
 	}
 
 	this->Free(ptr, POOL_SIZES[TableIndex]);

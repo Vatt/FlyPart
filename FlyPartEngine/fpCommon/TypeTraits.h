@@ -35,12 +35,12 @@ template<typename T> struct fpIsArithmeticType{
 
 template <typename T> struct fpIsPointerType				   {enum{Value = false};};
 template <typename T> struct fpIsPointerType<T*>               {enum{Value = true};};
-template <typename T> struct fpIsPointerType<const T>          {enum{Value = true};};
+template <typename T> struct fpIsPointerType<const T*>         {enum{Value = true};};
 template <typename T> struct fpIsPointerType<const T* const>   {enum{Value = true};};
 template <typename T> struct fpIsPointerType<T* volatile>      {enum{Value = true};};
 template <typename T> struct fpIsPointerType<T* const volatile>{enum{Value = true};};
 
-template <typename T> struct fpIsReference{enum{Value = false};};
+template <typename T> struct fpIsReference			{enum{Value = false};};
 template <typename T> struct fpIsReference<T&>      {enum{Value = true};};
 template <typename T> struct fpIsReference<T&&>     {enum{Value = true};};
 

@@ -4,7 +4,7 @@
 #include "../GenericPlatform/Memory/fpPlatformMemory.h"
 
 
-class fpLinuxPlatformMemory : public fpPlatformMemory
+class fpLinuxPlatformMemory : public fpGenericMemory
 {
 public:
 	static void* SystemAlloc(size_t size);
@@ -15,6 +15,6 @@ public:
 	static void  MemSwap(void* ptr1, void* ptr2, size_t size);
 	static void*  MemCopy(void* dest, const void* src, SIZE_T size);
 };
-typedef fpLinuxPlatformMemory fpMemory;
+typedef fpLinuxPlatformMemory fpPlatformMemory;
 
 #endif

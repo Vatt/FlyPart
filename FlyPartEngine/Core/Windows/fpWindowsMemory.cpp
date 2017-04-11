@@ -21,7 +21,7 @@ fpPlatformMemory::MemoryStats fpPlatformMemory::Stats = MemoryStats(GetWinTotalR
 
 void* fpWindowsPlatformMemory::SystemAlloc(SIZE_T size)
 {
-    fpPlatformMemory::Stats.IncrementSystemAllocCallCounter();
+    fpGenericMemory::Stats.IncrementSystemAllocCallCounter();
 	void* ptr = VirtualAlloc(NULL, size, MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE);
 	memset(ptr, 0, size); //FIXIT: implement function
 	fpPlatformMemory::Stats.OsMemory += size;

@@ -3,7 +3,7 @@
 #define _FP_WINDOWS_MEMORY_
 #include "../GenericPlatform/Memory/fpPlatformMemory.h"
 
-class fpWindowsPlatformMemory : public fpPlatformMemory
+class fpWindowsPlatformMemory : public fpGenericMemory
 {
 public:
 
@@ -15,5 +15,5 @@ public:
 	static void  MemSwap(void* ptr1, void* ptr2, size_t size);
 	static void*  MemCopy(void* dest, const void* src, SIZE_T size);
 };
-typedef fpWindowsPlatformMemory fpMemory;
+typedef fpWindowsPlatformMemory fpPlatformMemory;
 #endif

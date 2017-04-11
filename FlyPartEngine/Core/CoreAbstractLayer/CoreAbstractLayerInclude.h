@@ -4,5 +4,6 @@
 #pragma once
 #include "Memory/fpHeapInterface.h"
 #include "Memory/fpCommonHeap.h"
+#include "Memory/fpMemory.h"
 
 #endif

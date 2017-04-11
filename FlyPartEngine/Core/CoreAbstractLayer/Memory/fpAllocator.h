@@ -3,7 +3,7 @@
 #define _FP_ALLOCATOR_
 #include "../../GenericPlatform/fpPlatform.h"
 #include "fpHeapInterface.h"
-class fpMemorySystem;
+
 class fpHeapInterface;
 class fpAllocatorInterface
 {

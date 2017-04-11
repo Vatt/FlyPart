@@ -59,9 +59,6 @@
     <ClInclude Include="..\..\..\fpCommon\SmartPtrPrivate.h">
       <Filter>fpCommon</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\fpCommon\SmartPtrTest.h">
-      <Filter>fpCommon</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Core\GenericPlatform\defines.h">
       <Filter>Core\GenericPlatform</Filter>
     </ClInclude>
@@ -88,6 +85,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\fpCommon\fpSharedRef.h">
       <Filter>fpCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Core\CoreAbstractLayer\Memory\fpMemory.h">
+      <Filter>Core\CoreAbstractLayer\Memory</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -139,6 +139,9 @@
       <Filter>Core\Windows</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Core\CoreAbstractLayer\Memory\fpCommonHeap.cpp">
+      <Filter>Core\CoreAbstractLayer\Memory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Core\CoreAbstractLayer\Memory\fpMemory.cpp">
       <Filter>Core\CoreAbstractLayer\Memory</Filter>
     </ClCompile>
   </ItemGroup>

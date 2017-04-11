@@ -3,7 +3,7 @@
 #define	_FP_PLATFORM_MEMORY_
 #include "../typedefs.h"
 #include "../defines.h"
-struct fpPlatformMemory
+struct fpGenericMemory
 {
     struct MemoryStats{
         const SIZE_T PageSize;
@@ -39,7 +39,6 @@ struct fpPlatformMemory
     static int32 MemCmp( void* const Buf1, const void* Buf2, SIZE_T size);
     static void  MemSwap(void* ptr1, void* ptr2, SIZE_T size);
 	static void*  MemCopy(void* dest, const void* src, SIZE_T size);
-
 };
 
 #endif

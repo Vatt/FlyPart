@@ -145,6 +145,7 @@
     <ClInclude Include="..\..\..\Core\CoreAbstractLayer\Memory\fpAllocator.h" />
     <ClInclude Include="..\..\..\Core\CoreAbstractLayer\Memory\fpCommonHeap.h" />
     <ClInclude Include="..\..\..\Core\CoreAbstractLayer\Memory\fpHeapInterface.h" />
+    <ClInclude Include="..\..\..\Core\CoreAbstractLayer\Memory\fpMemory.h" />
     <ClInclude Include="..\..\..\Core\CoreCommonHeader.h" />
     <ClInclude Include="..\..\..\Core\GenericPlatform\defines.h" />
     <ClInclude Include="..\..\..\Core\GenericPlatform\fpPlatformAtomics.h" />
@@ -169,11 +170,11 @@
     <ClInclude Include="..\..\..\fpCommon\fpFunction.h" />
     <ClInclude Include="..\..\..\fpCommon\fpSharedRef.h" />
     <ClInclude Include="..\..\..\fpCommon\SmartPtrPrivate.h" />
-    <ClInclude Include="..\..\..\fpCommon\SmartPtrTest.h" />
     <ClInclude Include="..\..\..\fpCommon\TypeTraits.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Core\CoreAbstractLayer\Memory\fpCommonHeap.cpp" />
+    <ClCompile Include="..\..\..\Core\CoreAbstractLayer\Memory\fpMemory.cpp" />
     <ClCompile Include="..\..\..\Core\GenericPlatform\Input\fpInputSystem.cpp" />
     <ClCompile Include="..\..\..\Core\GenericPlatform\Input\fpKeyBind.cpp" />
     <ClCompile Include="..\..\..\Core\GenericPlatform\Input\fpKeyBoard.cpp" />

@@ -1,4 +1,4 @@
-#include "fpSharedRef.h"
+#include "../../FlyPartEngine/fpCommon/fpSharedRef.h"
 #include <iostream>
 using namespace std;
 namespace SmartPtrTest{

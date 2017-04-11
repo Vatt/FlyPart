@@ -1,10 +1,9 @@
-﻿// test.cpp : Defines the entry point for the console application.
-//
-
+﻿
 #include "../FlyPartEngine/FlyPart.h"
-//#include "../FlyPartEngine/fpCommon/SmartPtrTest.h"
-//#include "../FlyPartEngine/fpCommon/Containers/fpArray.h"
-#include "HeapTester.h"
+
+#include "../FlyPartEngine/fpCommon/Containers/fpArray.h"
+#include "HeapTester/HeapTester.h"
+#include "SmartPtrTest/SmartPtrTest.h"
 #ifdef PLATFORM_LINUX
 #endif
 #ifdef PLATFORM_WINDOWS
@@ -19,8 +18,16 @@
 
 int main(int argc, char **argv)
 {
-    //SmartPtrTest::SmartPtrTestRun();
-    //fpMemory::UpdateMemoryStats();
+	fpMemory::MemoryInitDefault();
+	ArrayBase<int> Array(3);
+	Array[0] = 3;
+	auto i1 = Array[0];
+	Array.Resize(1050);
+	Array[100] = 100500;
+	auto i2 = Array[100];
+	auto i3 = Array[0];//TODO: ПОТЕРЯ ЗНАЧЕНИЯ!111
+    SmartPtrTest::SmartPtrTestRun();
+    fpPlatformMemory::UpdateMemoryStats();
 	HeapTester::InitTester(new fpCommonHeap, 65536*8, 0, 1, 32752); //32752);
 	HeapTester::RunTests();
 	system("PAUSE");

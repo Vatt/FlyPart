@@ -16,7 +16,7 @@ public:
 	
 	virtual void  HeapDestroy() = 0;
 	virtual bool  ValidateHeap() =0;
-	virtual fpAllocatorInterface* MakeAllocator()=0;
+	virtual FORCEINLINE fpAllocatorInterface* MakeAllocator()=0;
 };
 
 #endif

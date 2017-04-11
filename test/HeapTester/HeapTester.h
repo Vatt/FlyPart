@@ -1,7 +1,7 @@
 #ifndef _HEAP_TESTER_
 #define _HEAP_TESTER_
 #pragma once
-#include "../FlyPartEngine/FlyPart.h"
+#include "../../FlyPartEngine/FlyPart.h"
 #include <random>
 #include <chrono>
 #include <iostream>
@@ -33,18 +33,15 @@ public:
 	}
 	static void HeapStatisticsPrintAndKillHeap()
 	{
-		std::cout << "-----------------------------------------" << std::endl;
 		std::cout << "BEFORE destroy heap" << std::endl;
-		std::cout << "Memory used: " << fpMemory::Stats.OsMemory / 1024 / 1024 << "MB" << std::endl;
-		std::cout << "OS alloc counter: " << fpMemory::Stats.AllocCallCounter << std::endl;
-		std::cout << "OS free counter: " << fpMemory::Stats.FreeCallCounter << std::endl;
+		std::cout << "Memory used: " << fpPlatformMemory::Stats.OsMemory / 1024 / 1024 << "MB" << std::endl;
+		std::cout << "OS alloc counter: " << fpPlatformMemory::Stats.AllocCallCounter << std::endl;
+		std::cout << "OS free counter: " << fpPlatformMemory::Stats.FreeCallCounter << std::endl;
 		_heap->HeapDestroy();
 		std::cout << "AFTER destroy heap" << std::endl;
-		std::cout << "Memory used: " << fpMemory::Stats.OsMemory / 1024 / 1024 << "MB" << std::endl;
-		std::cout << "OS alloc counter: " << fpMemory::Stats.AllocCallCounter << std::endl;
-		std::cout << "OS free counter: " << fpMemory::Stats.FreeCallCounter << std::endl;
-		std::cout << "-----------------------------------------" << std::endl;
-
+		std::cout << "Memory used: " << fpPlatformMemory::Stats.OsMemory / 1024 / 1024 << "MB" << std::endl;
+		std::cout << "OS alloc counter: " << fpPlatformMemory::Stats.AllocCallCounter << std::endl;
+		std::cout << "OS free counter: " << fpPlatformMemory::Stats.FreeCallCounter << std::endl;
 	}
 	static void DefaultHeapTest()
 	{
@@ -130,6 +127,7 @@ public:
 	}
 	static void RunTests()
 	{
+		std::cout << "-------------------HEAP TEST START---------------------" << std::endl;
         std::chrono::time_point<std::chrono::system_clock> custom_start, custom_end,default_start,default_end;
         int custom_elapsed, default_elapsed;
 
@@ -154,15 +152,9 @@ public:
 		std::cout << "Custom heap test time(ms): " << custom_elapsed << std::endl;
 		HeapStatisticsPrintAndKillHeap();
 
-
-
-
         std::cout << "Difference default elapsed/custom elapsed(ms): "<< (float)((float)default_elapsed/ (float)custom_elapsed) << std::endl;
 
-
-
-
-
+		std::cout << "-------------------HEAP TEST END---------------------" << std::endl;
 	}
 	~HeapTester();
 private:

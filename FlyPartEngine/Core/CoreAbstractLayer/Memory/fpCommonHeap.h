@@ -38,7 +38,7 @@ public:
 	virtual void  HeapDestroy()override;
 	virtual bool  ValidateHeap()override;
 	
-	virtual fpAllocatorInterface* MakeAllocator();
+	virtual FORCEINLINE fpAllocatorInterface* MakeAllocator();
 	fpCommonHeap();
 	virtual ~fpCommonHeap();
 private:
