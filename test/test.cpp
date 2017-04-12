@@ -19,13 +19,18 @@
 int main(int argc, char **argv)
 {
 	fpMemory::MemoryInitDefault();
-	ArrayBase<int> Array(3);
-	Array[0] = 3;
-	auto i1 = Array[0];
-	Array.Resize(1050);
-	Array[100] = 100500;
-	auto i2 = Array[100];
-	auto i3 = Array[0];//TODO: ПОТЕРЯ ЗНАЧЕНИЯ!111
+	ArrayBase<int> Array(ArrayBase<int>(3));
+	fpIndexedIterator<ArrayBase<int>, int, int> iterator(Array,0);
+	Array[0] = 1;
+	Array[1] = 2;
+	Array[2] = 3;
+	auto v1 = iterator.operator*();
+	auto v2 = ++iterator.operator*();
+	auto v3 = ++iterator.operator*();
+	Array.Resize(4);
+	Array[3] = 4;
+	auto v4 = ++iterator.operator*();
+	std::allocator<int> a;
     SmartPtrTest::SmartPtrTestRun();
     fpPlatformMemory::UpdateMemoryStats();
 	HeapTester::InitTester(new fpCommonHeap, 65536*8, 0, 1, 32752); //32752);
