@@ -19,7 +19,7 @@
 int main(int argc, char **argv)
 {
 	fpMemory::MemoryInitDefault();
-	ArrayBase<int> Array(ArrayBase<int>(3));
+	ArrayBase<int> Array(3);
 	fpIndexedIterator<ArrayBase<int>, int, int> iterator(Array,0);
 	Array[0] = 1;
 	Array[1] = 2;
@@ -33,7 +33,8 @@ int main(int argc, char **argv)
 	std::allocator<int> a;
     SmartPtrTest::SmartPtrTestRun();
     fpPlatformMemory::UpdateMemoryStats();
-	HeapTester::InitTester(new fpCommonHeap, 65536*8, 0, 1, 32752); //32752);
+    //Array.Destroy();
+	HeapTester::InitTester(new fpCommonHeap, 65536, 0, 1, 1024); //32752);
 	HeapTester::RunTests();
 	system("PAUSE");
 	return 0;

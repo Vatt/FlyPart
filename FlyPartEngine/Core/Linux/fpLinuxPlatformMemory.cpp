@@ -7,8 +7,8 @@
 #include <sys/mman.h>
 #include <mm_malloc.h>
 
-fpPlatformMemory::MemoryStats fpPlatformMemory::Stats = MemoryStats(sysconf(_SC_PHYS_PAGES)*sysconf(_SC_PAGE_SIZE),
-                                                                    1024,sysconf(_SC_PAGE_SIZE));
+fpGenericMemory::MemoryStats fpGenericMemory::Stats = MemoryStats(sysconf(_SC_PHYS_PAGES)*sysconf(_SC_PAGE_SIZE),
+                    								  1024,sysconf(_SC_PAGE_SIZE));
 
 void* fpLinuxPlatformMemory::SystemAlloc(size_t size)
 {

@@ -24,7 +24,7 @@ endif()
 set (CMAKE_BUILD_TYPE Debug)
 if ( CMAKE_COMPILER_IS_GNUCXX )
     #-m64 -mcmodel=large
-    set(MY_CXX_FLAGS  "-Wall -std=c++14 -fmessage-length=0  -Wattributes -L/usr/local/lib -L/usr/lib")
+    set(MY_CXX_FLAGS  "-Wall -std=c++17 -fmessage-length=0  -Wattributes -L/usr/local/lib -L/usr/lib")
     set(CMAKE_CXX_FLAGS "-O0 ${MY_CXX_FLAGS}")
 endif ()
 
