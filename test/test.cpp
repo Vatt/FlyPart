@@ -23,7 +23,7 @@ int main(int argc, char **argv)
 	std::allocator<int> a;
     SmartPtrTest::SmartPtrTestRun();
     fpPlatformMemory::UpdateMemoryStats();
-	HeapTester::InitTester(fpMemory::GetCommonHeap(), 65536, 0, 1, 32752);
+	HeapTester::InitTester(fpMemory::GetCommonHeap(), 65536*10, 0, 1, 32752);
 	HeapTester::RunTests();
 
 

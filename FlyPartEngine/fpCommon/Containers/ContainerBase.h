@@ -120,9 +120,9 @@ struct ArrayBase {
 		Data = static_cast<ElemType*>(Allocator->Realloc(Data, inNewSize * sizeof(ElemType)));
 		Size = inNewSize;
 	}
-	FORCEINLINE bool IsValidIndex(IndexType index)
+	FORCEINLINE bool IsValidIndex(uint32 index)
 	{
-
+		return index <= Size;
 	}
 	~ArrayBase()
 	{
