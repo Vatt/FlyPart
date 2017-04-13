@@ -120,14 +120,14 @@ struct ArrayBase {
 		Data = static_cast<ElemType*>(Allocator->Realloc(Data, inNewSize * sizeof(ElemType)));
 		Size = inNewSize;
 	}
-	FORCEINLINE void Destroy()
+	FORCEINLINE bool IsValidIndex(IndexType index)
 	{
-		Allocator->Free(Data,Size);
-		Data = nullptr;
+
 	}
 	~ArrayBase()
 	{
-		Destroy();
+		Allocator->Free(Data, Size);
+		Data = nullptr;
 	}
 };
 #endif

@@ -316,6 +316,7 @@ FORCEINLINE fpCommonHeap::PoolHeader* fpCommonHeap::GetPoolHeaderFromPtr(void* i
 }
 void fpCommonHeap::HeapFree(void * target, SIZE_T size)
 {
+	assert(target != nullptr);
 	HeapFreeFast(GetPoolHeaderFromPtr(target)->TableIndex, target);
 }
 
@@ -329,6 +330,7 @@ void fpCommonHeap::HeapCleanup()
 
 void* fpCommonHeap::HeapRealloc(void * target, SIZE_T size)
 {
+	assert(target != nullptr);
 	//FIXIT: FIX this hack
 	return MakeAllocator()->Realloc(target,size);
 }
@@ -388,24 +390,26 @@ FORCEINLINE void* fpCommonHeap::CommonAllocator::Allocate(SIZE_T size)
 }
 FORCEINLINE void fpCommonHeap::CommonAllocator::Free(void *inPtr, SIZE_T inSize)
 {
+	assert(inPtr != nullptr);
 	uint32 TableIndex = static_cast<fpCommonHeap*>(HeapPtr)->GetPoolHeaderFromPtr(inPtr)->TableIndex;
 	static_cast<fpCommonHeap*>(HeapPtr)->PoolTable[TableIndex]->PoolFree(inPtr);
 }
-FORCEINLINE void* fpCommonHeap::CommonAllocator::Realloc(void *ptr, SIZE_T new_size)
+FORCEINLINE void* fpCommonHeap::CommonAllocator::Realloc(void *inPtr, SIZE_T new_size)
 {	
-	uint32 TableIndex = static_cast<fpCommonHeap*>(HeapPtr)->GetPoolHeaderFromPtr(ptr)->TableIndex;
+	assert(inPtr != nullptr);
+	uint32 TableIndex = static_cast<fpCommonHeap*>(HeapPtr)->GetPoolHeaderFromPtr(inPtr)->TableIndex;
 	uint32 NewTableIndex = static_cast<fpCommonHeap*>(HeapPtr)->GetTableIndexFromSize(new_size);
 
 	if (TableIndex==NewTableIndex)
 	{
-		return ptr;
+		return inPtr;
 	}
     if (new_size==0)
     {
-        Free(ptr, POOL_SIZES[TableIndex]);
+        Free(inPtr, POOL_SIZES[TableIndex]);
         return nullptr;
     }
-    if (ptr == nullptr || !ptr)
+    if (inPtr == nullptr || !inPtr)
     {
 		return this->Allocate(new_size);
     }
@@ -413,12 +417,12 @@ FORCEINLINE void* fpCommonHeap::CommonAllocator::Realloc(void *ptr, SIZE_T new_s
 
 	if (POOL_SIZES[TableIndex] < new_size)
 	{
-		fpPlatformMemory::MemCopy(new_mem, ptr, POOL_SIZES[TableIndex]);
+		fpPlatformMemory::MemCopy(new_mem, inPtr, POOL_SIZES[TableIndex]);
 	}else{
-		fpPlatformMemory::MemCopy(new_mem, ptr, new_size);
+		fpPlatformMemory::MemCopy(new_mem, inPtr, new_size);
 	}
 
-	this->Free(ptr, POOL_SIZES[TableIndex]);
+	this->Free(inPtr, POOL_SIZES[TableIndex]);
 	return new_mem;
 }
 

@@ -8,7 +8,7 @@ class fpMemory {
 public:
 	static void SetCommonHeapOnce(fpHeapInterface* inHeap)
 	{
-		assert(CommonHeap == nullptr);
+		assert(inHeap != nullptr);
 		CommonHeap = inHeap;
 	}
 	static void MemoryInitDefault()
