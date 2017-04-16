@@ -65,9 +65,6 @@
     <ClInclude Include="..\..\..\Core\GenericPlatform\typedefs.h">
       <Filter>Core\GenericPlatform</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\fpCommon\Containers\ContainerBase.h">
-      <Filter>fpCommon\Containers</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\fpCommon\Containers\fpArray.h">
       <Filter>fpCommon\Containers</Filter>
     </ClInclude>
@@ -88,6 +85,15 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Core\CoreAbstractLayer\Memory\fpMemory.h">
       <Filter>Core\CoreAbstractLayer\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\fpCommon\Containers\Iterators.h">
+      <Filter>fpCommon\Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\fpCommon\ClassMemoryOps.h">
+      <Filter>fpCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\fpCommon\ClassTraits.h">
+      <Filter>fpCommon</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

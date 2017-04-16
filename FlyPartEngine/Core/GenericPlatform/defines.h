@@ -35,8 +35,8 @@
 #endif
 #if defined(_MSC_VER)
     #define MSVS_COMPILER
-    //#define FORCEINLINE __forceinline
-	#define FORCEINLINE inline
+    #define FORCEINLINE __forceinline
+
     #define CONSTEXPR constexpr
 	#if defined(_DEBUG)
 		#define DEBUG_BUILD

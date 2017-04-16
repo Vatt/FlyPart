@@ -16,7 +16,7 @@ private:
 		holder(){}
 		virtual ~holder(){}
 		virtual _retType invoke(_args ... args)=0;
-		virtual std::shared_ptr<holder> clone()=0;
+		virtual  fpSharedRef<holder> clone()=0;
 	private:
 		holder(const holder&);
 		void operator =(const holder&);
@@ -28,7 +28,7 @@ private:
 	public:
 		holderFnImpl(_fnSignature fn):holder(),_fn(fn){}
 		virtual ~holderFnImpl(){}
-		virtual std::shared_ptr<holder> clone()
+		virtual fpSharedRef<holder> clone()
 		{
 
             return  invoker_t(new holderFnImpl(_fn));
@@ -48,10 +48,12 @@ private:
 public:
 	fpFunction():_invoker(){};
 	~fpFunction(){};
-    fpFunction(const fpFunction& other):_invoker(other._invoker->clone()){}
+    fpFunction(const fpFunction& other)
+		:_invoker(other._invoker->clone()){}
 
 	template<typename _fnSignature>
-	fpFunction(_fnSignature fn):_invoker(new holderFnImpl<_fnSignature>(fn)){}
+	fpFunction(_fnSignature fn)
+		:_invoker(new holderFnImpl<_fnSignature>(fn)){}
 	_retType operator ()(_args ... args)
 	{
 	
@@ -70,7 +72,6 @@ public:
 
 
 private:
-	//typedef std::auto_ptr<holder> invoker_t;
 	typedef fpSharedRef<holder> invoker_t;
 	invoker_t _invoker;
 

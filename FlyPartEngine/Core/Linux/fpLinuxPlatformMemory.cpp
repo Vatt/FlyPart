@@ -59,3 +59,7 @@ void* fpLinuxPlatformMemory::MemCopy(void * dest, const void * src, SIZE_T size)
 {
 	return memcpy(dest, src, size);
 }
+void* fpLinuxPlatformMemory::MemSet(void * dest, uint8 value, SIZE_T count)
+{
+	return memset(dest, value, count);
+}

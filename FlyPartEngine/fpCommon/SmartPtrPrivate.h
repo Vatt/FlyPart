@@ -41,7 +41,7 @@ namespace fpTemplate {
 		{
 		public:
 			explicit fpRefControllerWithDeleter(void* obj, DeleterType&& deleter) :
-				fpRefControllerBase(obj), DeleterType(fpTemplate::Move(deleter))
+				fpRefControllerBase(obj), DeleterType(fpTemplate::fpMove(deleter))
 			{}
 			virtual void DestroyObj() {
 				(*static_cast<DeleterType*>(this)) ((ObjType*)static_cast<fpRefControllerBase*>(this)->Object);
@@ -62,8 +62,8 @@ namespace fpTemplate {
 		template<typename ObjType,typename DeleterType>
 		inline fpRefControllerBase* MakeCustomReferenceController(ObjType* Obj, DeleterType&& Deleter)
 		{
-			using _DeleterType = typename RemoveReference<DeleterType>::Type;
-			return new fpRefControllerWithDeleter<ObjType, _DeleterType>(Obj, Forward<DeleterType>(Deleter));
+			using _DeleterType = typename fpRemoveReference<DeleterType>::Type;
+			return new fpRefControllerWithDeleter<ObjType, _DeleterType>(Obj, fpForward<DeleterType>(Deleter));
 		};
 
 

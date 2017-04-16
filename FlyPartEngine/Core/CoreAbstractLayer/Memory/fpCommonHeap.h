@@ -17,7 +17,8 @@ class fpCommonHeap : public fpHeapInterface
 	struct PoolHeader;
 	class PoolList;
 
-	class CommonAllocator:public fpAllocatorInterface
+//public:
+	class CommonAllocator :public fpAllocatorInterface
 	{
 	public:
 		CommonAllocator(fpCommonHeap* heap);

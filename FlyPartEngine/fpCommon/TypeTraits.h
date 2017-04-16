@@ -14,7 +14,7 @@ template <> struct fpIsIntType<int64>   {enum{Value = true};};
 template <> struct fpIsIntType<uint16>  {enum{Value = true};};
 template <> struct fpIsIntType<uint32>  {enum{Value = true};};
 template <> struct fpIsIntType<uint64>  {enum{Value = true};};
-//template <> struct fpIsIntType<ASCICHAR>{enum{Value = true};};
+template <> struct fpIsIntType<ASCICHAR>{enum{Value = true};};
 template <> struct fpIsIntType<WIDECHAR>{enum{Value = true};};
 
 template<typename T> struct fpIsSignedType{enum{Value = false};};
@@ -61,13 +61,21 @@ template<typename T> struct fpIsFunction { enum { Value = false }; };
 template<typename RetType,typename ... Args>
 struct fpIsFunction<RetType(Args...)>
 {
-    enum{Value = true};
+    enum { Value = true };
 };
 
 template<typename T,typename S> struct fpIsSame     {enum{Value = false};};
 template<typename T>            struct fpIsSame<T,T>{enum{Value = true};};
 
+template<typename T> struct fpRemoveCV					{ typedef T Type; };
+template<typename T> struct fpRemoveCV<const T>			{ typedef T Type; };
+template<typename T> struct fpRemoveCV<volatile T>      { typedef T Type; };
+template<typename T> struct fpRemoveCV<const volatile T>{ typedef T Type; };
 
+template<typename T> struct fpIsPODType
+{
+	enum { Value = fpIsArithmeticType<T>::Value||__is_pod(T)|| __is_enum(T)|| fpIsPointerType<T>::Value };
+};
 
 
 

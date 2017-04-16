@@ -12,34 +12,32 @@
 #endif
 
 #include <iostream>
-#include <memory>
 
 //using namespace fpTemplate;
-
+struct Test {
+	static int32 Counter;
+	int32 x, y, z;
+	Test() :x(++Counter), y(++Counter), z(++Counter) {}
+	~Test() { x = -1; y = -1; z = -1; }
+};
+int32 Test::Counter = 0;
 int main(int argc, char **argv)
 {
-	fpMemory::SetCommonHeapOnce(new fpCommonHeap);
+	fpMemory::MemoryInitDefault();
+	//std::allocator<int> a;
+	//SmartPtrTest::SmartPtrTestRun();
+	//fpPlatformMemory::UpdateMemoryStats();
+	//HeapTester::InitTester(fpMemory::GetCommonHeap(), 65536*10, 0, 1, 32752);
+	//HeapTester::RunTests();
 
-	std::allocator<int> a;
-    SmartPtrTest::SmartPtrTestRun();
-    fpPlatformMemory::UpdateMemoryStats();
-	HeapTester::InitTester(fpMemory::GetCommonHeap(), 65536*10, 0, 1, 32752);
-	HeapTester::RunTests();
-
-
-	fpMemory::GetCommonHeap()->HeapInit();
-	ArrayBase<int> Array(3);
-	fpIndexedIterator<ArrayBase<int>, int, int> iterator(Array, 0);
-	Array[0] = 1;
-	Array[1] = 2;
-	Array[2] = 3;
-	auto v1 = iterator.operator*();
-	auto v2 = ++iterator.operator*();
-	auto v3 = ++iterator.operator*();
-	Array.Resize(4);
-	Array[3] = 4;
-	auto v4 = ++iterator.operator*();
-	 
+	fpArray<Test> Array(5);
+	for (auto i = 0; i < 6; i++)
+	{
+		//Array[i] = i;
+	}
+	auto a1 = Array.Pop();
+	bool vt = fpIsPODType<Test>::Value;
+	auto sz = sizeof(Test);
 	system("PAUSE");
 	return 0;
 }
