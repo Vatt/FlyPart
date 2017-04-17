@@ -23,7 +23,7 @@ public:
 		:_arrayMax(inSize*RESIZE_COEFFICIENT),_allocator(HeapPtr->MakeAllocator())
 	{
 		_data = static_cast<ElemType*>(_allocator->Allocate(_arrayMax));
-		ConstructItems(0, inSize);
+		ConstructItems(_data, inSize);
 		_length = inSize;
 	}
 	fpArray(SelfType&& other)

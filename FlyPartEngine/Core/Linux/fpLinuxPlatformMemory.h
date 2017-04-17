@@ -14,7 +14,7 @@ public:
 	static int32 MemCmp(void* const Buf1, const void* Buf2, size_t size);
 	static void  MemSwap(void* ptr1, void* ptr2, size_t size);
 	static void*  MemCopy(void* dest, const void* src, SIZE_T size);
-	void MemSet(void * dest, uint8 value, SIZE_T count);
+	static void* MemSet(void * dest, uint8 value, SIZE_T count);
 };
 typedef fpLinuxPlatformMemory fpPlatformMemory;
 
