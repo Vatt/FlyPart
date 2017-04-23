@@ -17,7 +17,12 @@
 struct Test {
 	static int32 Counter;
 	int32 x, y, z;
+	Test(int32 x, int32 y, int32 z) :x(x), y(y), z(z) {}
 	Test() :x(++Counter), y(++Counter), z(++Counter) {}
+	void SelfPrint() const
+	{
+		std::cout << "x:" << x << " y:" << y << " z:" << z << std::endl;
+	}
 	~Test() { x = -1; y = -1; z = -1; }
 };
 int32 Test::Counter = 0;
@@ -30,14 +35,18 @@ int main(int argc, char **argv)
 	//HeapTester::InitTester(fpMemory::GetCommonHeap(), 65536*10, 0, 1, 32752);
 	//HeapTester::RunTests();
 
-	fpArray<Test> Array(5);
-	for (auto i = 0; i < 6; i++)
+	fpArray<Test> Array(0);
+	Array.PushBack(Test());
+	Array.PushBack(Test());
+	Array.PushBack(Test());
+	Test& a1 = Array.Pop(); 
+	Array.PushFront(a1);
+	Array.Insert(1, Test());
+	Array.EmplaceBack(100, 200, 300);
+	for (uint32 index = 0;index<Array.Length();index++)
 	{
-		//Array[i] = i;
+		Array[index].SelfPrint();
 	}
-	auto a1 = Array.Pop();
-	bool vt = fpIsPODType<Test>::Value;
-	auto sz = sizeof(Test);
 	system("PAUSE");
 	return 0;
 }

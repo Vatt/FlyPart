@@ -64,8 +64,6 @@ public:
 	{
 		return &_container[_index];
 	}
-
-
 	IndexType GetIndex()const 
 	{
 		return _index;

@@ -37,5 +37,6 @@ FORCEINLINE typename fpEnableIf<fpHasTrivialConstructor<ElemType>::Value>::Type 
 {
 	fpPlatformMemory::MemSet(ElementDest, 0, sizeof(ElemType)*Count);
 }
+
 #endif
 

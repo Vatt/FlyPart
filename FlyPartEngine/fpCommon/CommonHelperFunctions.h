@@ -2,7 +2,8 @@
 #define _COMMON_HELPER_FUNCTIONS_
 #pragma once
 
-#include "../Core/GenericPlatform/typedefs.h"
+#include "../Core/GenericPlatform/defines.h"
+#include "TypeTraits.h"
 namespace fpTemplate {
 	template<typename T> struct fpRemoveReference { typedef T Type; };
 	template<typename T> struct fpRemoveReference<T&> { typedef T Type; };
@@ -16,6 +17,7 @@ namespace fpTemplate {
 	template<typename T>
 	FORCEINLINE T&& fpForward(typename fpRemoveReference<T>::Type&& Obj)
 	{
+		static_assert(!fpIsLValueReference<T>::Value, "template argument" " substituting T is an lvalue reference type");
 		return static_cast<T&&>(Obj);
 	}
 	template<typename T>
