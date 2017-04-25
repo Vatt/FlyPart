@@ -22,9 +22,9 @@ class fpCommonHeap : public fpHeapInterface
 	{
 	public:
 		CommonAllocator(fpCommonHeap* heap);
-		FORCEINLINE virtual void* Allocate(SIZE_T size)override;
-		FORCEINLINE virtual void Free(void *ptr, SIZE_T size)override;
-		FORCEINLINE virtual void* Realloc(void* ptr, SIZE_T size)override;
+		FORCEINLINE virtual void* Allocate(SIZE_T size)override final;
+		FORCEINLINE virtual void Free(void *ptr, SIZE_T size)override final;
+		FORCEINLINE virtual void* Realloc(void* ptr, SIZE_T size)override final;
 		virtual ~CommonAllocator();
 	};
 

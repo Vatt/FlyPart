@@ -395,8 +395,12 @@ FORCEINLINE void fpCommonHeap::CommonAllocator::Free(void *inPtr, SIZE_T inSize)
 	static_cast<fpCommonHeap*>(HeapPtr)->PoolTable[TableIndex]->PoolFree(inPtr);
 }
 FORCEINLINE void* fpCommonHeap::CommonAllocator::Realloc(void *inPtr, SIZE_T new_size)
-{	
-	assert(inPtr != nullptr);
+{
+	if (inPtr == nullptr || !inPtr)
+	{
+		return this->Allocate(new_size);
+	}
+	assert(inPtr);
 	uint32 TableIndex = static_cast<fpCommonHeap*>(HeapPtr)->GetPoolHeaderFromPtr(inPtr)->TableIndex;
 	uint32 NewTableIndex = static_cast<fpCommonHeap*>(HeapPtr)->GetTableIndexFromSize(new_size);
 
@@ -408,10 +412,6 @@ FORCEINLINE void* fpCommonHeap::CommonAllocator::Realloc(void *inPtr, SIZE_T new
     {
         Free(inPtr, POOL_SIZES[TableIndex]);
         return nullptr;
-    }
-    if (inPtr == nullptr || !inPtr)
-    {
-		return this->Allocate(new_size);
     }
 	void* new_mem = HeapPtr->HeapAlloc(new_size);
 

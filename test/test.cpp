@@ -35,7 +35,7 @@ int main(int argc, char **argv)
 	//HeapTester::InitTester(fpMemory::GetCommonHeap(), 65536*10, 0, 1, 32752);
 	//HeapTester::RunTests();
 
-	fpArray<Test> Array(0);
+	fpArray<Test> Array = { Test(),Test(),Test() }; ;// {5, 8, 7, 9, 7, 5, 2, 6};//
 	Array.PushBack(Test());
 	Array.PushBack(Test());
 	Array.PushBack(Test());
@@ -47,6 +47,11 @@ int main(int argc, char **argv)
 	{
 		Array[index].SelfPrint();
 	}
+
+	//for (uint32 index = 0; index<Array.Length(); index++)
+	//{
+	//	std::cout << Array[index] << endl;;
+	//}
 	system("PAUSE");
 	return 0;
 }

@@ -3,67 +3,104 @@
 #include "../ClassMemoryOps.h"
 #include "../../Core/CoreAbstractLayer/Memory/fpHeapInterface.h"
 #include "Iterators.h"
+/*
+*Запилить совместимый с std::allocator интерфейс
+*/
 template <typename ElemType>
+class fpDefaultArrayAllocator {
+public:
+	fpDefaultArrayAllocator()
+	{
+		_allocator = fpMemory::GetCommonHeap()->MakeAllocator();
+		_size = 0;
+		_data = nullptr;
+	}
+	FORCEINLINE void AllocateData(uint32 Count)
+	{
+		_size = Count * sizeof(ElemType)*RESIZE_COEFFICIENT;
+		_data = _allocator->Allocate(_size);
+	}
+	FORCEINLINE void ResizeData(uint32 inNewSize)
+	{
+		_size = inNewSize*RESIZE_COEFFICIENT;
+		_data = static_cast<ElemType*>(_allocator->Realloc(_data,_size));
+	}
+	FORCEINLINE void FreeData()
+	{
+		_allocator->Free(_data,_size);
+		_size = 0;
+		_data = nullptr;
+	}
+	FORCEINLINE ElemType* GetData()const
+	{
+		return _data;
+	}
+	FORCEINLINE uint32 GetDataSize()const
+	{
+		return _size;
+	}
+	FORCEINLINE void Shrink(uint32 RealLength)
+	{
+		uint32 NewMax = RealLength * RESIZE_COEFFICIENT;
+		if (NewMax != _size)
+		{
+			_size = NewMax;
+			ResizeData(_size);
+		}
+	}
+private:
+	constexpr static float RESIZE_COEFFICIENT = 1.5;
+	fpAllocatorInterface* _allocator;
+	ElemType* _data;
+	uint32 _size;
+};
+template <typename ElemType,typename AllocatorType = fpDefaultArrayAllocator<ElemType>>
 class fpArray
 {
-	const float RESIZE_COEFFICIENT = 1.5;
 	typedef fpArray<ElemType> SelfType;
 public:
-	fpArray() :_data(nullptr), _allocator(nullptr), _arrayMax(0), _length(0)
+	fpArray() :_allocator(AllocatorType()), _length(0)
 	{}
 	fpArray(uint32 inSize)
-		:_allocator( fpMemory::GetCommonHeap()->MakeAllocator()),
+		:_allocator( AllocatorType()),
 		 _length(inSize)
 	{
-		_arrayMax = inSize *RESIZE_COEFFICIENT;
-		_data = static_cast<ElemType*>(_allocator->Allocate(_arrayMax));
-		ConstructItems<ElemType>(_data, inSize);
+		_allocator.AllocateData(inSize);
+		ConstructItems<ElemType>(_allocator.GetData(), inSize);
 	}
-	fpArray(uint32 inSize, fpHeapInterface* HeapPtr)
-		:_arrayMax(inSize*RESIZE_COEFFICIENT),_allocator(HeapPtr->MakeAllocator())
-	{
-		_data = static_cast<ElemType*>(_allocator->Allocate(_arrayMax));
-		ConstructItems(_data, inSize);
-		_length = inSize;
-	}
+
 	fpArray(SelfType&& other)
 	{
-		this->_data = other._data;
-		this->_arrayMax = other._arrayMax;
 		this->_allocator = other._allocator;
 		this->_length = other._length;
-		other._data = nullptr;
-		other._arrayMax = 0;
 		other._allocator = nullptr;
 		other._length = 0;
 	}
 	fpArray(const SelfType& other)
 	{
-		this->_data = other._data;
-		this->_arrayMax = other._arrayMax;
 		this->_allocator = other._allocator;
 		this->_length = other._length;
 	}
 	template<typename OtherElemType>
 	fpArray(const fpArray<OtherElemType>& other)
 	{
-		this->_data = other._data;
-		this->_arrayMax = other._arrayMax;
 		this->_allocator = other._allocator;
 		this->_length = other._length;
 	}
 	template<typename OtherElemType>
 	fpArray(fpArray<OtherElemType>&& other)
 	{
-		this->_data = other._data;
-		this->_arrayMax = other._arrayMax;
 		this->_allocator = other._allocator;
 		this->_length = other._length;
-		other._data = nullptr;
-		other._arrayMax = 0;
 		other._allocator = nullptr;
 		other._length = 0;
 	}
+	fpArray(std::initializer_list<ElemType> InitList)
+		:_allocator(AllocatorType())
+	{		
+		CreateFromRange(InitList.begin(), InitList.size());
+	}
+
 	FORCEINLINE ElemType& operator[](uint32 index)
 	{
 		return At(index);
@@ -73,10 +110,8 @@ public:
 		return (const ElemType&)At(index);
 	}
 	FORCEINLINE void  Resize(uint32 inNewLen)
-	{
-		_arrayMax = inNewLen*RESIZE_COEFFICIENT;
-		ReallocateDataSize(_arrayMax);
-
+	{	
+		ReallocateDataSize(inNewLen);
 	}
 	FORCEINLINE bool IsValidIndex(uint32 Index) const
 	{
@@ -147,82 +182,73 @@ public:
 	template<typename... Args>
 	FORCEINLINE uint32 EmplaceBack(Args&&... inArgs)
 	{
+		assert(!(GetUnusedSpace() < 0));
 		uint32 index = _length;
 		if (GetUnusedSpace() == 0)
 		{
 			Resize(_length + 1);
 		}
-		new(_data + index)ElemType(fpTemplate::fpForward<Args>(inArgs)...);
+		new(_allocator.GetData() + index)ElemType(fpTemplate::fpForward<Args>(inArgs)...);
 		++_length;
 		return index;
 	}
 	~fpArray()
 	{
-		_allocator->Free(_data, _arrayMax);
-		_data = nullptr;
+		_allocator.FreeData();
 	};
 private:
 	FORCEINLINE ElemType& At(uint32 index)
 	{	
 		CheckIndex(index);
-		return *((ElemType*)((UINTPTR)_data + index * sizeof(ElemType)));
+		return *((ElemType*)((UINTPTR)_allocator.GetData() + index * sizeof(ElemType)));
 	}
 	FORCEINLINE const ElemType& At(uint32 index)const
 	{
 		CheckIndex(index);
-		return *((ElemType*)((UINTPTR)_data + index * sizeof(ElemType)));
+		return *((ElemType*)((UINTPTR)_allocator.GetData() + index * sizeof(ElemType)));
 	}
 	FORCEINLINE void RemovePrivate(uint32 Index, uint32 inCount, bool bShrinkAlowed = true)
 	{
 		if (!inCount) { return; }
 		RangeCheck(Index, Index + inCount - 1);
-		DestroyItems(_data + Index, inCount);
-		int32 MoveCount = _arrayMax - Index - inCount;
+		DestroyItems(_allocator.GetData() + Index, inCount);
+		int32 MoveCount = _allocator.GetDataSize() - Index - inCount;
 		if (MoveCount > 0)
 		{
 			fpPlatformMemory::MemMove
 			(
-				(uint8*)_data + (Index * sizeof(ElemType)),
-				((uint8*)_data + ((Index + inCount) * sizeof(ElemType))),
+				(uint8*)_allocator.GetData() + (Index * sizeof(ElemType)),
+				((uint8*)_allocator.GetData() + ((Index + inCount) * sizeof(ElemType))),
 				sizeof(ElemType)*MoveCount
 			);
 		}
 		if (bShrinkAlowed)
 		{
-			Shrink();
+			_allocator.Shrink(_length);
 		}
 	}
 	
-	FORCEINLINE uint32 GetUnusedSpace()
+	FORCEINLINE int32 GetUnusedSpace()
 	{
-		return _arrayMax - _length;
+		return _allocator.GetDataSize() - _length;
 	}
 	FORCEINLINE void CheckIndex(uint32 Index)const
 	{
 		assert(IsValidIndex(Index));
 	}
-	FORCEINLINE void RangeCheck(uint32 inStart, uint32 inEnd)
+	FORCEINLINE void RangeCheck(uint32 Start, uint32 End)
 	{
-		CheckIndex(inStart);
-		CheckIndex(inEnd);
+		CheckIndex(Start);
+		CheckIndex(End);
 	}
-	FORCEINLINE void Shrink()
+	FORCEINLINE void  ReallocateDataSize(uint32 NewLen)
 	{
-		uint32 NewMax = _length * RESIZE_COEFFICIENT; 
-		if (NewMax != _arrayMax)
-		{
-			_arrayMax = NewMax;
-			ReallocateDataSize(_arrayMax);
-		}
-		
-	}
-	FORCEINLINE void  ReallocateDataSize(uint32 inNewMaxSize)
-	{
-		_data = static_cast<ElemType*>(_allocator->Realloc(_data, inNewMaxSize * sizeof(ElemType)));
+		_allocator.ResizeData(NewLen);
 	}
 	FORCEINLINE void InsertPrivate(uint32 Index, const ElemType& inElement)
 	{
 		int32 MoveCount = _length - Index;
+		assert(!(GetUnusedSpace() < 0));
 		if (GetUnusedSpace() == 0)
 		{
 			Resize(_length + 1);
@@ -231,16 +257,17 @@ private:
 		{
 			fpPlatformMemory::MemMove
 			(
-				(uint8*)_data + ((Index + 1) * sizeof(ElemType)),
-				((uint8*)_data + (Index  * sizeof(ElemType))),
+				(uint8*)_allocator.GetData() + ((Index + 1) * sizeof(ElemType)),
+				((uint8*)_allocator.GetData() + (Index  * sizeof(ElemType))),
 				sizeof(ElemType)*MoveCount
 			);
 		}
-		*(_data+Index) = inElement;
+		*(_allocator.GetData() +Index) = inElement;
 		++_length;
 	}
 	FORCEINLINE void InsertPrivate(uint32 Index,ElemType&& inElement)
 	{
+		assert(!(GetUnusedSpace() < 0));
 		int32 MoveCount = _length - Index;
 		if (GetUnusedSpace() == 0)
 		{
@@ -251,18 +278,24 @@ private:
 		{
 			fpPlatformMemory::MemMove
 			(
-				(uint8*)_data + ((Index + 1) * sizeof(ElemType)),
-				((uint8*)_data + (Index * sizeof(ElemType))),
+				(uint8*)_allocator.GetData() + ((Index + 1) * sizeof(ElemType)),
+				((uint8*)_allocator.GetData() + (Index * sizeof(ElemType))),
 				sizeof(ElemType)*MoveCount
 			);
 		}
-		*(_data + Index) = fpTemplate::fpMove(inElement);
+		*(_allocator.GetData() + Index) = fpTemplate::fpMove(inElement);
 		++_length;
 	}
+	FORCEINLINE void CreateFromRange(const ElemType* BeginPtr, uint32 inCount)
+	{
+		assert(_allocator.GetData() == nullptr);
+		_length = inCount;
+		Resize(_length);
+		ConstructItems<ElemType>(_allocator.GetData(), BeginPtr, _length);
+	}
+
 private:	
-	ElemType* _data;
-	fpAllocatorInterface* _allocator;
-	uint32 _arrayMax;
+	AllocatorType _allocator;
 	uint32 _length;
 };
 #endif //FLYPARTENGINE_FPARRAY_H

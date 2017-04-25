@@ -37,6 +37,21 @@ FORCEINLINE typename fpEnableIf<fpHasTrivialConstructor<ElemType>::Value>::Type 
 {
 	fpPlatformMemory::MemSet(ElementDest, 0, sizeof(ElemType)*Count);
 }
-
+template<typename ElemType>
+FORCEINLINE typename fpEnableIf<!fpIsPODType<ElemType>::Value>::Type ConstructItems(void* Dest, const ElemType* Src, uint32 Count)
+{
+	while (Count)
+	{
+		new(Dest)ElemType(*Src);
+		++Src;
+		++(ElemType*&)Dest;
+		--Count;
+	}
+}
+template<typename ElemType>
+FORCEINLINE typename fpEnableIf<fpIsPODType<ElemType>::Value>::Type ConstructItems(void* Dest, const ElemType* Src, uint32 Count)
+{
+	fpPlatformMemory::MemCopy(Dest, Src, Count*sizeof(ElemType));
+}
 #endif
 
