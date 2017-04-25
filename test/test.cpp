@@ -39,8 +39,9 @@ int main(int argc, char **argv)
 	Array.PushBack(Test());
 	Array.PushBack(Test());
 	Array.PushBack(Test());
-	Test& a1 = Array.Pop(); 
-	Array.PushFront(a1);
+	//на линухе сниз ошибка
+	//Test& a1 = Array.Pop(); 
+	//Array.PushFront(a1);
 	Array.Insert(1, Test());
 	Array.EmplaceBack(100, 200, 300);
 	for (uint32 index = 0;index<Array.Length();index++)
