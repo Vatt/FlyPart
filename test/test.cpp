@@ -34,7 +34,6 @@ int main(int argc, char **argv)
 	//fpPlatformMemory::UpdateMemoryStats();
 	//HeapTester::InitTester(fpMemory::GetCommonHeap(), 65536*10, 0, 1, 32752);
 	//HeapTester::RunTests();
-
 	fpArray<Test> Array = { Test(),Test(),Test() }; ;// {5, 8, 7, 9, 7, 5, 2, 6};//
 	Array.PushBack(Test());
 	Array.PushBack(Test());
@@ -44,9 +43,11 @@ int main(int argc, char **argv)
 	//Array.PushFront(a1);
 	Array.Insert(1, Test());
 	Array.EmplaceBack(100, 200, 300);
-	for (uint32 index = 0;index<Array.Length();index++)
+	auto end_it = Array.end();
+	auto len = Array.Length();
+	for (auto it=Array.begin();it!=end_it;it++)
 	{
-		Array[index].SelfPrint();
+		it->SelfPrint();
 	}
 
 	//for (uint32 index = 0; index<Array.Length(); index++)

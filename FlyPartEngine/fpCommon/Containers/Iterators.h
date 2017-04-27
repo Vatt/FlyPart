@@ -7,7 +7,7 @@ template<typename ContainerType,typename ElemType, typename IndexType>
 class fpIndexedIterator
 {
 	typedef fpIndexedIterator<ContainerType, ElemType, IndexType>& SelfRef;
-	typedef fpIndexedIterator<ContainerType, ElemType, IndexType> const & SelfConstRef;
+	typedef fpIndexedIterator<ContainerType, ElemType, IndexType> const & ConstSelfRef;
 	typedef fpIndexedIterator<ContainerType, ElemType, IndexType> Self;
 	typedef ContainerType& ContainerRefType;
 public:
@@ -72,7 +72,14 @@ public:
 	{
 		_index = 0;
 	}
-	
+	FORCEINLINE friend bool operator==(fpIndexedIterator& Rhs, fpIndexedIterator& Lhs)
+	{
+		return Rhs._container == Lhs._container && Rhs._index == Lhs._index;
+	}
+	FORCEINLINE friend bool operator!=(fpIndexedIterator& Rhs, fpIndexedIterator& Lhs)
+	{
+		return Rhs._container != Lhs._container || Rhs._index != Lhs._index;
+	}
 private:
 	fpIndexedIterator();
 	ContainerRefType _container;

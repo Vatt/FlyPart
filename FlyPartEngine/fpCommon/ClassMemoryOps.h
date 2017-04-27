@@ -53,5 +53,28 @@ FORCEINLINE typename fpEnableIf<fpIsPODType<ElemType>::Value>::Type ConstructIte
 {
 	fpPlatformMemory::MemCopy(Dest, Src, Count*sizeof(ElemType));
 }
+template<typename Type>
+FORCEINLINE constexpr Type* fpAddressOf(Type& Value)
+{
+	return (__builtin_addressof(Value));
+}
+
+template<typename ElemType>
+FORCEINLINE typename fpEnableIf<fpIsBitwiseComparable<ElemType>::Value,bool>::Type CompareItems(ElemType* A, ElemType* B, uint32 Count)
+{
+	fpPlatformMemory::MemCmp(A,B,Count)
+}
+template<typename ElemType>
+FORCEINLINE typename fpEnableIf<!fpIsBitwiseComparable<ElemType>::Value,bool>::Type CompareItems(ElemType* A, ElemType* B, uint32 Count)
+{
+	while (count)
+	{
+		if (!(*A == *B)) { return false; }
+		++A;
+		++B;
+		--Count;
+	}
+	return true;
+}
 #endif
 

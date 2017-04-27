@@ -1,59 +1,9 @@
 #ifndef _FPARRAY_H_
 #define _FPARRAY_H_
 #include "../ClassMemoryOps.h"
-#include "../../Core/CoreAbstractLayer/Memory/fpHeapInterface.h"
 #include "Iterators.h"
-/*
-*Запилить совместимый с std::allocator интерфейс
-*/
-template <typename ElemType>
-class fpDefaultArrayAllocator {
-public:
-	fpDefaultArrayAllocator()
-	{
-		_allocator = fpMemory::GetCommonHeap()->MakeAllocator();
-		_size = 0;
-		_data = nullptr;
-	}
-	FORCEINLINE void AllocateData(uint32 Count)
-	{
-		_size = Count * sizeof(ElemType)*RESIZE_COEFFICIENT;
-		_data = _allocator->Allocate(_size);
-	}
-	FORCEINLINE void ResizeData(uint32 inNewSize)
-	{
-		_size = inNewSize*RESIZE_COEFFICIENT;
-		_data = static_cast<ElemType*>(_allocator->Realloc(_data,_size));
-	}
-	FORCEINLINE void FreeData()
-	{
-		_allocator->Free(_data,_size);
-		_size = 0;
-		_data = nullptr;
-	}
-	FORCEINLINE ElemType* GetData()const
-	{
-		return _data;
-	}
-	FORCEINLINE uint32 GetDataSize()const
-	{
-		return _size;
-	}
-	FORCEINLINE void Shrink(uint32 RealLength)
-	{
-		uint32 NewMax = RealLength * RESIZE_COEFFICIENT;
-		if (NewMax != _size)
-		{
-			_size = NewMax;
-			ResizeData(_size);
-		}
-	}
-private:
-	constexpr static float RESIZE_COEFFICIENT = 1.5;
-	fpAllocatorInterface* _allocator;
-	ElemType* _data;
-	uint32 _size;
-};
+#include "ContainerAllocators.h"
+
 template <typename ElemType,typename AllocatorType = fpDefaultArrayAllocator<ElemType>>
 class fpArray
 {
@@ -65,7 +15,7 @@ public:
 		:_allocator( AllocatorType()),
 		 _length(inSize)
 	{
-		_allocator.AllocateData(inSize);
+		_allocator.Allocate(inSize);
 		ConstructItems<ElemType>(_allocator.GetData(), inSize);
 	}
 
@@ -153,6 +103,16 @@ public:
 		--_length;
 		return top;
 	}
+	FORCEINLINE ElemType& At(uint32 index)
+	{
+		CheckIndex(index);
+		return *((ElemType*)((UINTPTR)_allocator.GetData() + index * sizeof(ElemType)));
+	}
+	FORCEINLINE const ElemType& At(uint32 index)const
+	{
+		CheckIndex(index);
+		return *((ElemType*)((UINTPTR)_allocator.GetData() + index * sizeof(ElemType)));
+	}
 	FORCEINLINE void PushFront(const ElemType& inElement)
 	{
 		InsertPrivate(0, inElement);
@@ -192,27 +152,37 @@ public:
 		++_length;
 		return index;
 	}
+	bool operator!=(const fpArray& Rhs) const
+	{
+		return !(*this == Rhs);
+	}
+	bool operator==(const fpArray& Rhs) const
+	{
+		return this->_allocator.GetData() == Rhs._allocator.GetData() &&
+			   this->_length == Rhs._length;
+	}
+	fpIndexedIterator<SelfType,ElemType, uint32>& begin()
+	{
+		return fpIndexedIterator<SelfType, ElemType, uint32>(*this, 0);
+	}
+	fpIndexedIterator<SelfType, ElemType, uint32>& end()
+	{
+		/*fpIndexedIterator<SelfType, ElemType, uint32>(*this, _length-1);*/
+		return fpIndexedIterator<SelfType, ElemType, uint32>(*this, _length);
+	}
+
 	~fpArray()
 	{
 		_allocator.FreeData();
 	};
 private:
-	FORCEINLINE ElemType& At(uint32 index)
-	{	
-		CheckIndex(index);
-		return *((ElemType*)((UINTPTR)_allocator.GetData() + index * sizeof(ElemType)));
-	}
-	FORCEINLINE const ElemType& At(uint32 index)const
-	{
-		CheckIndex(index);
-		return *((ElemType*)((UINTPTR)_allocator.GetData() + index * sizeof(ElemType)));
-	}
+
 	FORCEINLINE void RemovePrivate(uint32 Index, uint32 inCount, bool bShrinkAlowed = true)
 	{
 		if (!inCount) { return; }
 		RangeCheck(Index, Index + inCount - 1);
 		DestroyItems(_allocator.GetData() + Index, inCount);
-		int32 MoveCount = _allocator.GetDataSize() - Index - inCount;
+		int32 MoveCount = _allocator.MaxSize() - Index - inCount;
 		if (MoveCount > 0)
 		{
 			fpPlatformMemory::MemMove
@@ -230,7 +200,7 @@ private:
 	
 	FORCEINLINE int32 GetUnusedSpace()
 	{
-		return _allocator.GetDataSize() - _length;
+		return _allocator.MaxSize() - _length;
 	}
 	FORCEINLINE void CheckIndex(uint32 Index)const
 	{
@@ -243,7 +213,7 @@ private:
 	}
 	FORCEINLINE void  ReallocateDataSize(uint32 NewLen)
 	{
-		_allocator.ResizeData(NewLen);
+		_allocator.ReallocateData(NewLen);
 	}
 	FORCEINLINE void InsertPrivate(uint32 Index, const ElemType& inElement)
 	{

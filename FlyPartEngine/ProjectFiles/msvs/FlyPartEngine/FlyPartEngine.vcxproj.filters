@@ -95,6 +95,9 @@
     <ClInclude Include="..\..\..\fpCommon\ClassTraits.h">
       <Filter>fpCommon</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\fpCommon\Containers\ContainerAllocators.h">
+      <Filter>fpCommon\Containers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="fpCommon">

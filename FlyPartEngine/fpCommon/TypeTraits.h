@@ -57,6 +57,10 @@ template<> struct fpIsVoidType<void volatile>          {enum{Value = true};};
 template<> struct fpIsVoidType<const void volatile>    {enum{Value = true};};
 
 
+template<typename T> struct fpIsEnum{ enum{Value = __is_enum(T)}; };
+
+template<typename T> struct fpIsBitwiseComparable{enum{Value = fpIsArithmeticType<T>||fpIsEnum<T>||fpIsPointerType<T>}; };
+
 template<typename T> struct fpIsFunction { enum { Value = false }; };
 template<typename RetType,typename ... Args>
 struct fpIsFunction<RetType(Args...)>
