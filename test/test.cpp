@@ -43,9 +43,9 @@ int main(int argc, char **argv)
 	//Array.PushFront(a1);
 	Array.Insert(1, Test());
 	Array.EmplaceBack(100, 200, 300);
-	auto end_it = Array.end();
 	auto len = Array.Length();
-	for (auto it=Array.begin();it!=end_it;it++)
+	/*Возвращает по значение а не по адресу*/
+	for (auto it=Array.begin();it != Array.end();it++)
 	{
 		it->SelfPrint();
 	}

@@ -4,14 +4,14 @@
 #include "../../Core/CoreAbstractLayer/CoreAbstractLayerInclude.h"
 #include "../TypeTraits.h"
 template<typename ContainerType,typename ElemType, typename IndexType>
-class fpIndexedIterator
+class fpIndexedAraryIterator
 {
-	typedef fpIndexedIterator<ContainerType, ElemType, IndexType>& SelfRef;
-	typedef fpIndexedIterator<ContainerType, ElemType, IndexType> const & ConstSelfRef;
-	typedef fpIndexedIterator<ContainerType, ElemType, IndexType> Self;
+	typedef fpIndexedAraryIterator<ContainerType, ElemType, IndexType>& SelfRef;
+	typedef fpIndexedAraryIterator<ContainerType, ElemType, IndexType> const & ConstSelfRef;
+	typedef fpIndexedAraryIterator<ContainerType, ElemType, IndexType> Self;
 	typedef ContainerType& ContainerRefType;
 public:
-	fpIndexedIterator(ContainerRefType inContainer, IndexType inStartPosition = 0)
+	fpIndexedAraryIterator(ContainerRefType inContainer, IndexType inStartPosition = 0)
 		:_container(inContainer),
 		_index(inStartPosition)
 	{}
@@ -72,18 +72,19 @@ public:
 	{
 		_index = 0;
 	}
-	FORCEINLINE friend bool operator==(fpIndexedIterator& Rhs, fpIndexedIterator& Lhs)
+	FORCEINLINE friend bool operator==(fpIndexedAraryIterator& Rhs, fpIndexedAraryIterator& Lhs)
 	{
 		return Rhs._container == Lhs._container && Rhs._index == Lhs._index;
 	}
-	FORCEINLINE friend bool operator!=(fpIndexedIterator& Rhs, fpIndexedIterator& Lhs)
+	FORCEINLINE friend bool operator!=(fpIndexedAraryIterator& Rhs, fpIndexedAraryIterator& Lhs)
 	{
 		return Rhs._container != Lhs._container || Rhs._index != Lhs._index;
 	}
 private:
-	fpIndexedIterator();
+	fpIndexedAraryIterator();
 	ContainerRefType _container;
 	IndexType _index;
 };
+
 
 #endif

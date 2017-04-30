@@ -7,7 +7,45 @@
 template <typename ElemType,typename AllocatorType = fpDefaultArrayAllocator<ElemType>>
 class fpArray
 {
+private:
 	typedef fpArray<ElemType> SelfType;
+
+
+	template<typename ElemType>
+	class fpRangedForIterator
+	{
+	public:
+		fpRangedForIterator(ElemType* inPtr, uint32 inIndex)
+			:_itPtr(inPtr),
+			_currentIndex(inIndex),
+			_initialIndex(inIndex)
+		{}
+		FORCEINLINE ElemType& operator*()const
+		{
+			return _itPtr;
+		}
+		FORCEINLINE fpRangedForIterator& operator++()
+		{
+			++_itPtr;
+			return *this;
+		}
+		FORCEINLINE fpRangedForIterator& operator--()
+		{
+			--_itPtr;
+			return *this;
+		}
+	private:
+		ElemType* _itPtr;
+		const uint32 _initialIndex;
+		uint32 _currentIndex;
+
+		FORCEINLINE friend bool operator !=(const fpRangedForIterator& Lhs, const fpRangedForIterator& Rhs)
+		{
+			/*TODO: запилить ошибку куданибудь в лог*/
+			assert(Lhs._currentIndex == Lhs._initialIndex);
+			return Lhs._itPtr != Rhs._itPtr;
+		}
+	};
 public:
 	fpArray() :_allocator(AllocatorType()), _length(0)
 	{}
@@ -161,14 +199,13 @@ public:
 		return this->_allocator.GetData() == Rhs._allocator.GetData() &&
 			   this->_length == Rhs._length;
 	}
-	fpIndexedIterator<SelfType,ElemType, uint32>& begin()
+	fpIndexedAraryIterator<SelfType,ElemType,uint32>& begin()
 	{
-		return fpIndexedIterator<SelfType, ElemType, uint32>(*this, 0);
+		return fpIndexedAraryIterator<SelfType, ElemType, uint32>(*this, 0);
 	}
-	fpIndexedIterator<SelfType, ElemType, uint32>& end()
+	fpIndexedAraryIterator<SelfType,ElemType,uint32> end()
 	{
-		/*fpIndexedIterator<SelfType, ElemType, uint32>(*this, _length-1);*/
-		return fpIndexedIterator<SelfType, ElemType, uint32>(*this, _length);
+		return fpIndexedAraryIterator<SelfType, ElemType, uint32>(*this, _length);
 	}
 
 	~fpArray()
