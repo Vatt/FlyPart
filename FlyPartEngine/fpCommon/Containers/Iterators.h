@@ -14,7 +14,9 @@ public:
 	fpIndexedAraryIterator(ContainerRefType inContainer, IndexType inStartPosition = 0)
 		:_container(inContainer),
 		_index(inStartPosition)
-	{}
+	{
+		_container.IsValidIndex(_index);
+	}
 	SelfRef operator++()
 	{
 		++_index;
@@ -79,6 +81,24 @@ public:
 	FORCEINLINE friend bool operator!=(fpIndexedAraryIterator& Rhs, fpIndexedAraryIterator& Lhs)
 	{
 		return Rhs._container != Lhs._container || Rhs._index != Lhs._index;
+	}
+	FORCEINLINE friend fpIndexedAraryIterator operator+(fpIndexedAraryIterator& Rhs, fpIndexedAraryIterator& Lhs)
+	{
+		assert(Rhs._container == Lhs._container);
+		return fpIndexedAraryIterator(Rhs._container,Lhs._index+Rhs._index);
+	}
+	FORCEINLINE fpIndexedAraryIterator operator+(fpIndexedAraryIterator& Rhs)
+	{
+		assert(this->_container == Rhs._container);
+		return fpIndexedAraryIterator(this->_container, this->_index + Rhs._index);
+	}
+	FORCEINLINE operator bool()const
+	{
+		return _container.IsValidIndex(_index);
+	}
+	FORCEINLINE bool operator !()const
+	{
+		return !(bool)*this;
 	}
 private:
 	fpIndexedAraryIterator();

@@ -67,7 +67,7 @@ FORCEINLINE typename fpEnableIf<fpIsBitwiseComparable<ElemType>::Value,bool>::Ty
 template<typename ElemType>
 FORCEINLINE typename fpEnableIf<!fpIsBitwiseComparable<ElemType>::Value,bool>::Type CompareItems(ElemType* A, ElemType* B, uint32 Count)
 {
-	while (count)
+	while (Count)
 	{
 		if (!(*A == *B)) { return false; }
 		++A;
