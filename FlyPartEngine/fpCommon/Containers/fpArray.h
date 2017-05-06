@@ -276,17 +276,127 @@ public:
 	{
 		return ConstIteratorType(*this, 0);
 	}
-	IteratorType CreateEndIterator()
+	IteratorType CreateReverseIterator()
 	{
 		return IteratorType(*this, _length-1);
 	}
-	ConstIteratorType CreateEndConstIterator()const
+	ConstIteratorType CreateReverseConstIterator()const
 	{
 		return ConstIteratorType(*this, _length);
 	}
 	const ElemType* GetData()
 	{
 		return static_cast<const ElemType*>(_allocator.GetData());
+	}
+
+	FORCEINLINE bool Find(const ElemType& Element, uint32& Index)const
+	{
+		Index = this->Find(Element);
+		return Index != -1;
+	}
+	FORCEINLINE int32 Find(const ElemType& Element)const
+	{
+		const ElemType* RESTRICT Data = _allocator.GetData();
+		for (const ElemType* RESTRICT It = Data, *RESTRICT End = Data + _length;
+			It != End;
+			++It)
+		{
+			if (*It == Element)
+			{
+				return static_cast<int32>(It - Data);
+			}
+		}
+		return -1;
+	}
+	template<typename PredicateType>
+	FORCEINLINE bool Find(PredicateType Predicate, uint32& Index)const
+	{
+		Index = this->Find(Predicate);
+		return Index != -1;
+	}
+	template<typename PredicateType>
+	FORCEINLINE int32 Find(PredicateType Predicate)const
+	{
+		const ElemType* RESTRICT Data = _allocator.GetData();
+		for (const ElemType* RESTRICT It = Data, *RESTRICT End = Data + _length;
+			It != End;
+			++It)
+		{
+			if (Predicate(*It))
+			{
+				return static_cast<int32>(It - Data);
+			}
+		}
+		return -1;
+	}
+	template<typename PredicateType>
+	FORCEINLINE int32 Find(PredicateType Predicate,uint32 StartIndex)const
+	{
+		const ElemType* RESTRICT Data = _allocator.GetData();
+		for (const ElemType* RESTRICT It = Data+StartIndex, *RESTRICT End = Data + _length;
+			It != End;
+			++It)
+		{
+			if (Predicate(*It))
+			{
+				return static_cast<int32>(It - Data);
+			}
+		}
+		return -1;
+	}
+	FORCEINLINE bool FindLast(const ElemType& Element, uint32& Index)const
+	{
+		Index = this->FindLast(Element);
+		return Index != -1;
+	}
+	FORCEINLINE int32 FindLast(const ElemType& Element)const
+	{
+		const ElemType* RESTRICT Data = _allocator.GetData();
+		for (const ElemType* RESTRICT Start = Data, *RESTRICT It = Start + _length; It != Start; )
+		{
+			--It;
+			if (*It == Element)
+			{
+				return static_cast<int32>(It - Data);
+			}
+		}
+		return -1;
+	}
+	template<typename PredicateType>
+	FORCEINLINE bool FindLast(PredicateType Predicate, uint32& Index)const
+	{
+		Index = this->FindLast(Predicate);
+		return Index != -1;
+	}
+	template<typename PredicateType>
+	FORCEINLINE int32 FindLast(PredicateType Predicate)const
+	{
+		const ElemType* RESTRICT Data = _allocator.GetData();
+		for (const ElemType* RESTRICT Start = Data, *RESTRICT It = Start + _length; It != Start; )
+		{
+			--It;
+			if (Predicate(*It))
+			{
+				return static_cast<int32>(It - Data);
+			}
+		}
+		return -1;
+	}
+	template<typename PredicateType>
+	fpArray<ElemType> Filter(PredicateType Predicate)
+	{
+		fpArray<ElemType> Filtered;
+		const ElemType* RESTRICT Data = _allocator.GetData();
+		for (const ElemType* RESTRICT It = Data, *RESTRICT End = Data + _length;
+			It != End;
+			++It)
+		{
+			if (Predicate(*It))
+			{
+				Filtered.PushBack(*It);
+			}
+		}
+		return Filtered;
 	}
 private:
 
@@ -400,6 +510,7 @@ private:
 	{
 		assert(_length <= _allocator.MaxSize() && _length >= 0);
 	}
+
 private:	
 	AllocatorType _allocator;
 	uint32 _length;

@@ -51,6 +51,14 @@ struct Test {
 		other.z = -1;
 		return *this;
 	}
+	bool operator==(const Test& other)
+	{
+		return x == other.x && y == other.y && z == other.z;
+	}
+	friend bool operator==(const Test& Lhs, const Test& Rhs)
+	{
+		return Lhs.x == Rhs.x && Lhs.y == Rhs.y && Lhs.z == Rhs.z;
+	}
 	void SelfPrint() const
 	{
 		std::cout << "x:" << x << " y:" << y << " z:" << z << std::endl;
@@ -73,7 +81,7 @@ int main(int argc, char **argv)
 	Array.PushBack(Test());
 	Array.PushBack(Test());
 	//на линухе сниз ошибка
-	//Test& a1 = Array.Pop(); 
+	Test& a1 = Array[4]; 
 	
 	
 
@@ -85,9 +93,21 @@ int main(int argc, char **argv)
 	//{
 	//	it.SelfPrint();
 	//}
-	for (auto it = Array.CreateEndIterator(); it; --it)
+	uint32 Index;
+	bool find_res = Array.FindLast(a1, Index);
+	int32 find_pre = Array.Find([&](const Test& t) {return t.x==13 && t.y==14&&t.z==15; },3);
+	auto filtered = Array.Filter([&](const Test& t) 
+	{
+		return t.x%7==0 || t.y%7==0 || t.z%7==0; 
+	});
+	for (auto it = Array.CreateReverseIterator(); it; --it)
 	{
 		it->SelfPrint();
+	}
+	std::cout << "----------------------------------------" <<std::endl;
+	for (auto item : filtered)
+	{
+		item.SelfPrint();
 	}
 	system("PAUSE");
 	return 0;
