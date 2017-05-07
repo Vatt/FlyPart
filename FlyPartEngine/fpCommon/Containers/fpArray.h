@@ -84,8 +84,11 @@ public:
 		CreateFromRange(other._allocator.GetData(), other._length);
 	}
 	fpArray(std::initializer_list<ElemType> InitList)
-		:_allocator(AllocatorType(InitList.size())),_length(InitList.size())
+		:/*_allocator(AllocatorType(InitList.size())),*/
+		_length(InitList.size())
 	{		
+		
+		_allocator.Allocate(InitList.size());
 		CreateFromRange(InitList.begin(), InitList.size());
 	}
 

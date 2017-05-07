@@ -109,6 +109,7 @@ int main(int argc, char **argv)
 	{
 		item.SelfPrint();
 	}
+	
 	system("PAUSE");
 	return 0;
 }

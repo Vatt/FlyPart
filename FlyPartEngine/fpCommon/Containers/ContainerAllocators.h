@@ -27,11 +27,6 @@ public:
 		_size = 0;
 		Allocate(_size);
 	}
-	fpDefaultArrayAllocator(uint32 Count)
-	{
-		_allocator = fpMemory::GetCommonHeap()->MakeAllocator();
-		Allocate(Count);
-	}
 	template<typename OtherType>
 	fpDefaultArrayAllocator(fpDefaultArrayAllocator<OtherType>&& other)
 	{
@@ -101,14 +96,6 @@ public:
 		_size = RealLength+1;
 	}
 
-	FORCEINLINE PointerType address(ReferenceType Value)
-	{
-		return fpAddressOf(Value);
-	}
-	FORCEINLINE ConstPointerType address(ConstReferenceType Value)
-	{
-		return fpAddressOf(Value);
-	}
 	/*
 	For fpArray never used
 	*/
@@ -131,6 +118,50 @@ private:
 	constexpr static float RESIZE_COEFFICIENT = 1.5;
 	fpAllocatorInterface* _allocator;
 	ElemType* _data;
+	uint32 _size;
+};
+
+template<typename ElemType>
+class fpDefaultListLikeAllocator :public AllocatorBase<ElemType, uint32>
+{
+	struct Node 
+	{
+		ElemType Data;
+		Node* Next;
+	};
+public:
+	fpDefaultListLikeAllocator()
+		:allocator(fpMemory::GetCommonHeap()->MakeAllocator()),
+		_size(0)
+	{
+		Allocate(_size);
+	}
+	FORCEINLINE void Allocate(uint32 Count)
+	{
+
+	}
+	FORCEINLINE void Deallocate(PointerType Ptr, uint32 Count)
+	{
+
+	}
+	FORCEINLINE void FreeData()
+	{
+
+	}
+	FORCEINLINE void Shrink(uint32 RealLength)
+	{
+
+	}
+	FORCEINLINE uint32 MaxSize()const
+	{
+		return _size;
+	}
+	~fpDefaultListLikeAllocator()
+	{
+
+	}
+private:
+	fpAllocatorInterface* _allocator;
 	uint32 _size;
 };
 #endif
