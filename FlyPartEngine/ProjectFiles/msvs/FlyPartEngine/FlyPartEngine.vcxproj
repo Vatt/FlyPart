@@ -165,7 +165,7 @@
     <ClInclude Include="..\..\..\fpCommon\ClassMemoryOps.h" />
     <ClInclude Include="..\..\..\fpCommon\ClassTraits.h" />
     <ClInclude Include="..\..\..\fpCommon\CommonHelperFunctions.h" />
-    <ClInclude Include="..\..\..\fpCommon\Containers\ContainerAllocators.h" />
+    <ClInclude Include="..\..\..\fpCommon\Containers\fpList.h" />
     <ClInclude Include="..\..\..\fpCommon\Containers\Iterators.h" />
     <ClInclude Include="..\..\..\fpCommon\Containers\fpArray.h" />
     <ClInclude Include="..\..\..\fpCommon\fpCallback.h" />

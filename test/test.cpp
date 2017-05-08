@@ -2,6 +2,7 @@
 #include "../FlyPartEngine/FlyPart.h"
 
 #include "../FlyPartEngine/fpCommon/Containers/fpArray.h"
+#include "../FlyPartEngine/fpCommon/Containers/fpList.h"
 #include "HeapTester/HeapTester.h"
 #include "SmartPtrTest/SmartPtrTest.h"
 #ifdef PLATFORM_LINUX
@@ -109,7 +110,7 @@ int main(int argc, char **argv)
 	{
 		item.SelfPrint();
 	}
-	
+	fpList<Test> list;
 	system("PAUSE");
 	return 0;
 }
