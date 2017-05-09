@@ -59,8 +59,8 @@ public:
 		FreeMemory* last;
 		FORCEINLINE TempPoolData() :header(nullptr), first(nullptr), last(nullptr)
 		{}
-		FORCEINLINE TempPoolData(PoolHeader* _header,FreeMemory* _head, FreeMemory* _last)
-			:header(_header),first(_head), last(_last)
+		FORCEINLINE TempPoolData(PoolHeader* _header,FreeMemory* _first, FreeMemory* _last)
+			:header(_header),first(_first), last(_last)
 		{}
 		TempPoolData(const TempPoolData& other)
 			:header(other.header), first(other.first), last(other.last)
