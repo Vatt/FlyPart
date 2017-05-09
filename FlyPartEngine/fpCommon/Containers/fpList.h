@@ -4,96 +4,93 @@
 #include "../../Core/CoreAbstractLayer/CoreAbstractLayerInclude.h"
 #include "../ClassMemoryOps.h"
 #include "../TypeTraits.h"
+
 template<typename NodeType, typename ElemType>
-class fpDefaultListLikeAllocator :public AllocatorBase<NodeType, uint32>
+class fpDefaultListAllocator :public AllocatorBase<NodeType, uint32>
 {
 public:
-	fpDefaultListLikeAllocator()
-		:_allocator(fpMemory::GetCommonHeap()->MakeAllocator()),
-		_size(0)
+	fpDefaultListAllocator()
+		:_allocator(fpMemory::GetCommonHeap()->MakeAllocator())
 	{
-		Allocate(_size);
 	}
-	FORCEINLINE PointerType Allocate(uint32 Count)
+	FORCEINLINE PointerType Allocate()
 	{
-		int32 counter = (int32)Count;
-		NodeType* node = (NodeType*)_allocator->Allocate(sizeof(NodeType));
-		new(node)NodeType();
-		++_size;
-		--counter;
-		NodeType* OldNode = node;
-		while (counter>0)
-		{
-			NodeType* NewNode = (NodeType*)_allocator->Allocate(sizeof(NodeType));
-			new(NewNode)NodeType();
-			OldNode->Next = NewNode;
-			OldNode = NewNode;
-			--counter;
-			++_size;
-		}
-		return node;
+		//int32 counter = (int32)Count;
+		//NodeType* node = nullptr;
+		//NodeType* OldNode;
+		//while (counter>0)
+		//{
+		//	node = (NodeType*)_allocator->Allocate(sizeof(NodeType));
+		//	new(node)NodeType();
+		//	OldNode->Next = node;
+		//	OldNode = node;
+		//	--counter;
+		//	++_size;
+		//}
+		//return node;
+		return (PointerType)_allocator->Allocate(sizeof(NodeType));
 	}
-	FORCEINLINE void Deallocate(PointerType Ptr, uint32 Count)
+	FORCEINLINE void Deallocate(PointerType Ptr)
+	{
+		DestroyItems(Ptr, 1);
+		_allocator->Free(Ptr, sizeof(NodeType));
+	}
+	~fpDefaultListAllocator()
 	{
 
-	}
-
-	FORCEINLINE void Shrink(uint32 RealLength)
-	{
-
-	}
-	FORCEINLINE uint32 MaxSize()const
-	{
-		return _size;
-	}
-	~fpDefaultListLikeAllocator()
-	{
-
-	}
-	FORCEINLINE void FreeData()
-	{
-		static_assert(true, "fpDefaultListLikeAllocator::FreeData never used for list like allcoators");
-	}
-	FORCEINLINE NodeType* ReallocateData(uint32 inNewSize)
-	{
-		static_assert(true, "fpDefaultListLikeAllocator::ReallocateData never used for list like allcoators");
 	}
 private:
 	fpAllocatorInterface* _allocator;
-	uint32 _size;
 };
 
 template<typename ElemType>
-struct fpListNode
+class fpSingleListNode
 {
-	ElemType Data;
-	fpListNode<ElemType>* Next;
-	fpListNode()
+public:
+	fpSingleListNode()
 		:Next(nullptr)
 	{}
-	fpListNode(const ElemType& Element)
+	fpSingleListNode(const ElemType& Element)
 		:Next(nullptr)
 	{
 		Data = Element;
 	}
-	fpListNode(ElemType&& Element)
+	fpSingleListNode(ElemType&& Element)
 		:Next(nullptr)
 	{
 		Data = Element;
 	}
+	fpSingleListNode(const fpSingleListNode& other)
+	{
+		Next = other.Next;
+		Data = other.Data;
+	}
+	fpSingleListNode(fpSingleListNode&& other)
+		:Next(other.Next),Data(other.Data)
+	{
+		other.Next = nullptr;
+		other.Data.ElemType::~ElemType();
+	}
+public:
+	fpSingleListNode<ElemType>* Next;
+	ElemType Data;
+
 };
 
-template<typename ElemType,typename AllocatorType=fpDefaultListLikeAllocator<fpListNode<ElemType>,ElemType>>
+template<typename ElemType,typename AllocatorType=fpDefaultListAllocator<fpSingleListNode<ElemType>,ElemType>>
 class fpList
 {
 public:
 	fpList()
 		:_length(0)
 	{
+		_head = _tail = _allocator.Allocate();
 	}
 private:
 	AllocatorType _allocator;
-	fpListNode<ElemType>* _first;
+	fpSingleListNode<ElemType>* _head;
+	fpSingleListNode<ElemType>* _tail;
 	uint32 _length;
 };
+
 #endif
