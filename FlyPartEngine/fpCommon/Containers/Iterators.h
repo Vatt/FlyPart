@@ -6,9 +6,9 @@
 template<typename ContainerType,typename ElemType, typename IndexType>
 class fpIndexedAraryIterator
 {
-	typedef fpIndexedAraryIterator<ContainerType, ElemType, IndexType>& SelfRef;
-	typedef fpIndexedAraryIterator<ContainerType, ElemType, IndexType> const & ConstSelfRef;
-	typedef fpIndexedAraryIterator<ContainerType, ElemType, IndexType> Self;
+	typedef fpIndexedAraryIterator<ContainerType, ElemType, IndexType>& TSelfRef;
+	typedef fpIndexedAraryIterator<ContainerType, ElemType, IndexType> const & TConstSelfRef;
+	typedef fpIndexedAraryIterator<ContainerType, ElemType, IndexType> TSelf;
 	typedef ContainerType& ContainerRefType;
 public:
 	fpIndexedAraryIterator(ContainerRefType inContainer, IndexType inStartPosition = 0)
@@ -17,45 +17,45 @@ public:
 	{
 		_container.IsValidIndex(_index);
 	}
-	SelfRef operator++()
+	TSelfRef operator++()
 	{
 		++_index;
 		return *this;
 	}
-	Self operator++(int)
+	TSelf operator++(int)
 	{
-		Self temp(*this);
+		TSelf temp(*this);
 		++_index;
 		return temp;
 	}
-	SelfRef operator--()
+	TSelfRef operator--()
 	{
 		--_index;
 		return *this;
 	}
-	Self operator--(int)
+	TSelf operator--(int)
 	{
-		Self temp(*this);
+		TSelf temp(*this);
 		--_index;
 		return temp;
 	}
-	SelfRef operator+=(int32 offset)
+	TSelfRef operator+=(int32 offset)
 	{
 		_index += offset;
 		return *this;
 	}
-	Self operator+(int32 offset) const
+	TSelf operator+(int32 offset) const
 	{
-		Self temp(*this);
+		TSelf temp(*this);
 		return temp += offset;
 	}
-	SelfRef operator-=(int32 offset)
+	TSelfRef operator-=(int32 offset)
 	{
 		return *this += -offset;;
 	}
-	Self operator-(int32 offset)const
+	TSelf operator-(int32 offset)const
 	{
-		Self temp(*this);
+		TSelf temp(*this);
 		return temp -= offset;
 	}
 	ElemType& operator* () const
@@ -92,7 +92,7 @@ public:
 		assert(this->_container == Rhs._container);
 		return fpIndexedAraryIterator(this->_container, this->_index + Rhs._index);
 	}
-	FORCEINLINE operator bool()const
+	FORCEINLINE explicit operator bool()const
 	{
 		return _container.IsValidIndex(_index);
 	}
@@ -101,7 +101,7 @@ public:
 		return !(bool)*this;
 	}
 private:
-	fpIndexedAraryIterator();
+	fpIndexedAraryIterator() = delete;
 	ContainerRefType _container;
 	IndexType _index;
 };

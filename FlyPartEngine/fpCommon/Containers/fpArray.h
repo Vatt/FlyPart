@@ -1,25 +1,25 @@
 #ifndef _FPARRAY_H_
 #define _FPARRAY_H_
+
+#include <initializer_list>
 #include "../ClassMemoryOps.h"
 #include "Iterators.h"
 #include "../../Core/CoreAbstractLayer/Memory/fpHeapInterface.h"
+#include <initializer_list>
 
-template <typename ElemType, typename _SizeType>
-struct AllocatorBase
+template <typename TElement>
+class fpDefaultArrayAllocator
 {
-	typedef const ElemType* ConstPointerType;
-	typedef ElemType* PointerType;
-	typedef ElemType& ReferenceType;
-	typedef const ElemType& ConstReferenceType;
-	typedef _SizeType SizeType;
-	typedef ElemType ValueType;
-};
-template <typename ElemType>
-class fpDefaultArrayAllocator :public AllocatorBase<ElemType, uint32>
-{
+	typedef const TElement* TConstPointer;
+	typedef TElement* TPointer;
+	typedef TElement& ReferenceType;
+	typedef const TElement& ConstReferenceType;
+	typedef uint32 TSize;
+	typedef TElement TValue;
 
-	typedef fpDefaultArrayAllocator<ElemType>& SelfRef;
-	template <typename OtherElemType, typename OtherAllocatorType> friend class fpArray;
+
+	typedef fpDefaultArrayAllocator<TElement>& TSelfRef;
+	template <typename TOtherElement, typename TOtherAllocator> friend class fpArray;
 public:
 	fpDefaultArrayAllocator()
 	{
@@ -27,52 +27,52 @@ public:
 		_size = 0;
 		Allocate(_size);
 	}
-	template<typename OtherType>
-	fpDefaultArrayAllocator(fpDefaultArrayAllocator<OtherType>&& other)
+	template<typename TOtherElement>
+	fpDefaultArrayAllocator(fpDefaultArrayAllocator<TOtherElement>&& other)
 	{
 		this->_data = other._data;
 		this->_size = other._size;
 		this->_allocator = other._allocator;
 	}
 
-	fpDefaultArrayAllocator(fpDefaultArrayAllocator<ElemType>&& other)
+	fpDefaultArrayAllocator(fpDefaultArrayAllocator<TElement>&& other)
 	{
 		this->_data = other._data;
 		this->_size = other._size;
 		this->_allocator = other._allocator;
 	}
-	template<typename OtherType>
-	SelfRef operator=(fpDefaultArrayAllocator<OtherType>&)
+	template<typename TOtherElement>
+	TSelfRef operator=(fpDefaultArrayAllocator<TOtherElement>&)
 	{
 		return *this;
 	}
-	FORCEINLINE ElemType* Allocate(uint32 Count)
+	FORCEINLINE TElement* Allocate(uint32 Count)
 	{
 		uint32 realNewSize = Count * RESIZE_COEFFICIENT;
 		if (Count == realNewSize) { realNewSize += 1; }
 		_size = realNewSize;
-		_data = static_cast<ElemType*>(_allocator->Allocate(_size * sizeof(ElemType)));
+		_data = static_cast<TElement*>(_allocator->Allocate(_size * sizeof(TElement)));
 		return _data;
 	}
-	FORCEINLINE ElemType* ReallocateData(uint32 inNewSize)
+	FORCEINLINE TElement* ReallocateData(uint32 inNewSize)
 	{
 		uint32 realNewSize = inNewSize * RESIZE_COEFFICIENT;
 		if (realNewSize == _size) { return _data; }
 		if (inNewSize == realNewSize) { realNewSize += 1; }
 		_size = realNewSize;
-		_data = static_cast<ElemType*>(_allocator->Realloc(_data, _size * sizeof(ElemType)));
+		_data = static_cast<TElement*>(_allocator->Realloc(_data, _size * sizeof(TElement)));
 		return _data;
 	}
 	FORCEINLINE void FreeData()
 	{
 		if (_allocator != nullptr && _size > 0 && _data != nullptr)
 		{
-			_allocator->Free(_data, _size * sizeof(ElemType));
+			_allocator->Free(_data, _size * sizeof(TElement));
 			_size = 0;
 			_data = nullptr;
 		}
 	}
-	FORCEINLINE PointerType GetData()const
+	FORCEINLINE TPointer GetData()const
 	{
 		return _data;
 	}
@@ -101,12 +101,12 @@ public:
 	/*
 	For fpArray never used
 	*/
-	FORCEINLINE void Deallocate(PointerType Ptr, uint32 Count)
+	FORCEINLINE void Deallocate(TPointer Ptr, uint32 Count)
 	{
 		assert(Count == _size);
 		FreeData();
 	}
-	/*Лютый костыль чтобы в Rvalue непохерились указатели*/
+	/*пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ Rvalue пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ*/
 	~fpDefaultArrayAllocator()
 	{
 		if (_size)
@@ -115,31 +115,33 @@ public:
 		}
 		_data = nullptr;
 		_size = 0;
+        //delete _allocator;
 	}
 private:
-	constexpr static float RESIZE_COEFFICIENT = 1.5;
+	constexpr static float RESIZE_COEFFICIENT = 1.3;
 	fpAllocatorInterface* _allocator;
-	ElemType* _data;
+	TElement* _data;
 	uint32 _size;
 };
 
-template <typename ElemType,typename AllocatorType = fpDefaultArrayAllocator<ElemType>>
+template <typename TElement,typename TAllocator = fpDefaultArrayAllocator<TElement>>
 class fpArray
 {
 private:
-	typedef fpArray<ElemType,AllocatorType> SelfType;
-	typedef fpIndexedAraryIterator<		 fpArray<ElemType>,       ElemType, uint32> IteratorType;
-	typedef fpIndexedAraryIterator<const fpArray<ElemType>, const ElemType, uint32> ConstIteratorType;
-	template<typename ElemType>
+	typedef fpArray<TElement,TAllocator> TSelf;
+	typedef fpIndexedAraryIterator<		 fpArray<TElement>,       TElement, uint32> TIterator;
+	typedef fpIndexedAraryIterator<const fpArray<TElement>, const TElement, uint32> TConstIterator;
+
+	template<typename TIteratorElement>
 	class fpRangedForIterator
 	{
 	public:
-		explicit fpRangedForIterator(ElemType* inPtr, uint32 inIndex)
+		explicit fpRangedForIterator(TIteratorElement* inPtr, uint32 inIndex)
 			:_itPtr(inPtr),
-			_currentIndex(inIndex),
-			_initialIndex(inIndex)
+			 _currentIndex(inIndex),
+			 _initialIndex(inIndex)
 		{}
-		FORCEINLINE ElemType& operator*()const
+		FORCEINLINE TIteratorElement& operator*()const
 		{
 			return *_itPtr;
 		}
@@ -154,56 +156,56 @@ private:
 			return *this;
 		}
 	private:
-		ElemType* _itPtr;
+		TIteratorElement* _itPtr;
 		const uint32 _initialIndex;
 		uint32 _currentIndex;
 
 		FORCEINLINE friend bool operator !=(const fpRangedForIterator& Lhs, const fpRangedForIterator& Rhs)
 		{
-			/*TODO: запилить ошибку куданибудь в лог*/
+			/*TODO: пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅ*/
 			assert(Lhs._currentIndex == Lhs._initialIndex);
 			return Lhs._itPtr != Rhs._itPtr;
 		}
 	};
-	typedef fpRangedForIterator<ElemType>		RangedForIterator;
-	typedef fpRangedForIterator<const ElemType> ConstRangedForIterator;
+	typedef fpRangedForIterator<TElement>		RangedForIterator;
+	typedef fpRangedForIterator<const TElement> ConstRangedForIterator;
 public:
-	fpArray() :_allocator(AllocatorType()), _length(0)
+	fpArray() :_allocator(TAllocator()), _length(0)
 	{}
 	fpArray(uint32 inSize)
-		:_allocator( AllocatorType()),
+		:_allocator( TAllocator()),
 		 _length(inSize)
 	{
 		_allocator.Allocate(inSize);
-		ConstructItems<ElemType>(_allocator.GetData(), inSize);
+		ConstructItems<TElement>(_allocator.GetData(), inSize);
 	}
 	template<typename OtherType,typename OtherAllocatorType>
 	fpArray(fpArray<OtherType,OtherAllocatorType>&& other)
 		:_allocator(fpMove(other._allocator)),_length(other._length)
 	{
-		/*Лютый костыль чтобы в Rvalue непохерились указатели,
-		* иначе деструктор уносит в АД выделнную память под массив
+		/*пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ Rvalue пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ,
+		* пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 		*/
 		other._length = 0;
 		other._allocator._size = 0;
 	}
-	fpArray(const SelfType& other)
+	fpArray(const TSelf& other)
 		:_allocator(other._length)
 	{
 		//this->_allocator = other._allocator;
 		this->_length = other._length;
 		CreateFromRange(other._allocator.GetData(), other._length);
 	}
-	template<typename OtherElemType, typename OtherAllocatorType>
-	explicit fpArray(const fpArray<OtherElemType, OtherAllocatorType>& other)
-		:_allocator(AllocatorType(other._length))
+	template<typename TOtherElement, typename TOtherAllocator>
+	explicit fpArray(const fpArray<TOtherElement, TOtherAllocator>& other)
+		:_allocator(TAllocator(other._length))
 	{
 		//this->_allocator = other._allocator;
 		this->_length = other._length;
 		CreateFromRange(other._allocator.GetData(), other._length);
 	}
-	fpArray(std::initializer_list<ElemType> InitList)
-		:/*_allocator(AllocatorType(InitList.size())),*/
+	fpArray(std::initializer_list<TElement> InitList)
+		:/*_allocator(TAllocator(InitList.size())),*/
 		_length(InitList.size())
 	{		
 		
@@ -211,13 +213,13 @@ public:
 		CreateFromRange(InitList.begin(), InitList.size());
 	}
 
-	FORCEINLINE ElemType& operator[](uint32 index)
+	FORCEINLINE TElement& operator[](uint32 index)
 	{
 		return At(index);
 	}
-	FORCEINLINE const ElemType& operator[](uint32 index)const
+	FORCEINLINE const TElement& operator[](uint32 index)const
 	{
-		return (const ElemType&)At(index);
+		return (const TElement&)At(index);
 	}
 	FORCEINLINE void  Resize(uint32 inNewLen)
 	{	
@@ -227,25 +229,25 @@ public:
 	{
 		return Index >= 0 && Index < _length;
 	}
-	FORCEINLINE const ElemType& Front() const 
+	FORCEINLINE const TElement& Front() const
 	{
 		CheckIndex(0);
-		return (const ElemType&)At(0);
+		return (const TElement&)At(0);
 	}
-	FORCEINLINE ElemType& Front()
+	FORCEINLINE TElement& Front()
 	{
 		CheckIndex(0);
 		return At(0);
 	}
-	FORCEINLINE ElemType& Back()
+	FORCEINLINE TElement& Back()
 	{
 		CheckIndex(_length - 1);
 		return At(_length - 1);
 	}
-	FORCEINLINE const ElemType& Back()const
+	FORCEINLINE const TElement& Back()const
 	{
 		CheckIndex(_length - 1);
-		return (const ElemType&)At(_length - 1);
+		return (const TElement&)At(_length - 1);
 	}
 	FORCEINLINE bool IsEmpty() const
 	{
@@ -255,39 +257,39 @@ public:
 	{
 		return _length;
 	}
-	FORCEINLINE ElemType Pop()
+	FORCEINLINE TElement Pop()
 	{
 		CheckIndex(0);
-		ElemType top = At(0);
+		TElement top = At(0);
 		RemovePrivate(0, 1, true);
 		--_length;
 		return top;
 	}
-	FORCEINLINE ElemType& At(uint32 index)
+	FORCEINLINE TElement& At(uint32 index)
 	{
 		CheckIndex(index);
-		return *((ElemType*)((UINTPTR)_allocator.GetData() + index * sizeof(ElemType)));
+		return *((TElement*)((UINTPTR)_allocator.GetData() + index * sizeof(TElement)));
 	}
-	FORCEINLINE const ElemType& At(uint32 index)const
+	FORCEINLINE const TElement& At(uint32 index)const
 	{
 		CheckIndex(index);
-		return *((ElemType*)((UINTPTR)_allocator.GetData() + index * sizeof(ElemType)));
+		return *((TElement*)((UINTPTR)_allocator.GetData() + index * sizeof(TElement)));
 	}
-	FORCEINLINE void PushFront(const ElemType& inElement)
+	FORCEINLINE void PushFront(const TElement& inElement)
 	{
 		InsertPrivate(0, inElement);
 	}
-	FORCEINLINE void Insert(uint32 Index, const ElemType& inElement)
+	FORCEINLINE void Insert(uint32 Index, const TElement& inElement)
 	{
 		CheckIndex(Index);
 		InsertPrivate(Index, inElement);
 	}
-	FORCEINLINE void Insert(uint32 Index, ElemType&& inElement)
+	FORCEINLINE void Insert(uint32 Index, TElement&& inElement)
 	{
 		CheckIndex(Index);
 		InsertPrivate(Index, fpTemplate::fpMove(inElement));
 	}
-	FORCEINLINE uint32 Insert(const fpArray<ElemType>& Other, const uint32 inIndex)
+	FORCEINLINE uint32 Insert(const fpArray<TElement>& Other, const uint32 inIndex)
 	{
 		assert(this != &Other);	
 		InsertEmptyPrivate(inIndex, Other._length);
@@ -295,44 +297,44 @@ public:
 		uint32 index = inIndex;
 		for (auto it = Other.CreateConstIterator(); it; ++it)
 		{
-			new(dataPtr + index) ElemType(fpTemplate::fpMove(*it));
+			new(dataPtr + index) TElement(fpTemplate::fpMove(*it));
 			index++;
 		}
 		return inIndex;
 	}
-	FORCEINLINE uint32 Insert(std::initializer_list<ElemType> InitList, const uint32 inIndex)
+	FORCEINLINE uint32 Insert(std::initializer_list<TElement> InitList, const uint32 inIndex)
 	{
 		InsertEmptyPrivate(inIndex, InitList.size());
 		auto dataPtr = _allocator.GetData();
 		uint32 index = inIndex;
-		for (const ElemType& elem:InitList)
+		for (const TElement& elem:InitList)
 		{
-			new(dataPtr + index) ElemType(elem);
+			new(dataPtr + index) TElement(elem);
 			index++;
 		}
 		return inIndex;
 	}
-	FORCEINLINE uint32 Insert(const ElemType* RawData, uint32 Count, uint32 Index)
+	FORCEINLINE uint32 Insert(const TElement* RawData, uint32 Count, uint32 Index)
 	{
 		assert(RawData != nullptr);
 		InsertEmptyPrivate(Index, Count);
 		ConstructItems(_allocator.GetData() + Index, RawData, Count);
 		return Index;
 	}
-	FORCEINLINE void PushFront(ElemType&& inElement)
+	FORCEINLINE void PushFront(TElement&& inElement)
 	{
 		InsertPrivate(0, fpTemplate::fpMove(inElement));
 	}
-	FORCEINLINE void PushBack(const ElemType& inElement)
+	FORCEINLINE void PushBack(const TElement& inElement)
 	{
 		InsertPrivate(_length, inElement);
 	}
-	FORCEINLINE void PushBack(ElemType&& inElement)
+	FORCEINLINE void PushBack(TElement&& inElement)
 	{
 		InsertPrivate(_length, fpTemplate::fpMove(inElement));
 	}
-	template<typename... Args>
-	FORCEINLINE uint32 EmplaceBack(Args&&... inArgs)
+	template<typename... TArgs>
+	FORCEINLINE uint32 EmplaceBack(TArgs&&... inArgs)
 	{
 		assert(!(GetUnusedSpace() < 0));
 		uint32 index = _length;
@@ -340,7 +342,7 @@ public:
 		{
 			Resize(_length + 1);
 		}
-		new(_allocator.GetData() + index)ElemType(fpTemplate::fpForward<Args>(inArgs)...);
+		new(_allocator.GetData() + index)TElement(fpTemplate::fpForward<TArgs>(inArgs)...);
 		++_length;
 		return index;
 	}
@@ -348,7 +350,7 @@ public:
 	FORCEINLINE void Emplace(uint32 Index, Args&&... inArgs)
 	{
 		InsertEmptyPrivate(Index, 1);
-		new(_allocator.GetData() + Index)ElemType(fpTemplate::fpForward<Args>(inArgs)...);
+		new(_allocator.GetData() + Index)TElement(fpTemplate::fpForward<Args>(inArgs)...);
 	}
 	FORCEINLINE void Remove(uint32 Index)
 	{
@@ -358,10 +360,10 @@ public:
 	{
 		RemovePrivate(Index, Count, ShrinkAllowed);
 	}
-	RangedForIterator& begin()			 { return RangedForIterator(_allocator.GetData(), 0); }
-	RangedForIterator& end()			 { return RangedForIterator(_allocator.GetData()+_length, _length); }
-	ConstRangedForIterator& cbegin()const{ return ConstRangedForIterator(_allocator.GetData(), 0); }
-	ConstRangedForIterator& cend()  const{ return ConstRangedForIterator(_allocator.GetData() + _length, _length); }
+	RangedForIterator begin()			{ return RangedForIterator(_allocator.GetData(), 0); }
+	RangedForIterator end()			 	{ return RangedForIterator(_allocator.GetData()+_length, _length); }
+	ConstRangedForIterator cbegin()const{ return ConstRangedForIterator(_allocator.GetData(), 0); }
+	ConstRangedForIterator cend()  const{ return ConstRangedForIterator(_allocator.GetData() + _length, _length); }
 	FORCEINLINE void FullDestroy()
 	{
 		DestroyItems(_allocator.GetData(), _length);
@@ -381,7 +383,7 @@ public:
 		#else
 				auto thisData = this->_allocator.GetData();
 				auto otherData = Other._allocator.GetData();
-				return this->_length == other._length && CompareItems(thisData, OtherData, _length);
+				return this->_length == Other._length && CompareItems(thisData, otherData, _length);
 		#endif
 
 	}
@@ -390,36 +392,36 @@ public:
 		return !(*this == Other);
 	}
 
-	IteratorType CreateIterator() 
+	TIterator CreateIterator()
 	{
-		return IteratorType(*this, 0);
+		return TIterator(*this, 0);
 	}
-	ConstIteratorType CreateConstIterator()const
+	TConstIterator CreateConstIterator()const
 	{
-		return ConstIteratorType(*this, 0);
+		return TConstIterator(*this, 0);
 	}
-	IteratorType CreateReverseIterator()
+	TIterator CreateReverseIterator()
 	{
-		return IteratorType(*this, _length-1);
+		return TIterator(*this, _length-1);
 	}
-	ConstIteratorType CreateReverseConstIterator()const
+	TConstIterator CreateConstReverseIterator()const
 	{
-		return ConstIteratorType(*this, _length);
+		return TConstIterator(*this, _length);
 	}
-	const ElemType* GetData()
+	const TElement* GetData()
 	{
-		return static_cast<const ElemType*>(_allocator.GetData());
+		return static_cast<const TElement*>(_allocator.GetData());
 	}
 
-	FORCEINLINE bool Find(const ElemType& Element, uint32& Index)const
+	FORCEINLINE bool Find(const TElement& Element, uint32& Index)const
 	{
 		Index = this->Find(Element);
 		return Index != -1;
 	}
-	FORCEINLINE int32 Find(const ElemType& Element)const
+	FORCEINLINE int32 Find(const TElement& Element)const
 	{
-		const ElemType* RESTRICT Data = _allocator.GetData();
-		for (const ElemType* RESTRICT It = Data, *RESTRICT End = Data + _length;
+		const TElement* RESTRICT Data = _allocator.GetData();
+		for (const TElement* RESTRICT It = Data, *RESTRICT End = Data + _length;
 			It != End;
 			++It)
 		{
@@ -439,8 +441,8 @@ public:
 	template<typename PredicateType>
 	FORCEINLINE int32 Find(PredicateType Predicate)const
 	{
-		const ElemType* RESTRICT Data = _allocator.GetData();
-		for (const ElemType* RESTRICT It = Data, *RESTRICT End = Data + _length;
+		const TElement* RESTRICT Data = _allocator.GetData();
+		for (const TElement* RESTRICT It = Data, *RESTRICT End = Data + _length;
 			It != End;
 			++It)
 		{
@@ -454,8 +456,8 @@ public:
 	template<typename PredicateType>
 	FORCEINLINE int32 Find(PredicateType Predicate,uint32 StartIndex)const
 	{
-		const ElemType* RESTRICT Data = _allocator.GetData();
-		for (const ElemType* RESTRICT It = Data+StartIndex, *RESTRICT End = Data + _length;
+		const TElement* RESTRICT Data = _allocator.GetData();
+		for (const TElement* RESTRICT It = Data+StartIndex, *RESTRICT End = Data + _length;
 			It != End;
 			++It)
 		{
@@ -466,15 +468,15 @@ public:
 		}
 		return -1;
 	}
-	FORCEINLINE bool FindLast(const ElemType& Element, uint32& Index)const
+	FORCEINLINE bool FindLast(const TElement& Element, uint32& Index)const
 	{
 		Index = this->FindLast(Element);
 		return Index != -1;
 	}
-	FORCEINLINE int32 FindLast(const ElemType& Element)const
+	FORCEINLINE int32 FindLast(const TElement& Element)const
 	{
-		const ElemType* RESTRICT Data = _allocator.GetData();
-		for (const ElemType* RESTRICT Start = Data, *RESTRICT It = Start + _length; It != Start; )
+		const TElement* RESTRICT Data = _allocator.GetData();
+		for (const TElement* RESTRICT Start = Data, *RESTRICT It = Start + _length; It != Start; )
 		{
 			--It;
 			if (*It == Element)
@@ -493,8 +495,8 @@ public:
 	template<typename PredicateType>
 	FORCEINLINE int32 FindLast(PredicateType Predicate)const
 	{
-		const ElemType* RESTRICT Data = _allocator.GetData();
-		for (const ElemType* RESTRICT Start = Data, *RESTRICT It = Start + _length; It != Start; )
+		const TElement* RESTRICT Data = _allocator.GetData();
+		for (const TElement* RESTRICT Start = Data, *RESTRICT It = Start + _length; It != Start; )
 		{
 			--It;
 			if (Predicate(*It))
@@ -505,11 +507,11 @@ public:
 		return -1;
 	}
 	template<typename PredicateType>
-	fpArray<ElemType> Filter(PredicateType Predicate)
+	fpArray<TElement> Filter(PredicateType Predicate)
 	{
-		fpArray<ElemType> Filtered;
-		const ElemType* RESTRICT Data = _allocator.GetData();
-		for (const ElemType* RESTRICT It = Data, *RESTRICT End = Data + _length;
+		fpArray<TElement> Filtered;
+		const TElement* RESTRICT Data = _allocator.GetData();
+		for (const TElement* RESTRICT It = Data, *RESTRICT End = Data + _length;
 			It != End;
 			++It)
 		{
@@ -532,9 +534,9 @@ private:
 		{
 			fpPlatformMemory::MemMove
 			(
-				(uint8*)_allocator.GetData() + (Index * sizeof(ElemType)),
-				((uint8*)_allocator.GetData() + ((Index + inCount) * sizeof(ElemType))),
-				sizeof(ElemType)*MoveCount
+				(uint8*)_allocator.GetData() + (Index * sizeof(TElement)),
+				((uint8*)_allocator.GetData() + ((Index + inCount) * sizeof(TElement))),
+				sizeof(TElement)*MoveCount
 			);
 		}
 		if (bShrinkAlowed)
@@ -557,7 +559,7 @@ private:
 		CheckIndex(End);
 		CheckState();
 	}
-	FORCEINLINE void InsertPrivate(uint32 Index, const ElemType& inElement)
+	FORCEINLINE void InsertPrivate(uint32 Index, const TElement& inElement)
 	{
 		int32 MoveCount = _length - Index;
 		assert(!(GetUnusedSpace() < 0));
@@ -569,15 +571,15 @@ private:
 		{
 			fpPlatformMemory::MemMove
 			(
-				(uint8*)_allocator.GetData() + ((Index + 1) * sizeof(ElemType)),
-				((uint8*)_allocator.GetData() + (Index  * sizeof(ElemType))),
-				sizeof(ElemType)*MoveCount
+				(uint8*)_allocator.GetData() + ((Index + 1) * sizeof(TElement)),
+				((uint8*)_allocator.GetData() + (Index  * sizeof(TElement))),
+				sizeof(TElement)*MoveCount
 			);
 		}
 		*(_allocator.GetData() +Index) = inElement;
 		++_length;
 	}
-	FORCEINLINE void InsertPrivate(uint32 Index,ElemType&& inElement)
+	FORCEINLINE void InsertPrivate(uint32 Index,TElement&& inElement)
 	{
 		assert(!(GetUnusedSpace() < 0));
 		int32 MoveCount = _length - Index;
@@ -590,9 +592,9 @@ private:
 		{
 			fpPlatformMemory::MemMove
 			(
-				(uint8*)_allocator.GetData() + ((Index + 1) * sizeof(ElemType)),
-				((uint8*)_allocator.GetData() + (Index * sizeof(ElemType))),
-				sizeof(ElemType)*MoveCount
+				(uint8*)_allocator.GetData() + ((Index + 1) * sizeof(TElement)),
+				((uint8*)_allocator.GetData() + (Index * sizeof(TElement))),
+				sizeof(TElement)*MoveCount
 			);
 		}
 		*(_allocator.GetData() + Index) = fpTemplate::fpMove(inElement);
@@ -612,20 +614,20 @@ private:
 		{
 			fpPlatformMemory::MemMove
 			(
-				(uint8*)_allocator.GetData() + ((Index + Count) * sizeof(ElemType)),
-				((uint8*)_allocator.GetData() + (Index * sizeof(ElemType))),
-				sizeof(ElemType)*MoveCount
+				(uint8*)_allocator.GetData() + ((Index + Count) * sizeof(TElement)),
+				((uint8*)_allocator.GetData() + (Index * sizeof(TElement))),
+				sizeof(TElement)*MoveCount
 			);
 		}		
 		_length+= Count;
 	}
-	FORCEINLINE void CreateFromRange(const ElemType* BeginPtr, uint32 inCount)
+	FORCEINLINE void CreateFromRange(const TElement* BeginPtr, uint32 inCount)
 	{
-		/*если вот тут отвалилось, значит в первоначальной инциализации аллокатора что-то пошло не так*/
+		/*пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ-пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅ*/
 		assert(_length == inCount);
 		_length = inCount;
 		Resize(_length);
-		ConstructItems<ElemType>(_allocator.GetData(), BeginPtr, _length);
+		ConstructItems<TElement>(_allocator.GetData(), BeginPtr, _length);
 	}
 
 	FORCEINLINE void CheckState()
@@ -634,15 +636,15 @@ private:
 	}
 
 private:	
-	AllocatorType _allocator;
+	TAllocator _allocator;
 	uint32 _length;
 };
 
 template <typename T> struct fpIsfpArray { enum { Value = false }; };
 
-template <typename ElemType, typename AllocatorType> struct fpIsfpArray<               fpArray<ElemType, AllocatorType>> { enum { Value = true }; };
-template <typename ElemType, typename AllocatorType> struct fpIsfpArray<const          fpArray<ElemType, AllocatorType>> { enum { Value = true }; };
-template <typename ElemType, typename AllocatorType> struct fpIsfpArray<      volatile fpArray<ElemType, AllocatorType>> { enum { Value = true }; };
-template <typename ElemType, typename AllocatorType> struct fpIsfpArray<const volatile fpArray<ElemType, AllocatorType>> { enum { Value = true }; };
+template <typename TElement, typename TAllocator> struct fpIsfpArray<               fpArray<TElement, TAllocator>> { enum { Value = true }; };
+template <typename TElement, typename TAllocator> struct fpIsfpArray<const          fpArray<TElement, TAllocator>> { enum { Value = true }; };
+template <typename TElement, typename TAllocator> struct fpIsfpArray<      volatile fpArray<TElement, TAllocator>> { enum { Value = true }; };
+template <typename TElement, typename TAllocator> struct fpIsfpArray<const volatile fpArray<TElement, TAllocator>> { enum { Value = true }; };
 
 #endif //FLYPARTENGINE_FPARRAY_H

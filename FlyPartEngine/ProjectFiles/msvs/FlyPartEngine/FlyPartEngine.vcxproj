@@ -22,7 +22,7 @@
     <ProjectGuid>{5AD79331-65CC-4CB3-8443-514501034F31}</ProjectGuid>
     <RootNamespace>fpSystem</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.14393.0</WindowsTargetPlatformVersion>
-    <ProjectName>FlyPartEngine</ProjectName>
+    <ProjectName>FlyPartRuntime</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

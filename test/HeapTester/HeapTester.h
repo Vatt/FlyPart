@@ -139,7 +139,7 @@ public:
         std::cout << "default allocator time: " << default_elapsed << std::endl;
 
 
-        _heap->HeapInit();
+        //_heap->HeapInit();
         bool is_valid = _heap->ValidateHeap();
         if (!is_valid)
         {
@@ -150,7 +150,7 @@ public:
 		custom_end = std::chrono::system_clock::now();
 		custom_elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(custom_end - custom_start).count();
 		std::cout << "Custom heap test time(ms): " << custom_elapsed << std::endl;
-		HeapStatisticsPrintAndKillHeap();
+		//HeapStatisticsPrintAndKillHeap();
 
         std::cout << "Difference default elapsed/custom elapsed(ms): "<< (float)((float)default_elapsed/ (float)custom_elapsed) << std::endl;
 

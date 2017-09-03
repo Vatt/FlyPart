@@ -47,10 +47,10 @@ private:
 	FORCEINLINE PoolHeader* GetPoolHeaderFromPtr(void* inPtr);
 	FORCEINLINE uint32 GetTableIndexFromSize(uint32 size);
 private:
-    fpCommonHeap(const fpCommonHeap&);
-    fpCommonHeap(fpCommonHeap&&);
-    fpCommonHeap& operator=(const fpCommonHeap&);
-    fpCommonHeap& operator=(fpCommonHeap&&);
+    fpCommonHeap(const fpCommonHeap&) = delete;
+    fpCommonHeap(fpCommonHeap&&) = delete;
+    fpCommonHeap& operator=(const fpCommonHeap&) = delete;
+    fpCommonHeap& operator=(fpCommonHeap&&) = delete;
 private:
 	PoolList* PoolTable[45];
 

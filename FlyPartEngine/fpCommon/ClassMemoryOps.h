@@ -44,7 +44,7 @@ FORCEINLINE typename fpEnableIf<!fpIsPODType<ElemType>::Value>::Type ConstructIt
 	{
 		new(Dest)ElemType(*Src);
 		++Src;
-		++(ElemType*&)Dest;
+		++((ElemType*&)Dest);
 		--Count;
 	}
 }
@@ -62,7 +62,7 @@ FORCEINLINE constexpr Type* fpAddressOf(Type& Value)
 template<typename ElemType>
 FORCEINLINE typename fpEnableIf<fpIsBitwiseComparable<ElemType>::Value,bool>::Type CompareItems(ElemType* A, ElemType* B, uint32 Count)
 {
-	fpPlatformMemory::MemCmp(A,B,Count)
+	fpPlatformMemory::MemCmp(A,B,Count);
 }
 template<typename ElemType>
 FORCEINLINE typename fpEnableIf<!fpIsBitwiseComparable<ElemType>::Value,bool>::Type CompareItems(ElemType* A, ElemType* B, uint32 Count)

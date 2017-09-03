@@ -134,12 +134,12 @@ public:
 		_object = InWeakRef._object;
     }
 
-  /*  inline SelfType& operator=(fpSharedRef<ObjType> const& InSharedRef)
+  /*  inline TSelf& operator=(fpSharedRef<ObjType> const& InSharedRef)
     {
         _controller = InSharedRef._controller;
         _object = InSharedRef._object;
     }
-    inline SelfType& operator=(fpSharedRef<ObjType>&& InSharedRef)
+    inline TSelf& operator=(fpSharedRef<ObjType>&& InSharedRef)
     {
         _controller = InSharedRef._controller;
         _object = InSharedRef._object;
