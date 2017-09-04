@@ -24,6 +24,11 @@ public:
 	}
 	FORCEINLINE void MovePrev()
 	{
+		if (_currentNode->Prev == _headNode->Prev)
+		{
+			_currentNode = nullptr;
+			return;
+		}
 		_currentNode = _currentNode->Prev;
 	}
     FORCEINLINE void Reset()
@@ -34,10 +39,11 @@ public:
 	{
 		return _currentNode;
 	}
-	FORCEINLINE explicit virtual operator bool() const
+	FORCEINLINE operator bool() const
 	{
-		return _currentNode!=nullptr;
+		return this->_currentNode != nullptr;
 	}
+
 protected:
 	TContainerNode* _currentNode;
 	TContainerNode* _headNode;
@@ -133,10 +139,6 @@ public:
         auto tmp = *this;
         this->MoveNext();
         return tmp;
-    }
-    FORCEINLINE explicit operator bool() const override
-    {
-        return this->_currentNode!=this->_headNode;
     }
 };
 
@@ -253,23 +255,6 @@ public:
 		}
 		else 
 		{
-			/*
-			if (_head->Prev == nullptr)
-			{
-				_head->Prev = _head;
-				_head = Node;
-				Node->Prev = _head;
-				
-			}
-			else 
-			{
-				_head->Prev->Next = Node;
-				Node->Prev = _head->Prev;
-				Node->MoveNext = _head;
-				_head->Prev = Node;
-				_head = Node;
-			}
-			*/
 			_head->Prev->Next = Node;
 			Node->Prev = _head->Prev;
 			Node->Next = _head;
@@ -344,14 +329,14 @@ public:
     /*
      * DO NOT USE DIRECTLY
      * */
-	TRangedForIterator begin()const
+	FORCEINLINE TRangedForIterator begin()const
 	{
 		return TRangedForIterator(Front(), Front());
 	}
     /*
     * DO NOT USE DIRECTLY
     */
-	TRangedForIterator end()const
+	FORCEINLINE TRangedForIterator end()const
 	{
 		/*
 		 * TODO: Пахнет грязным хаком
@@ -363,33 +348,78 @@ public:
     /*
     * DO NOT USE DIRECTLY
     */
-	TConstRangedForIterator cbegin()const
+	FORCEINLINE TConstRangedForIterator cbegin()const
 	{
 		return TConstRangedForIterator(Front(), Front());
 	}
     /*
     * DO NOT USE DIRECTLY
     */
-	TConstRangedForIterator cend()const
+	FORCEINLINE TConstRangedForIterator cend()const
 	{
 		return TConstRangedForIterator(Front(), Back());
 	}
 
-	TIterator CreateIterator()const
+	FORCEINLINE TIterator CreateIterator()const
 	{
 		return TIterator(Front(), Front());
 	}
-	TConstIterator CreateConstIterator()const
+	FORCEINLINE TConstIterator CreateConstIterator()const
 	{
 		return TConstIterator(Front(), Front());
 	}
-	TReverseIterator CreateReverseIterator()const
+	FORCEINLINE TReverseIterator CreateReverseIterator()const
 	{
 		return TReverseIterator(Front(), Back());
 	}
-	TConstReverseIterator CreateConstReverseIterator()const
+	FORCEINLINE TConstReverseIterator CreateConstReverseIterator()const
 	{
 		return TConstReverseIterator(Front(), Back());
+	}
+	template<typename TPredicate>
+	FORCEINLINE TNodePointer FindNode(TPredicate predicate)const
+	{
+		TNodePointer itNode = _head;
+		while (true)
+		{
+			if (predicate(itNode->Data))
+			{
+				return itNode;
+			}
+			if (itNode->Next == _head)
+			{
+				break;
+			}
+			else
+			{
+				itNode = itNode->Next;
+			}
+			
+		}
+		return nullptr;
+	}
+	template<typename TPredicate>
+	FORCEINLINE bool Find(TPredicate predicate, TElement& out)
+	{
+		TNodePointer itNode = _head;
+		while (true)
+		{
+			if (predicate(itNode->Data))
+			{
+				out =  itNode->Data;
+				return true;
+			}
+			if (itNode->Next == _head)
+			{
+				break;
+			}
+			else
+			{
+				itNode = itNode->Next;
+			}
+
+		}
+		return false;
 	}
 
 

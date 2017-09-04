@@ -104,6 +104,7 @@ int main(int argc, char **argv)
 	{
 		return t.x%7==0 || t.y%7==0 || t.z%7==0;
 	});
+	//TODO: Реверс выглядит не так, сделат ькак с листом
 	for (auto it = Array.CreateReverseIterator(); it; it--)
 	{
 		it->SelfPrint();
@@ -117,14 +118,22 @@ int main(int argc, char **argv)
 
 	std::cout << "----------------fpLinkedList BEGIN-------------" <<std::endl;
     fpLinkedList<Test> List;
-    List.PushFront(Test());
     List.PushBack(Test());
-    List.PushFront(Test());
+    List.PushBack(Test());
+    List.PushBack(Test());
+	std::cout << "----------------fpLinkedList TEST DEFAULT ITERATOR-------------" << std::endl;
+	for (auto list_it = List.CreateIterator(); list_it; list_it++)
+	{
+		list_it->SelfPrint();
+	}
+	std::cout << "----------------fpLinkedList TEST REVERSE ITERATOR-------------" << std::endl;
     for (auto list_it = List.CreateReverseIterator();list_it;list_it++)
     {
         list_it->SelfPrint();
     }
-
+	auto finded_node_p = List.FindNode([&](Test& test) {return test.z == 51; });
+	Test finded_node_v;
+	bool finded_node_b = List.Find([&](Test& test) {return test.z == 48; }, finded_node_v);
       
     /*for(auto item:List)
     {

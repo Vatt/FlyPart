@@ -278,7 +278,7 @@ namespace fpTemplate {
             }
             inline fpWeakRefCounter& operator=(fpWeakRefCounter&& InWeakRefCounter)
             {
-
+				//TODO:write some?
             }
             FORCEINLINE const bool isValid()const
             {
