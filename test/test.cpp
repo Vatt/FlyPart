@@ -1,8 +1,8 @@
 ﻿
 #include "../FlyPartEngine/FlyPart.h"
 
-#include "../FlyPartEngine/fpCommon/Containers/fpArray.h"
-#include "../FlyPartEngine/fpCommon/Containers/fpList.h"
+#include "../FlyPartEngine/fpCommon/fpCommon.h"
+//#include "../FlyPartEngine/fpCommon/Containers/fpList.h"
 #include "HeapTester/HeapTester.h"
 #include "SmartPtrTest/SmartPtrTest.h"
 #ifdef PLATFORM_LINUX
@@ -121,6 +121,13 @@ int main(int argc, char **argv)
     List.PushBack(Test());
     List.PushBack(Test());
     List.PushBack(Test());
+	List.EmplaceFront(88, 99, 111);
+	List.EmplaceBack (120, 130, 140);
+	List.LinkAfter(List.Front(), Test());
+	List.LinkBefore(List.Front(), 0, 0, 0);
+	List.LinkBefore(List.Back(), 2, 2, 2);
+	List.LinkAfter(List.Back(), 1, 1, 1);
+	//List.Clear();
 	std::cout << "----------------fpLinkedList TEST DEFAULT ITERATOR-------------" << std::endl;
 	for (auto list_it = List.CreateIterator(); list_it; list_it++)
 	{

@@ -227,13 +227,7 @@ public:
 	}
 	~fpLinkedList()
 	{
-        for(auto it = CreateIterator();it;it++)
-        {
-            DestructOne(it.GetNode());
-            _allocator->Free(it.GetNode(),sizeof(TNode));
-        }
-        _length=0;
-        _head = nullptr;
+		Clear();
 	}
 public:
 	FORCEINLINE TNodePointer Front()const
@@ -242,9 +236,9 @@ public:
 	}
 	FORCEINLINE TNodePointer Back()const
 	{
-		return _head->Prev == nullptr ? nullptr : _head->Prev;
+		return (_head==nullptr || _head->Prev == nullptr) ? nullptr : _head->Prev;
 	}
-	void PushFront(TNodePointer Node)
+	FORCEINLINE void PushFront(TNodePointer Node)
 	{
 		assert(Node != nullptr);
 		if (_head == nullptr)
@@ -272,7 +266,12 @@ public:
     {
         PushFront(AllocateOneInit(fpTemplate::fpMove(Element)));
     }
-	void PushBack(TNodePointer Node)
+	template<typename... TArgs>
+	FORCEINLINE void EmplaceFront(TArgs&&... inArgs)
+	{
+		PushFront(TElement(fpTemplate::fpForward<TArgs>(inArgs)...));
+	}
+	FORCEINLINE void PushBack(TNodePointer Node)
 	{
 		assert(Node != nullptr);
 		if (_head == nullptr)
@@ -297,6 +296,11 @@ public:
 	{
 		PushBack(AllocateOneInit(Element));
 	}
+	template<typename... TArgs>
+	FORCEINLINE void EmplaceBack(TArgs&&... inArgs)
+	{
+		PushBack(TElement(fpTemplate::fpForward<TArgs>(inArgs)...));
+	}
     FORCEINLINE void LinkBefore(TNodePointer target,TNodePointer node)
     {
         node->Next = target;
@@ -305,11 +309,11 @@ public:
         target->Prev = node;
         _length += 1;
     }
-    bool isEmpty()
+	FORCEINLINE bool isEmpty()
     {
         return _length == 0;
     }
-    uint32 Length()
+	FORCEINLINE uint32 Length()
     {
         return _length;
     }
@@ -317,6 +321,15 @@ public:
     {
         LinkBefore(target,AllocateOneInit(element));
     }
+	FORCEINLINE void LinkBefore(TNodePointer target, TElement&& element)
+	{
+		LinkBefore(target, AllocateOneInit(fpTemplate::fpMove(element)));
+	}
+	template<typename... TArgs>
+	FORCEINLINE void LinkBefore(TNodePointer target, TArgs&&... inArgs)
+	{
+		LinkBefore(target, TElement(fpTemplate::fpForward<TArgs>(inArgs)...));
+	}
     FORCEINLINE void LinkAfter(TNodePointer target,TNodePointer node)
     {
         LinkBefore(target->Next,node);
@@ -325,7 +338,15 @@ public:
     {
         LinkBefore(target->Next,element);
     }
-
+	FORCEINLINE void LinkAfter(TNodePointer target,TElement&& element)
+	{
+		LinkBefore(target->Next, fpTemplate::fpMove(element));
+	}
+	template<typename... TArgs>
+	FORCEINLINE void LinkAfter(TNodePointer target, TArgs&&... inArgs)
+	{
+		LinkAfter(target, TElement(fpTemplate::fpForward<TArgs>(inArgs)...));
+	}
     /*
      * DO NOT USE DIRECTLY
      * */
@@ -379,6 +400,7 @@ public:
 	template<typename TPredicate>
 	FORCEINLINE TNodePointer FindNode(TPredicate predicate)const
 	{
+		if (_head == nullptr) { return nullptr; }
 		TNodePointer itNode = _head;
 		while (true)
 		{
@@ -402,6 +424,7 @@ public:
 	template<typename TPredicate>
 	FORCEINLINE bool Find(TPredicate predicate, TElement& out)const
 	{
+		if (_head == nullptr) { return nullptr; }
 		TNodePointer itNode = _head;
 		while (true)
 		{
@@ -424,6 +447,7 @@ public:
 	}
 	FORCEINLINE TNodePointer FindNode(TElement& in)
 	{
+		if (_head == nullptr) { return nullptr; }
 		TNodePointer itNode = _head;
 		while (true)
 		{
@@ -446,6 +470,7 @@ public:
 	template <typename TPredicate>
 	FORCEINLINE TNodePointer FindLastNode(TPredicate predicate)const
 	{
+		if (_head == nullptr) { return nullptr; }
 		TNodePointer itNode = _head->Prev;
 		while (true)
 		{
@@ -467,6 +492,7 @@ public:
 	}
 	FORCEINLINE TNodePointer FindLastNode(TElement& in)
 	{
+		if (_head == nullptr) { return nullptr; }
 		TNodePointer itNode = _head->Prev;
 		while (true)
 		{
@@ -489,6 +515,7 @@ public:
 	template<typename TPredicate>
 	FORCEINLINE bool FindLast(TPredicate predicate, TElement& out)const
 	{
+		if (_head == nullptr) { return nullptr; }
 		TNodePointer itNode = _head->Prev;
 		while (true)
 		{
@@ -513,6 +540,53 @@ public:
 	{
 		return FindNode(in)!=nullptr;
 	}
+	FORCEINLINE void Unlink(TNodePointer node)
+	{
+		node->Prev->Next = node->Next;
+		node->Next->Prev = node->Prev;
+		node->Next = nullptr;
+		node->Prev = nullptr;
+		_length -= 1;
+	}
+	template<typename TPredicate>
+	FORCEINLINE bool Remove(TPredicate predicate)
+	{
+		if (_head == nullptr) { return nullptr; }
+		TNodePointer itNode = _head;
+		auto startLength = _length;
+		while (true)
+		{
+			if (predicate(itNode->Data))
+			{
+				Unlink(itNode);
+				DestroyOne(it.GetNode());
+			}
+			if (itNode->Next == _head)
+			{
+				break;
+			}
+			else
+			{
+				itNode = itNode->Next;
+			}
+
+		}
+		return startLength > _length;
+	}
+
+	FORCEINLINE void Remove(TNodePointer node)
+	{
+		Unlink(node);
+		DestroyOne(node);
+	}
+	FORCEINLINE void Clear()
+	{
+		for (auto it = CreateIterator(); it; it++)
+		{
+			DestroyOne(it.GetNode());
+		}		
+		_head = nullptr;
+	}
 private:
 	FORCEINLINE TNodePointer AllocateOneInit(TElement&& Element)
 	{
@@ -530,10 +604,15 @@ private:
     {
         node->TNode::~TNode();
     }
+	FORCEINLINE void DestroyOne(TNodePointer node)
+	{
+		DestructOne(node);
+		_allocator->Free(node, sizeof(TNode));
+	}
 private:
 	fpAllocatorInterface* _allocator;
 	TNodePointer _head;
-	uint32 _length;
+	uint64 _length;
 };
 
 #endif

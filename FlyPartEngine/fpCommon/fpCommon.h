@@ -9,5 +9,8 @@
 #include "CommonHelperFunctions.h"
 #include "TypeTraits.h"
 #include "ClassTraits.h"
+#include "Containers/fpArray.h"
+#include "Containers/fpList.h"
+#include "Containers/Iterators.h"
 #endif // !_FP_COMMON_INCLUDE_
 
