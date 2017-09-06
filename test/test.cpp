@@ -134,7 +134,15 @@ int main(int argc, char **argv)
 	auto finded_node_p = List.FindNode([&](Test& test) {return test.z == 51; });
 	Test finded_node_v;
 	bool finded_node_b = List.Find([&](Test& test) {return test.z == 48; }, finded_node_v);
-      
+	
+    auto finded_node_p_l = List.FindLastNode([&](Test& test) {return test.x == 43; });  
+    finded_node_p_l->Data.SelfPrint();
+    
+    Test finded_node_v_l;
+	bool finded_node_b_l = List.FindLast([&](Test& test) {return test.x == 43; }, finded_node_v_l);
+	finded_node_v_l.SelfPrint();
+	List.FindNode(finded_node_v_l);
+	List.Contains(finded_node_v);
     /*for(auto item:List)
     {
         item.SelfPrint();

@@ -398,8 +398,9 @@ public:
 		}
 		return nullptr;
 	}
+
 	template<typename TPredicate>
-	FORCEINLINE bool Find(TPredicate predicate, TElement& out)
+	FORCEINLINE bool Find(TPredicate predicate, TElement& out)const
 	{
 		TNodePointer itNode = _head;
 		while (true)
@@ -421,8 +422,97 @@ public:
 		}
 		return false;
 	}
+	FORCEINLINE TNodePointer FindNode(TElement& in)
+	{
+		TNodePointer itNode = _head;
+		while (true)
+		{
+			if (itNode->Data == in)
+			{
+				return itNode;
+			}
+			if (itNode->Next == _head)
+			{
+				break;
+			}
+			else
+			{
+				itNode = itNode->Next;
+			}
+			
+		}
+		return nullptr;	
+	}
+	template <typename TPredicate>
+	FORCEINLINE TNodePointer FindLastNode(TPredicate predicate)const
+	{
+		TNodePointer itNode = _head->Prev;
+		while (true)
+		{
+			if (predicate(itNode->Data))
+			{
+				return itNode;
+			}
+			if (itNode->Prev == _head->Prev)
+			{
+				break;
+			}
+			else
+			{
+				itNode = itNode->Prev;
+			}
+			
+		}
+		return nullptr;
+	}
+	FORCEINLINE TNodePointer FindLastNode(TElement& in)
+	{
+		TNodePointer itNode = _head->Prev;
+		while (true)
+		{
+			if (itNode->Data == in)
+			{
+				return itNode;
+			}
+			if (itNode->Prev == _head->Prev)
+			{
+				break;
+			}
+			else
+			{
+				itNode = itNode->Prev;
+			}
+			
+		}
+		return nullptr;
+	}
+	template<typename TPredicate>
+	FORCEINLINE bool FindLast(TPredicate predicate, TElement& out)const
+	{
+		TNodePointer itNode = _head->Prev;
+		while (true)
+		{
+			if (predicate(itNode->Data))
+			{
+				out =  itNode->Data;
+				return true;
+			}
+			if (itNode->Prev == _head->Prev)
+			{
+				break;
+			}
+			else
+			{
+				itNode = itNode->Prev;
+			}
 
-
+		}
+		return false;
+	}
+	FORCEINLINE bool Contains(TElement& in)
+	{
+		return FindNode(in)!=nullptr;
+	}
 private:
 	FORCEINLINE TNodePointer AllocateOneInit(TElement&& Element)
 	{
@@ -447,5 +537,3 @@ private:
 };
 
 #endif
-
-#pragma clang diagnostic pop
