@@ -424,7 +424,7 @@ public:
 	template<typename TPredicate>
 	FORCEINLINE bool Find(TPredicate predicate, TElement& out)const
 	{
-		if (_head == nullptr) { return nullptr; }
+		if (_head == nullptr) { return false; }
 		TNodePointer itNode = _head;
 		while (true)
 		{
@@ -515,7 +515,7 @@ public:
 	template<typename TPredicate>
 	FORCEINLINE bool FindLast(TPredicate predicate, TElement& out)const
 	{
-		if (_head == nullptr) { return nullptr; }
+		if (_head == nullptr) { return false; }
 		TNodePointer itNode = _head->Prev;
 		while (true)
 		{
@@ -542,8 +542,14 @@ public:
 	}
 	FORCEINLINE void Unlink(TNodePointer node)
 	{
-		node->Prev->Next = node->Next;
-		node->Next->Prev = node->Prev;
+		if(node->Prev->Next)
+		{
+			node->Prev->Next = node->Next;	
+		}
+		if (node->Next->Prev)
+		{
+			node->Next->Prev = node->Prev;
+		}
 		node->Next = nullptr;
 		node->Prev = nullptr;
 		_length -= 1;
@@ -551,7 +557,7 @@ public:
 	template<typename TPredicate>
 	FORCEINLINE bool Remove(TPredicate predicate)
 	{
-		if (_head == nullptr) { return nullptr; }
+		if (_head == nullptr) { return false; }
 		TNodePointer itNode = _head;
 		auto startLength = _length;
 		while (true)
@@ -559,7 +565,7 @@ public:
 			if (predicate(itNode->Data))
 			{
 				Unlink(itNode);
-				DestroyOne(it.GetNode());
+				DestroyOne(itNode);
 			}
 			if (itNode->Next == _head)
 			{
@@ -573,16 +579,40 @@ public:
 		}
 		return startLength > _length;
 	}
-
 	FORCEINLINE void Remove(TNodePointer node)
 	{
 		Unlink(node);
 		DestroyOne(node);
 	}
+	FORCEINLINE bool Remove(TElement& in)
+	{
+		auto startLength = _length;
+		if (_head == nullptr){ return false;}
+		TNodePointer itNode = _head;
+		while (true)
+		{
+			if (itNode->Data == in)
+			{
+				Unlink(itNode);
+				DestroyOne(itNode);
+			}
+			if (itNode->Next == _head)
+			{
+				break;
+			}
+			else
+			{
+				itNode = itNode->Next;
+			}
+
+		}
+		return startLength > _length;		
+	}
 	FORCEINLINE void Clear()
 	{
 		for (auto it = CreateIterator(); it; it++)
 		{
+			Unlink(it.GetNode());
 			DestroyOne(it.GetNode());
 		}		
 		_head = nullptr;

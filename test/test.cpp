@@ -150,11 +150,14 @@ int main(int argc, char **argv)
 	finded_node_v_l.SelfPrint();
 	List.FindNode(finded_node_v_l);
 	List.Contains(finded_node_v);
+	//List.Remove(finded_node_v_l);
+	//List.Remove([&](Test& test) {return test.x == 43; });
     /*for(auto item:List)
     {
         item.SelfPrint();
     }
     */
+    
 	std::cout << "----------------fpLinkedList END-------------" <<std::endl;
     system("PAUSE");
 	return 0;
