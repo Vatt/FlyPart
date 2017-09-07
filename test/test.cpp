@@ -128,35 +128,36 @@ int main(int argc, char **argv)
 	List.LinkBefore(List.Back(), 2, 2, 2);
 	List.LinkAfter(List.Back(), 1, 1, 1);
 	//List.Clear();
-	std::cout << "----------------fpLinkedList TEST DEFAULT ITERATOR-------------" << std::endl;
-	for (auto list_it = List.CreateIterator(); list_it; list_it++)
-	{
-		list_it->SelfPrint();
-	}
 	std::cout << "----------------fpLinkedList TEST REVERSE ITERATOR-------------" << std::endl;
     for (auto list_it = List.CreateReverseIterator();list_it;list_it++)
     {
         list_it->SelfPrint();
     }
+	std::cout << "----------------fpLinkedList TEST DEFAULT ITERATOR-------------" << std::endl;
+	for (auto list_it = List.CreateIterator(); list_it; list_it++)
+	{
+		list_it->SelfPrint();
+	}
 	auto finded_node_p = List.FindNode([&](Test& test) {return test.z == 51; });
 	Test finded_node_v;
 	bool finded_node_b = List.Find([&](Test& test) {return test.z == 48; }, finded_node_v);
 	
     auto finded_node_p_l = List.FindLastNode([&](Test& test) {return test.x == 43; });  
-    finded_node_p_l->Data.SelfPrint();
+    //finded_node_p_l->Data.SelfPrint();
     
     Test finded_node_v_l;
 	bool finded_node_b_l = List.FindLast([&](Test& test) {return test.x == 43; }, finded_node_v_l);
-	finded_node_v_l.SelfPrint();
+	//finded_node_v_l.SelfPrint();
 	List.FindNode(finded_node_v_l);
 	List.Contains(finded_node_v);
-	//List.Remove(finded_node_v_l);
-	//List.Remove([&](Test& test) {return test.x == 43; });
-    /*for(auto item:List)
+	List.Remove(finded_node_v_l);
+	List.Remove([&](Test& test) {return test.z == 54; });
+	std::cout << "----------------fpLinkedList TEST REMOVE-------------" << std::endl;
+    for(auto item:List)
     {
         item.SelfPrint();
     }
-    */
+    
     
 	std::cout << "----------------fpLinkedList END-------------" <<std::endl;
     system("PAUSE");

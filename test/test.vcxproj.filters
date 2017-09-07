@@ -10,6 +10,12 @@
     <Filter Include="ContainerTester">
       <UniqueIdentifier>{7c2ec083-f1a3-483c-9848-e1ad5a3fdc21}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ContainerTester\fpArray">
+      <UniqueIdentifier>{ce6e4c24-17e4-4215-bd02-add3cf429762}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ContainerTester\fpList">
+      <UniqueIdentifier>{687b1115-f90e-404d-8b4b-433011b8e636}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="test.cpp" />

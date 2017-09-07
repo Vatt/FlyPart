@@ -542,13 +542,27 @@ public:
 	}
 	FORCEINLINE void Unlink(TNodePointer node)
 	{
-		if(node->Prev->Next)
+		if (node->Next == node)
 		{
-			node->Prev->Next = node->Next;	
+			assert(_length == 1 && _head == node, "this should only be true for a list with only one node");
+			_head = nullptr;
+			_length = 0;
+			
 		}
-		if (node->Next->Prev)
+		else
 		{
-			node->Next->Prev = node->Prev;
+			if (node->Prev->Next)
+			{
+				node->Prev->Next = node->Next;
+			}
+			if (node->Next->Prev)
+			{
+				node->Next->Prev = node->Prev;
+			}
+			if (_head == node)
+			{
+				_head = node->Next;
+			}
 		}
 		node->Next = nullptr;
 		node->Prev = nullptr;
@@ -559,13 +573,17 @@ public:
 	{
 		if (_head == nullptr) { return false; }
 		TNodePointer itNode = _head;
+		TNodePointer tmp = nullptr;
 		auto startLength = _length;
 		while (true)
 		{
 			if (predicate(itNode->Data))
 			{
+				tmp = itNode->Next;
 				Unlink(itNode);
 				DestroyOne(itNode);
+				itNode = tmp;
+				continue;
 			}
 			if (itNode->Next == _head)
 			{
@@ -589,12 +607,16 @@ public:
 		auto startLength = _length;
 		if (_head == nullptr){ return false;}
 		TNodePointer itNode = _head;
+		TNodePointer tmp = nullptr;
 		while (true)
 		{
 			if (itNode->Data == in)
 			{
+				tmp = itNode->Next;
 				Unlink(itNode);
-				DestroyOne(itNode);
+				DestroyOne(itNode);	
+				itNode = tmp;
+				continue;
 			}
 			if (itNode->Next == _head)
 			{
