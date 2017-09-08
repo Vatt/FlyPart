@@ -151,10 +151,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ContainerTester\fpArray\fpArrayTester.cpp" />
+    <ClCompile Include="ContainerTester\fpList\fpListTester.cpp" />
     <ClCompile Include="HeapTester\HeapTester.cpp" />
     <ClCompile Include="test.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ContainerTester\fpArray\fpArrayTester.h" />
+    <ClInclude Include="ContainerTester\fpList\fpListTester.h" />
     <ClInclude Include="HeapTester\HeapTester.h" />
     <ClInclude Include="SmartPtrTest\SmartPtrTest.h" />
   </ItemGroup>

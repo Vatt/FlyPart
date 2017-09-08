@@ -37,33 +37,51 @@ public:
 class fpArrayTester
 {
 private:
-    fpArray<ArrayValue> Array  = { ArrayValue() };
-    vector<ArrayValue> Vector  = { ArrayValue() };
+	static fpArray<ArrayValue>* Array;
+	static vector<ArrayValue>* Vector;
     
-    uint32 TestedLength;
+    static uint32 TestedLength;
 public:
-    fpArrayTester(uint32 Len)
+    static void InitTester(uint32 Len)
     {
+		
+		Array = new fpArray<ArrayValue>();
+		Vector = new vector<ArrayValue>();
         TestedLength = Len;
     }
-    void ArrayFillTest()
+    static void ArrayFillTest()
     {
         for(uint32 i = 0;i<=TestedLength;i++)
         {
-            Array.PushBack(ArrayValue());
+            Array->PushBack(ArrayValue());
         }
     }
-    void VectorFillTest()
+    static void VectorFillTest()
     {
         for(uint32 i = 0;i<=TestedLength;i++)
         {
-            Vector.push_back(ArrayValue());
+            Vector->push_back(ArrayValue());
         }
     }
-    void RunPushTest()
+    static void RunPushTest()
     {
-        ArrayFillTest();
-        VectorFillTest();
+		std::chrono::time_point<std::chrono::system_clock> custom_start, custom_end, default_start, default_end;
+		int custom_elapsed, default_elapsed;
+
+		custom_start = std::chrono::system_clock::now();
+		ArrayFillTest();
+		custom_end = std::chrono::system_clock::now();
+		custom_elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(custom_end - custom_start).count();
+		std::cout << "fpArray fill time(ns): " << custom_elapsed << std::endl;
+
+
+		default_start = std::chrono::system_clock::now();
+		VectorFillTest();
+		default_end = std::chrono::system_clock::now();
+		default_elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(default_end - default_start).count();
+		std::cout << "vector fill time(ns): " << default_elapsed << std::endl;
+
+		std::cout << "Difference vector/fpArray(ns): "<< (float)((float)default_elapsed/ (float)custom_elapsed) << std::endl;
     }
 };
 #endif

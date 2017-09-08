@@ -22,6 +22,12 @@
     <ClCompile Include="HeapTester\HeapTester.cpp">
       <Filter>HeapTester</Filter>
     </ClCompile>
+    <ClCompile Include="ContainerTester\fpArray\fpArrayTester.cpp">
+      <Filter>ContainerTester\fpArray</Filter>
+    </ClCompile>
+    <ClCompile Include="ContainerTester\fpList\fpListTester.cpp">
+      <Filter>ContainerTester\fpList</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HeapTester\HeapTester.h">
@@ -29,6 +35,12 @@
     </ClInclude>
     <ClInclude Include="SmartPtrTest\SmartPtrTest.h">
       <Filter>SmartPtrTest</Filter>
+    </ClInclude>
+    <ClInclude Include="ContainerTester\fpArray\fpArrayTester.h">
+      <Filter>ContainerTester\fpArray</Filter>
+    </ClInclude>
+    <ClInclude Include="ContainerTester\fpList\fpListTester.h">
+      <Filter>ContainerTester\fpList</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

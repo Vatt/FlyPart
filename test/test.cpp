@@ -79,8 +79,8 @@ int main(int argc, char **argv)
 	HeapTester::RunTests();
 	*/
 	
-	fpArrayTester ArrayTester(50);
-	ArrayTester.RunPushTest();
+	fpArrayTester::InitTester(495);
+	fpArrayTester::RunPushTest();
 	/*
 	std::cout << "---------------fpArray BEGIN------------" <<std::endl;
 	fpArray<Test> Array = { Test(),Test(),Test() }; ;// {5, 8, 7, 9, 7, 5, 2, 6};//
@@ -160,9 +160,10 @@ int main(int argc, char **argv)
     {
         item.SelfPrint();
     }
-    */
+    
     
 	std::cout << "----------------fpLinkedList END-------------" <<std::endl;
+	*/
     system("PAUSE");
 	return 0;
 }
