@@ -23,7 +23,7 @@ class fpDefaultArrayAllocator
 public:
 	fpDefaultArrayAllocator()
 	{
-		_allocator = fpMemory::GetCommonHeap()->MakeAllocator();
+		_allocator = fpMemory::DefaultAllocator();
 		_size = 0;
 		Allocate(_size);
 	}

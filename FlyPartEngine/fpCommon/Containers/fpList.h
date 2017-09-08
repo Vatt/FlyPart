@@ -544,7 +544,7 @@ public:
 	{
 		if (node->Next == node)
 		{
-			assert(_length == 1 && _head == node, "this should only be true for a list with only one node");
+			assert(_length == 1 && _head == node);// this should only be true for a list with only one node
 			_head = nullptr;
 			_length = 0;
 			

@@ -1,10 +1,10 @@
-﻿
 #include "../FlyPartEngine/FlyPart.h"
 
 #include "../FlyPartEngine/fpCommon/fpCommon.h"
 //#include "../FlyPartEngine/fpCommon/Containers/fpList.h"
 #include "HeapTester/HeapTester.h"
 #include "SmartPtrTest/SmartPtrTest.h"
+#include "ContainerTester/fpArray/fpArrayTester.h"
 #ifdef PLATFORM_LINUX
 #endif
 #ifdef PLATFORM_WINDOWS
@@ -78,10 +78,13 @@ int main(int argc, char **argv)
 	HeapTester::InitTester(fpMemory::GetCommonHeap(), 65536*10, 0, 1, 32752);
 	HeapTester::RunTests();
 	*/
+	
+	fpArrayTester ArrayTester(50);
+	ArrayTester.RunPushTest();
+	/*
 	std::cout << "---------------fpArray BEGIN------------" <<std::endl;
 	fpArray<Test> Array = { Test(),Test(),Test() }; ;// {5, 8, 7, 9, 7, 5, 2, 6};//
 	fpArray<Test> Array1(fpArray<Test>({ Test(),Test(),Test() }));
-
 	Array.PushBack(Test());
 	Array.PushBack(Test());
 	Array.PushBack(Test());
@@ -157,7 +160,7 @@ int main(int argc, char **argv)
     {
         item.SelfPrint();
     }
-    
+    */
     
 	std::cout << "----------------fpLinkedList END-------------" <<std::endl;
     system("PAUSE");
