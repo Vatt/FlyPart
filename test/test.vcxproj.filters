@@ -4,17 +4,11 @@
     <Filter Include="HeapTester">
       <UniqueIdentifier>{e9fc3e21-9cb0-4bbf-a2ae-d54f602046f6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="SmartPtrTest">
-      <UniqueIdentifier>{2a29cd82-b8a6-4d35-aad6-a22db0cc1dfb}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ContainerTester">
       <UniqueIdentifier>{7c2ec083-f1a3-483c-9848-e1ad5a3fdc21}</UniqueIdentifier>
     </Filter>
     <Filter Include="ContainerTester\fpArray">
       <UniqueIdentifier>{ce6e4c24-17e4-4215-bd02-add3cf429762}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ContainerTester\fpList">
-      <UniqueIdentifier>{687b1115-f90e-404d-8b4b-433011b8e636}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -25,22 +19,13 @@
     <ClCompile Include="ContainerTester\fpArray\fpArrayTester.cpp">
       <Filter>ContainerTester\fpArray</Filter>
     </ClCompile>
-    <ClCompile Include="ContainerTester\fpList\fpListTester.cpp">
-      <Filter>ContainerTester\fpList</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HeapTester\HeapTester.h">
       <Filter>HeapTester</Filter>
     </ClInclude>
-    <ClInclude Include="SmartPtrTest\SmartPtrTest.h">
-      <Filter>SmartPtrTest</Filter>
-    </ClInclude>
     <ClInclude Include="ContainerTester\fpArray\fpArrayTester.h">
       <Filter>ContainerTester\fpArray</Filter>
-    </ClInclude>
-    <ClInclude Include="ContainerTester\fpList\fpListTester.h">
-      <Filter>ContainerTester\fpList</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

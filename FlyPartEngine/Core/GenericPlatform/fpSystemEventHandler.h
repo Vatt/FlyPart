@@ -1,3 +1,0 @@
-#ifndef _FP_SYSTEM_EVENT_HANDLER_
-#define _FP_SYSTEM_EVENT_HANDLER_
-#endif

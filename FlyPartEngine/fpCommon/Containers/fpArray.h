@@ -2,11 +2,10 @@
 #define _FPARRAY_H_
 
 #include <initializer_list>
-#include "../ClassMemoryOps.h"
 #include "Iterators.h"
 #include "../../Core/CoreAbstractLayer/Memory/fpHeapInterface.h"
 #include <initializer_list>
-
+#include <utility>
 template <typename TElement>
 class fpDefaultArrayAllocator
 {
@@ -287,7 +286,7 @@ public:
 	FORCEINLINE void Insert(uint32 Index, TElement&& inElement)
 	{
 		CheckIndex(Index);
-		InsertPrivate(Index, fpTemplate::fpMove(inElement));
+		InsertPrivate(Index, std::move(inElement));
 	}
 	FORCEINLINE uint32 Insert(const fpArray<TElement>& Other, const uint32 inIndex)
 	{
@@ -297,7 +296,7 @@ public:
 		uint32 index = inIndex;
 		for (auto it = Other.CreateConstIterator(); it; ++it)
 		{
-			new(dataPtr + index) TElement(fpTemplate::fpMove(*it));
+			new(dataPtr + index) TElement(std::move(*it));
 			index++;
 		}
 		return inIndex;
@@ -323,7 +322,7 @@ public:
 	}
 	FORCEINLINE void PushFront(TElement&& inElement)
 	{
-		InsertPrivate(0, fpTemplate::fpMove(inElement));
+		InsertPrivate(0, std::move(inElement));
 	}
 	FORCEINLINE void PushBack(const TElement& inElement)
 	{
@@ -331,7 +330,7 @@ public:
 	}
 	FORCEINLINE void PushBack(TElement&& inElement)
 	{
-		InsertPrivate(_length, fpTemplate::fpMove(inElement));
+		InsertPrivate(_length, std::move(inElement));
 	}
 	template<typename... TArgs>
 	FORCEINLINE uint32 EmplaceBack(TArgs&&... inArgs)
@@ -342,7 +341,7 @@ public:
 		{
 			Resize(_length + 1);
 		}
-		new(_allocator.GetData() + index)TElement(fpTemplate::fpForward<TArgs>(inArgs)...);
+		new(_allocator.GetData() + index)TElement(std::forward<TArgs>(inArgs)...);
 		++_length;
 		return index;
 	}
@@ -350,7 +349,7 @@ public:
 	FORCEINLINE void Emplace(uint32 Index, Args&&... inArgs)
 	{
 		InsertEmptyPrivate(Index, 1);
-		new(_allocator.GetData() + Index)TElement(fpTemplate::fpForward<Args>(inArgs)...);
+		new(_allocator.GetData() + Index)TElement(std::forward<Args>(inArgs)...);
 	}
 	FORCEINLINE void Remove(uint32 Index)
 	{
@@ -597,13 +596,13 @@ private:
 				sizeof(TElement)*MoveCount
 			);
 		}
-		*(_allocator.GetData() + Index) = fpTemplate::fpMove(inElement);
+		*(_allocator.GetData() + Index) = std::move(inElement);
 		++_length;
 	}
 	FORCEINLINE void InsertEmptyPrivate(uint32 Index, uint32 Count)
 	{
 		assert(!(GetUnusedSpace() < 0));
-		assert((Count >= 0) & (Index >= 0) & (Index <= _length));
+		assert((Count >= 0) && (Index >= 0) & (Index <= _length));
 		int32 MoveCount = _length - Index;
 		if (GetUnusedSpace() < Count+1)
 		{

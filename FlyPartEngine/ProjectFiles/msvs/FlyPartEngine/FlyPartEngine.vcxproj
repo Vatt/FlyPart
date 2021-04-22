@@ -21,33 +21,33 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{5AD79331-65CC-4CB3-8443-514501034F31}</ProjectGuid>
     <RootNamespace>fpSystem</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.14393.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
     <ProjectName>FlyPartRuntime</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
@@ -103,6 +103,8 @@
       <OpenMPSupport>false</OpenMPSupport>
       <EnforceTypeConversionRules>true</EnforceTypeConversionRules>
       <LanguageStandard>stdcpplatest</LanguageStandard>
+      <ExceptionHandling>false</ExceptionHandling>
+      <EnableModules>true</EnableModules>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -133,6 +135,7 @@
       <PreprocessorDefinitions>_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <ExceptionHandling>false</ExceptionHandling>
+      <EnableModules>true</EnableModules>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -149,8 +152,6 @@
     <ClInclude Include="..\..\..\Core\CoreCommonHeader.h" />
     <ClInclude Include="..\..\..\Core\GenericPlatform\defines.h" />
     <ClInclude Include="..\..\..\Core\GenericPlatform\fpPlatformAtomics.h" />
-    <ClInclude Include="..\..\..\Core\GenericPlatform\fpSystemEventDispatcher.h" />
-    <ClInclude Include="..\..\..\Core\GenericPlatform\fpSystemEventHandler.h" />
     <ClInclude Include="..\..\..\Core\GenericPlatform\fpSystemInterface.h" />
     <ClInclude Include="..\..\..\Core\GenericPlatform\Input\fpInputSystem.h" />
     <ClInclude Include="..\..\..\Core\GenericPlatform\Input\fpKey.h" />
@@ -162,18 +163,9 @@
     <ClInclude Include="..\..\..\Core\Windows\fpWindowsAtomics.h" />
     <ClInclude Include="..\..\..\Core\Windows\fpWindowsMemory.h" />
     <ClInclude Include="..\..\..\FlyPart.h" />
-    <ClInclude Include="..\..\..\fpCommon\ClassMemoryOps.h" />
-    <ClInclude Include="..\..\..\fpCommon\ClassTraits.h" />
-    <ClInclude Include="..\..\..\fpCommon\CommonHelperFunctions.h" />
-    <ClInclude Include="..\..\..\fpCommon\Containers\fpList.h" />
     <ClInclude Include="..\..\..\fpCommon\Containers\Iterators.h" />
     <ClInclude Include="..\..\..\fpCommon\Containers\fpArray.h" />
-    <ClInclude Include="..\..\..\fpCommon\fpCallback.h" />
     <ClInclude Include="..\..\..\fpCommon\fpCommon.h" />
-    <ClInclude Include="..\..\..\fpCommon\fpFunction.h" />
-    <ClInclude Include="..\..\..\fpCommon\fpSharedRef.h" />
-    <ClInclude Include="..\..\..\fpCommon\SmartPtrPrivate.h" />
-    <ClInclude Include="..\..\..\fpCommon\TypeTraits.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Core\CoreAbstractLayer\Memory\fpCommonHeap.cpp" />

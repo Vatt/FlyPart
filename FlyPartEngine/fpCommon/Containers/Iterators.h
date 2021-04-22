@@ -2,7 +2,6 @@
 #ifndef _ITERATORS_
 #define _ITERATORS_
 #include "../../Core/CoreAbstractLayer/CoreAbstractLayerInclude.h"
-#include "../TypeTraits.h"
 template<typename ContainerType,typename ElemType, typename IndexType>
 class fpIndexedAraryIterator
 {

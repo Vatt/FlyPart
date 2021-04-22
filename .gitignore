@@ -39,7 +39,10 @@ TestResult.xml
 [Dd]ebugPS/
 [Rr]eleasePS/
 dlldata.c
-
+Build/
+build/
+.cmake/
+cmake/
 # DNX
 project.lock.json
 project.fragment.lock.json
